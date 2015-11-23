@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">Nhật Ký Học Tiếng Nhật</string>
+    <string name="action_settings">Cài Đặt</string>
+    <string name="search">Tìm Kiếm</string>
+    <string name="mau_cau">Mẫu Câu</string>
+    <string name="thuc_hanh">Thực Hành</string>
+
+</resources>
