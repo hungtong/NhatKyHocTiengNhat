@@ -3,6 +3,7 @@ package com.example.bo.nhatkyhoctiengnhat;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -11,15 +12,13 @@ import android.widget.ImageView;
 
 import com.example.bo.nhatkyhoctiengnhat.hometab.HomeTabFragment;
 
-/**
- * Created by Bo on 11/21/2015.
- */
+
 public class TaoMoi extends Activity{
 
     private FloatingActionButton finishButton;
     private EditText title, mauCau, soNgayLuyenTap;
     private ImageView bellIcon;
-    private static int CURRENT_BELL_ICON = android.R.drawable.ic_lock_idle_alarm;; // Bell Icon hiện tại
+    private static int CURRENT_BELL_ICON = android.R.drawable.ic_lock_idle_alarm; // Bell Icon hiện tại
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,20 +62,22 @@ public class TaoMoi extends Activity{
     private void switchBellIcon() {
         if (CURRENT_BELL_ICON == android.R.drawable.ic_lock_idle_alarm)
             CURRENT_BELL_ICON = android.R.drawable.ic_lock_idle_charging;
-        else CURRENT_BELL_ICON = android.R.drawable.ic_lock_idle_charging;
+        else CURRENT_BELL_ICON = android.R.drawable.ic_lock_idle_alarm;
         bellIcon.setImageResource(CURRENT_BELL_ICON);
 
     }
 
     /**
-     *  Bỏ hết tất cả dữ liệu được nhập vào Bundle để lấy ra sử dụng sau
+     *  Bỏ hết tất cả dữ liệu được nhập vào Intent để send back
      */
     private void packInput() {
-        Bundle bundle = new Bundle();
-        bundle.putString(HomeTabFragment.KEY_LAY_TITLE, title.getText().toString());
-        bundle.putString(HomeTabFragment.KEY_LAY_SO_NGAY_LUYEN_TAP, soNgayLuyenTap.getText().toString());
-        bundle.putString(HomeTabFragment.KEY_LAY_MAU_CAU, mauCau.getText().toString());
-        bundle.putInt(HomeTabFragment.KEY_LAY_BELL_ICON, CURRENT_BELL_ICON);
+        Intent dataBack = new Intent();
+        dataBack.putExtra(HomeTabFragment.KEY_LAY_TITLE, title.getText().toString());
+        dataBack.putExtra(HomeTabFragment.KEY_LAY_SO_NGAY_LUYEN_TAP, soNgayLuyenTap.getText().toString());
+        dataBack.putExtra(HomeTabFragment.KEY_LAY_MAU_CAU, mauCau.getText().toString());
+        dataBack.putExtra(HomeTabFragment.KEY_LAY_BELL_ICON, CURRENT_BELL_ICON);
+
+        setResult(HomeTabFragment.RESULT_OK, dataBack);
     }
 
     /**

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="start"
             android:layout_height="0px"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_marginBottom="20dp"
@@ -34,7 +34,7 @@
             android:layout_height="0px"
             android:layout_width="match_parent"
             android:layout_marginBottom="20dp"
-            android:layout_weight="1">
+            android:layout_weight="2">
 
             <TextView
                 android:id="@+id/so_ngay_luyen_tap_prompt"
@@ -60,7 +60,7 @@
             android:layout_height="0px"
             android:layout_width="match_parent"
             android:layout_marginBottom="20dp"
-            android:layout_weight="1">
+            android:layout_weight="2">
 
             <TextView
                 android:id="@+id/reminder_prompt"
@@ -70,7 +70,7 @@
                 android:layout_weight="2"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="@string/so_ngay_luyen_tap_prompt"/>
+                android:text="@string/reminder_prompt"/>
 
             <ImageView
                 android:layout_width="0px"
@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="start"
             android:layout_height="0px"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_marginBottom="20dp"

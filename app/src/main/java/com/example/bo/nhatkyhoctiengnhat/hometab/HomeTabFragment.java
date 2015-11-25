@@ -15,10 +15,10 @@ import com.example.bo.nhatkyhoctiengnhat.TaoMoi;
 
 import java.util.ArrayList;
 
-/**
- * Created by Bo on 11/18/2015.
- */
 public class HomeTabFragment extends Fragment {
+
+    public static final int RESULT_OK = 928;
+    public static final int REQUESTED_CODE = 212;
 
     public static final String KEY_LAY_TITLE = "KeyLayTitle";
     public static final String KEY_LAY_SO_NGAY_LUYEN_TAP = "KeyLaySoNgayLuyenTap";
@@ -29,6 +29,28 @@ public class HomeTabFragment extends Fragment {
     private RecyclerView recyclerView;
     private CustomRecyclerViewAdapter adapter;
     private FloatingActionButton taoMoiButton;
+
+    /**
+     * Since it is highly recommended that every Fragment should not have any constructor other than default
+     * constructor, this is actually a design so that we can construct fragment without using constructor
+     * nor setter methods.
+     *
+     * Even more conveniently, this method helps save all arguments, which are data about title, page number, etc
+     * so that we can retrieve easily later by Bunlde class. This is actually the communication between Fragments
+     *
+     * @param position - initial position referring to this fragment
+     * @return - a HomeTabFragment in corresponding position
+     */
+    public static HomeTabFragment newInstance(int position) {
+        Bundle bundle = new Bundle();   // Setup an empty Bundle to store data
+        bundle.putInt("home_tab_fragment", android.R.drawable.ic_menu_report_image); // put into Bundle data wanted to retrieve
+
+        HomeTabFragment fragment = new HomeTabFragment(); // default constructor and the only constructor that should
+                                                            // be in every Fragment class
+        fragment.setArguments(bundle);  // Want to retrieve, simply use getArguments().getXXX("key", [default value]);
+        return fragment;
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,12 +72,15 @@ public class HomeTabFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(((Activity) getContext()), TaoMoi.class);
-                startActivity(intent);
-                createNewModule();
+                startActivityForResult(intent, REQUESTED_CODE);
             }
         });
     }
 
+    /**
+     * Specified the interface OnDeleteListener.
+     * In Recycler View, selection as well as selected position are not handled
+     */
     class ConcreteOnDeleteListener implements CustomRecyclerViewAdapter.OnDeleteListener {
         @Override
         public void onDelete(View childPressed, int position) {
@@ -64,19 +89,24 @@ public class HomeTabFragment extends Fragment {
         }
     }
 
-    private void createNewModule() {
-        Bundle bundle = new Bundle();
-        RecyclerViewContent newModule = new RecyclerViewContent();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUESTED_CODE && resultCode == RESULT_OK && data != null) {
+            RecyclerViewContent newModule = new RecyclerViewContent();
 
-        String title = bundle.getString(KEY_LAY_TITLE);
-        String soNgayLuyenTap = bundle.getString(KEY_LAY_SO_NGAY_LUYEN_TAP);
-        String mauCau = bundle.getString(KEY_LAY_MAU_CAU);
-        int bellIcon = bundle.getInt(KEY_LAY_BELL_ICON);
+            String title = data.getStringExtra(KEY_LAY_TITLE);
+            String soNgayLuyenTap = data.getStringExtra(KEY_LAY_SO_NGAY_LUYEN_TAP);
+            String mauCau = data.getStringExtra(KEY_LAY_MAU_CAU);
+            int bellIcon = data.getIntExtra(KEY_LAY_BELL_ICON, android.R.drawable.ic_lock_idle_alarm);
 
-        newModule.setTitle(title);
-        newModule.setSoNgayLuyenTap(soNgayLuyenTap);
-        newModule.setMauCau(mauCau);
-        newModule.setBellIcon(bellIcon);
+            newModule.setTitle(title);
+            newModule.setSoNgayLuyenTap(soNgayLuyenTap);
+            newModule.setMauCau(mauCau);
+            newModule.setBellIcon(bellIcon);
+
+            list.add(newModule);
+            adapter.notifyDataSetChanged();
+        }
     }
-
 }

@@ -2,13 +2,15 @@ package com.example.bo.nhatkyhoctiengnhat;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bo.nhatkyhoctiengnhat.hometab.HomeTabFragment;
 import com.example.bo.nhatkyhoctiengnhat.slidingtab.SlidingTabLayout;
 
 /**
@@ -55,7 +57,7 @@ public class HomeFragment extends Fragment {
         });
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        viewPager.setAdapter(new CustomPager());
+        viewPager.setAdapter(new CustomPagerAdapter(getFragmentManager()));
         mSlidingTabLayout.setViewPager(viewPager);
 
     }
@@ -63,27 +65,30 @@ public class HomeFragment extends Fragment {
     /**
      * Ta sẽ custom PagerAdapter ở đây qua CustomPagerAdapter
      */
-    class CustomPager extends PagerAdapter {
+    class CustomPagerAdapter extends FragmentPagerAdapter {
 
         private final int SO_LUONG_TAB = 3;
+
+        public CustomPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        /**
+         * This method will setup Fragment as well as its content in respect desired position.
+         * To customize the tab in divider, indicator, title, etc, recall method populateTabStrip() and
+         * class TabClickListener
+         * @param position - desired position. In other words, what kind of Fragments needed to create
+         *                 at this position
+         * @return - desired Fragment at this position
+         */
+        @Override
+        public Fragment getItem(int position) {
+            return HomeTabFragment.newInstance(position);
+        }
 
         @Override
         public int getCount() {
             return SO_LUONG_TAB;
-        }
-
-        /**
-         * Method này dùng để đảm bảo rằng khi instantiateObject(...) trả về một Object, Object đó chính là
-         * những thành phần của ViewPager đã được cụ thể hóa hết >_<
-         */
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int postion, Object object) {
-            container.removeView((View) object);
         }
 
         @Override
@@ -111,7 +116,7 @@ public class HomeFragment extends Fragment {
          * bấm qua bấm lại), tùy chỉnh trong SlidingTabLayout 2 methods createDefaultTabView(...),
          * populateTabStrip() và 1 class TabClickListener để tùy chỉnh event
          */
-        @Override
+    /*    @Override
         public Object instantiateItem(ViewGroup container, int position) {
             // Trước hết inflate một layout đã có đủ hết các thành phần và chưa được cụ thể hóa (hết)
             // getActivity() = Context mà view này được chứa trong
@@ -120,7 +125,7 @@ public class HomeFragment extends Fragment {
             container.addView(view); // Cái này rất quan trọng
 
             return view;
-        }
+        }*/
 
     }
 }
