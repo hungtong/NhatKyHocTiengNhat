@@ -1,4 +1,4 @@
-package com.example.bo.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bo.nhatkyhoctiengnhat.hometab.HomeTabFragment;
-import com.example.bo.nhatkyhoctiengnhat.slidingtab.SlidingTabLayout;
+import com.example.bo.nhatkyhoctiengnhat.R;
+
+import app.learning.fantaster.nhatkyhoctiengnhat.util.slidingtab.SlidingTabLayout;
 
 /**
  * HomeFragment trả về một SlidingTabLayout (được viết bởi Google)-> SlidingTabLayout cần được đặt một ViewPager
@@ -25,7 +26,7 @@ public class HomeFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.cau_tao_cua_home_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
         // Đây là LinearLayout chứa SlidingTabLayout và ViewPager khi chưa được downcast.
     }
 
@@ -83,7 +84,7 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public Fragment getItem(int position) {
-            return HomeTabFragment.newInstance(position);
+            return HomeTabFragment.newInstance();
         }
 
         @Override
@@ -120,7 +121,7 @@ public class HomeFragment extends Fragment {
         public Object instantiateItem(ViewGroup container, int position) {
             // Trước hết inflate một layout đã có đủ hết các thành phần và chưa được cụ thể hóa (hết)
             // getActivity() = Context mà view này được chứa trong
-           View view = getActivity().getLayoutInflater().inflate(R.layout.home_tab_layout, container, false);
+           View view = getActivity().getLayoutInflater().inflate(R.layout.layout_home_tab, container, false);
 
             container.addView(view); // Cái này rất quan trọng
 

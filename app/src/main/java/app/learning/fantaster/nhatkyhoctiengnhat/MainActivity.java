@@ -1,4 +1,4 @@
-package com.example.bo.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.bo.nhatkyhoctiengnhat.R;
+
+import app.learning.fantaster.nhatkyhoctiengnhat.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_name);
 
         if (savedInstanceState == null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+     //   int id = item.getItemId();
 
 
         return super.onOptionsItemSelected(item);

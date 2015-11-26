@@ -1,4 +1,4 @@
-package com.example.bo.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.bo.nhatkyhoctiengnhat.hometab.HomeTabFragment;
+import com.example.bo.nhatkyhoctiengnhat.R;
+
+import app.learning.fantaster.nhatkyhoctiengnhat.fragment.HomeTabFragment;
 
 
 public class TaoMoi extends Activity{
@@ -23,7 +25,7 @@ public class TaoMoi extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tao_moi);
+        setContentView(R.layout.layout_tao_moi);
 
         prepareLayout();
     }

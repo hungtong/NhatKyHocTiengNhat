@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <fragment
-        android:name="com.example.bo.nhatkyhoctiengnhat.hometab.HomeTabFragment"
+        android:name="app.learning.fantaster.nhatkyhoctiengnhat.fragment.HomeTabFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

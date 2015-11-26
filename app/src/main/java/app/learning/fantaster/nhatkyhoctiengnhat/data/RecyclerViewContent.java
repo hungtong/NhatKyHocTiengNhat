@@ -1,4 +1,4 @@
-package com.example.bo.nhatkyhoctiengnhat.hometab;
+package app.learning.fantaster.nhatkyhoctiengnhat.data;
 
 /**
  * Data for RecyclerView's components

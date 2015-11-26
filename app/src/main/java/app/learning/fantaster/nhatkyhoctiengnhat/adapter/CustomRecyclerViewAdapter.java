@@ -1,4 +1,4 @@
-package com.example.bo.nhatkyhoctiengnhat.hometab;
+package app.learning.fantaster.nhatkyhoctiengnhat.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.bo.nhatkyhoctiengnhat.R;
 
 import java.util.ArrayList;
+
+import app.learning.fantaster.nhatkyhoctiengnhat.data.RecyclerViewContent;
 
 /**
  * Adapter cho RecyclerView, RecyclerView.Adapter<E> là một generic type
@@ -26,10 +28,10 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         void onDelete(View childPressed, int position);
     }
 
-    public CustomRecyclerViewAdapter(Activity context, ArrayList<RecyclerViewContent> list, OnDeleteListener listener) {
+    public CustomRecyclerViewAdapter(Activity context, ArrayList<RecyclerViewContent> list, OnDeleteListener concreteListener) {
         this.context = context;
         this.list = list;
-        this.listener = listener;
+        listener = concreteListener;
     }
 
     /**
@@ -100,8 +102,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup container, int position) {
-        View view = context.getLayoutInflater().inflate(R.layout.cau_tao_cua_recycler_view, container, false);
-    //  View view = LayoutInflater.from(container.getContext()).inflate(R.layout.cau_tao_cua_recycler_view, container, false);
+       View view = context.getLayoutInflater().inflate(R.layout.custom_recycler_view, container, false);
+    //  View view = LayoutInflater.from(container.getContext()).inflate(R.layout.custom_recycler_view, container, false);
     //  or View view = ((Activity) container.getContext()).getLayoutInflater().inflate(...)
     //  Chỉ có Activity, subclass của Context, có getLayoutInflater, downcast nó xuống
 

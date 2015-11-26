@@ -1,4 +1,4 @@
-package com.example.bo.nhatkyhoctiengnhat.hometab;
+package app.learning.fantaster.nhatkyhoctiengnhat.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,10 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.bo.nhatkyhoctiengnhat.R;
-import com.example.bo.nhatkyhoctiengnhat.TaoMoi;
 
 import java.util.ArrayList;
+
+import app.learning.fantaster.nhatkyhoctiengnhat.TaoMoi;
+import app.learning.fantaster.nhatkyhoctiengnhat.adapter.CustomRecyclerViewAdapter;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.RecyclerViewContent;
 
 public class HomeTabFragment extends Fragment {
 
@@ -26,9 +30,8 @@ public class HomeTabFragment extends Fragment {
     public static final String KEY_LAY_BELL_ICON = "KeyLayBellIcon";
 
     private ArrayList<RecyclerViewContent> list;
-    private RecyclerView recyclerView;
     private CustomRecyclerViewAdapter adapter;
-    private FloatingActionButton taoMoiButton;
+
 
     /**
      * Since it is highly recommended that every Fragment should not have any constructor other than default
@@ -38,10 +41,9 @@ public class HomeTabFragment extends Fragment {
      * Even more conveniently, this method helps save all arguments, which are data about title, page number, etc
      * so that we can retrieve easily later by Bunlde class. This is actually the communication between Fragments
      *
-     * @param position - initial position referring to this fragment
      * @return - a HomeTabFragment in corresponding position
      */
-    public static HomeTabFragment newInstance(int position) {
+    public static HomeTabFragment newInstance() {
         Bundle bundle = new Bundle();   // Setup an empty Bundle to store data
         bundle.putInt("home_tab_fragment", android.R.drawable.ic_menu_report_image); // put into Bundle data wanted to retrieve
 
@@ -54,24 +56,24 @@ public class HomeTabFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.cau_tao_cua_home_tab_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_tab_home, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        list = new ArrayList<RecyclerViewContent>();
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        list = new ArrayList<>();
         adapter = new CustomRecyclerViewAdapter(((Activity) getContext()),list, new ConcreteOnDeleteListener());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        taoMoiButton = (FloatingActionButton) view.findViewById(R.id.tao_moi);
+        FloatingActionButton taoMoiButton = (FloatingActionButton) view.findViewById(R.id.tao_moi);
         taoMoiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(((Activity) getContext()), TaoMoi.class);
+                Intent intent = new Intent(getContext(), TaoMoi.class);
                 startActivityForResult(intent, REQUESTED_CODE);
             }
         });

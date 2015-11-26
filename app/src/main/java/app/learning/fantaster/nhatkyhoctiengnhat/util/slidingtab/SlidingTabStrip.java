@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.bo.nhatkyhoctiengnhat.slidingtab;
+package app.learning.fantaster.nhatkyhoctiengnhat.util.slidingtab;
 
 import android.R;
 import android.content.Context;
