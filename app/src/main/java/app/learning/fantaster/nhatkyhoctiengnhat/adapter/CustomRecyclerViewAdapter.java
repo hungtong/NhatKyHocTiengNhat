@@ -1,6 +1,7 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.adapter;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -13,6 +14,7 @@ import com.example.bo.nhatkyhoctiengnhat.R;
 import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.data.RecyclerViewContent;
+
 
 /**
  * Adapter cho RecyclerView, RecyclerView.Adapter<E> là một generic type
@@ -124,10 +126,15 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         String title = recyclerViewContent.getTitle();
         String soNgayLuyenTap = recyclerViewContent.getSoNgayLuyenTap();
         String mauCau = recyclerViewContent.getMauCau();
-        int bellIcon = recyclerViewContent.getBellIcon();
+        boolean bellIcon = recyclerViewContent.getBellIcon();
 
         viewHolder.getTitle().setText(title);
-        viewHolder.getBellIcon().setBackgroundResource(bellIcon);
+
+        viewHolder.getBellIcon().setImageResource(android.R.drawable.ic_lock_idle_alarm);
+        if (bellIcon)
+            viewHolder.getBellIcon().setColorFilter(ContextCompat.getColor(context, R.color.bell_on));
+        else
+            viewHolder.getBellIcon().setColorFilter(ContextCompat.getColor(context, R.color.bell_off));
 
         String format_so_ngay_luyen_tap = context.getResources().getString(R.string.format_so_ngay_luyen_tap);
         String format_mau_cau = context.getResources().getString(R.string.format_mau_cau);
