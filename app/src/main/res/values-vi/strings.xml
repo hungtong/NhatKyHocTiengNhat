@@ -4,6 +4,12 @@
     <string name="action_settings">Cài Đặt</string>
     <string name="search">Tìm Kiếm</string>
     <string name="mau_cau">Mẫu Câu</string>
-    <string name="thuc_hanh">Thực Hành</string>
+    <string name="thuc_hanh">Luyện Tập</string>
+    <string name="format_so_ngay_luyen_tap">Số Ngày Luyện Tập: %s</string>
+    <string name="format_mau_cau">Mẫu Câu: %s</string>
+    <string name="title_prompt">Nhập Tiêu Đề:</string>
+    <string name="so_ngay_luyen_tap_prompt">Nhập Số Ngày Luyện Tập: </string>
+    <string name="reminder_prompt">Nhắc Nhở: </string>
+    <string name="grammatical_structure_prompt">Cấu Trúc Ngữ Pháp: </string>
 
 </resources>

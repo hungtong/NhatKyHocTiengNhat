@@ -46,8 +46,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
      * quá trình tạo các items chậm hơn.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder implements OnLongClickListener {
-        private final TextView title, mauCau, soNgayLuyenTap;
-        private final ImageView bellIcon;
+        // Không cần Encapsulation
+        public final TextView title, mauCau, soNgayLuyenTap;
+        public final ImageView bellIcon;
 
         /**
          * Trong constructor này, ta sẻ định hướng để tìm các components luôn
@@ -69,24 +70,6 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         public boolean onLongClick(View view) {
             listener.onDelete(view, getAdapterPosition());
             return false;
-        }
-
-
-        // ViewHolder.title = ... ??? Tại sao ko, bởi vì Encapsulation
-        public TextView getTitle() {
-            return title;
-        }
-
-        public TextView getMauCau() {
-            return mauCau;
-        }
-
-        public TextView getSoNgayLuyenTap() {
-            return soNgayLuyenTap;
-        }
-
-        public ImageView getBellIcon() {
-            return bellIcon;
         }
 
     }
@@ -128,18 +111,18 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         String mauCau = recyclerViewContent.getMauCau();
         boolean bellIcon = recyclerViewContent.getBellIcon();
 
-        viewHolder.getTitle().setText(title);
+        viewHolder.title.setText(title);
 
-        viewHolder.getBellIcon().setImageResource(android.R.drawable.ic_lock_idle_alarm);
+        viewHolder.bellIcon.setImageResource(android.R.drawable.ic_lock_idle_alarm);
         if (bellIcon)
-            viewHolder.getBellIcon().setColorFilter(ContextCompat.getColor(context, R.color.bell_on));
+            viewHolder.bellIcon.setColorFilter(ContextCompat.getColor(context, R.color.bell_on));
         else
-            viewHolder.getBellIcon().setColorFilter(ContextCompat.getColor(context, R.color.bell_off));
+            viewHolder.bellIcon.setColorFilter(ContextCompat.getColor(context, R.color.bell_off));
 
         String format_so_ngay_luyen_tap = context.getResources().getString(R.string.format_so_ngay_luyen_tap);
         String format_mau_cau = context.getResources().getString(R.string.format_mau_cau);
-        viewHolder.getSoNgayLuyenTap().setText(String.format(format_so_ngay_luyen_tap, soNgayLuyenTap));
-        viewHolder.getMauCau().setText(String.format(format_mau_cau, mauCau));
+        viewHolder.soNgayLuyenTap.setText(String.format(format_so_ngay_luyen_tap, soNgayLuyenTap));
+        viewHolder.mauCau.setText(String.format(format_mau_cau, mauCau));
 
     }
 

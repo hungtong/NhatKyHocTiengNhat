@@ -100,10 +100,10 @@ public class HomeFragment extends Fragment {
                     title = "HOME";
                     break;
                 case 1 :
-                    title = "" + getString(R.string.mau_cau);
+                    title = getString(R.string.mau_cau);
                     break;
                 case 2 :
-                    title = "" + getString(R.string.thuc_hanh);
+                    title = getString(R.string.thuc_hanh);
                     break;
             }
             return title;

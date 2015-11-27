@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#D50000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorTitle">#FFFFFF</color>
+    <color name="bell_off">#FFFFFF</color>
+    <color name="bell_on">#FFFFFF40</color>
 </resources>

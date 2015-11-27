@@ -100,7 +100,7 @@ public class HomeTabFragment extends Fragment {
             String title = data.getStringExtra(KEY_LAY_TITLE);
             String soNgayLuyenTap = data.getStringExtra(KEY_LAY_SO_NGAY_LUYEN_TAP);
             String mauCau = data.getStringExtra(KEY_LAY_MAU_CAU);
-            int bellIcon = data.getIntExtra(KEY_LAY_BELL_ICON, android.R.drawable.ic_lock_idle_alarm);
+            boolean bellIcon = data.getBooleanExtra(KEY_LAY_BELL_ICON, false);
 
             newModule.setTitle(title);
             newModule.setSoNgayLuyenTap(soNgayLuyenTap);

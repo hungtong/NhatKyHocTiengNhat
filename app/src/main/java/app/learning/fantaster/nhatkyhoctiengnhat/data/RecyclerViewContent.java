@@ -5,7 +5,7 @@ package app.learning.fantaster.nhatkyhoctiengnhat.data;
  */
 public class RecyclerViewContent {
     private String title, mauCau, soNgayLuyenTap;
-    private int bellIcon;
+    private boolean bellIcon;
 
     public String getTitle() {
         return title;
@@ -19,7 +19,7 @@ public class RecyclerViewContent {
         return soNgayLuyenTap;
     }
 
-    public int getBellIcon() {
+    public boolean getBellIcon() {
         return bellIcon;
     }
 
@@ -35,7 +35,7 @@ public class RecyclerViewContent {
         this.soNgayLuyenTap = soNgayLuyenTap;
     }
 
-    public void setBellIcon(int bellIcon) {
+    public void setBellIcon(boolean bellIcon) {
         this.bellIcon = bellIcon;
     }
 

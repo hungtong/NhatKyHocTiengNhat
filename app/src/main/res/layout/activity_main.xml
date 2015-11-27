@@ -22,14 +22,12 @@
             app:title="@string/app_name"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-
-
     </android.support.design.widget.AppBarLayout>
 
-    <fragment
+    <FrameLayout
+        android:id="@+id/replaced_by_home_fragment"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:name="app.learning.fantaster.nhatkyhoctiengnhat.fragment.HomeFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"></FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

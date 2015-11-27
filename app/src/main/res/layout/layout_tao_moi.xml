@@ -8,7 +8,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/title_prompt"
@@ -17,7 +17,7 @@
             android:layout_height="0px"
             android:layout_weight="1"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:layout_marginBottom="20dp"
             android:text="@string/title_prompt"/>
 
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:inputType="textShortMessage"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:id="@+id/title_input"
             android:layout_marginBottom="20dp"
             android:layout_weight="1" />
@@ -43,14 +43,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:text="@string/so_ngay_luyen_tap_prompt"/>
 
             <EditText
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:inputType="number"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:id="@+id/so_ngay_luyen_tap_input"
                 android:layout_weight="1" />
 
@@ -69,7 +69,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:text="@string/reminder_prompt"/>
 
             <ImageView
@@ -89,7 +89,7 @@
             android:layout_height="0px"
             android:layout_weight="1"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:layout_marginBottom="20dp"
             android:text="@string/grammatical_structure_prompt"/>
 
@@ -99,7 +99,7 @@
             android:inputType="textMultiLine"
             android:maxLines="5"
             android:maxLength="500"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:id="@+id/grammatical_structure_input"
             android:layout_weight="2" />
 

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,7 +21,7 @@ public class TaoMoi extends Activity{
     private FloatingActionButton finishButton;
     private EditText title, mauCau, soNgayLuyenTap;
     private ImageView bellIcon;
-    private static int CURRENT_BELL_ICON = android.R.drawable.ic_lock_idle_alarm; // Bell Icon hiện tại
+    private static boolean CURRENT_BELL_ICON; // Bell Icon hiện tại
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,14 @@ public class TaoMoi extends Activity{
      * Khi click vào Bell Icon, nó sẽ tự đông đổi sang cái khác
      */
     private void switchBellIcon() {
-        if (CURRENT_BELL_ICON == android.R.drawable.ic_lock_idle_alarm)
-            CURRENT_BELL_ICON = android.R.drawable.ic_lock_idle_charging;
-        else CURRENT_BELL_ICON = android.R.drawable.ic_lock_idle_alarm;
-        bellIcon.setImageResource(CURRENT_BELL_ICON);
-
+        if (CURRENT_BELL_ICON) {
+            bellIcon.setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.bell_off));
+            CURRENT_BELL_ICON = false;
+        }
+        else {
+            bellIcon.setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.bell_on));
+            CURRENT_BELL_ICON = true;
+        }
     }
 
     /**
@@ -101,7 +105,7 @@ public class TaoMoi extends Activity{
      * a chance to fix. Otherwise, finish anyway
      */
     private void alertUser() {
-       AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+       AlertDialog.Builder builder = new AlertDialog.Builder(TaoMoi.this);  //Better use explicit context
        builder.setTitle("Alert Dialog");
        builder.setMessage("One or more inputs are not filled in, are you sure you want to finish?")
                .setPositiveButton("Yes, finish anyway", new DialogInterface.OnClickListener() {
@@ -116,6 +120,7 @@ public class TaoMoi extends Activity{
                        dialog.cancel();
                    }
                });
+       builder.create().show();
     }
 }
 
