@@ -19,44 +19,62 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.RecyclerViewContent;
 /**
  * Adapter cho RecyclerView, RecyclerView.Adapter<E> là một generic type
  */
-public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder> {
+public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.MainViewHolder> {
 
     private final Activity context;
     private final ArrayList<RecyclerViewContent> list;
 
-    private static OnDeleteListener listener;
+    private static RecyclerViewListener listener;
 
-    public interface OnDeleteListener {
-        void onDelete(View childPressed, int position);
+    public static final int DATE_INDICATOR = 97000;
+    public static final int CONTENT = 79120;
+
+    public interface RecyclerViewListener {
+        void onDelete(View childPressed, final int position);
+        void onModify(View childPressed, final int position);
     }
 
-    public CustomRecyclerViewAdapter(Activity context, ArrayList<RecyclerViewContent> list, OnDeleteListener concreteListener) {
+    public CustomRecyclerViewAdapter(Activity context, ArrayList<RecyclerViewContent> list,
+                                     RecyclerViewListener concreteListener) {
         this.context = context;
         this.list = list;
         listener = concreteListener;
     }
 
     /**
-     * Thay vì trục tiếp tương tác lên các components của container, ta sẽ tạo một
+     *
+     * Thay vì trực tiếp tương tác lên các components của container, ta sẽ tạo một
      * ViewHolder để chứa các components đó và tương tác với chúng qua ViewHolder.
      *
      * ViewHolder thực chất là một static class programmer tự tạo.
      *
      * Trong khi initialize các components, ta phải liên tục gọi findViewById() làm cho
      * quá trình tạo các items chậm hơn.
+     *
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder implements OnLongClickListener {
+    protected static class MainViewHolder extends RecyclerView.ViewHolder {
+        public MainViewHolder(View view){
+            super(view);
+        }
+    }
+
+    /**
+     * This ViewHolder is typically for content of each section
+     */
+    public static class ContentViewHolder extends MainViewHolder implements OnLongClickListener, View.OnClickListener {
         // Không cần Encapsulation
         public final TextView title, mauCau, soNgayLuyenTap;
         public final ImageView bellIcon;
 
         /**
+         * ========================================================================================
          * Trong constructor này, ta sẻ định hướng để tìm các components luôn
          * Lưu ý ở giai đoạn này, ta chỉ định hướng chứ không specify, specification được
          * thực hiện ở onBindViewHolder(...) ---> tại sao ư? Trên android.developer nói vậy
+         * ========================================================================================
          * @param view - Một container tượng trưng cho layout chứa các components con cần customize
          */
-        public ViewHolder(View view) {
+        public ContentViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
             mauCau = (TextView) view.findViewById(R.id.mau_cau);
@@ -64,36 +82,69 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             bellIcon = (ImageView) view.findViewById(R.id.bell_icon);
 
             view.setOnLongClickListener(this);
+            view.setOnClickListener(this);
         }
 
         @Override
         public boolean onLongClick(View view) {
             listener.onDelete(view, getAdapterPosition());
-            return false;
+            return true;
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onModify(view, getAdapterPosition());
+        }
+    }
+
+    /**
+     * This ViewHolder is typically for Date Indicator
+     */
+    public static class DateIndicatorViewHolder extends MainViewHolder {
+        public final TextView dateIndicator;
+
+        public DateIndicatorViewHolder(View view) {
+            super(view);
+            dateIndicator = (TextView) view.findViewById(R.id.date_indicator);
         }
 
     }
 
+
     /**
+     * ========================================================================================
      * Trả về một ViewHolder với đầy đủ các components cần thiết và đã được định hướng sẵn.
      * ViewHolder này sẽ được bind vào Recycler View bằng onBindViewHolder
      *
      * Lưu ý cần phải lấy context của ViewGroup (container)
      *
-     * @param container - View chứa RecyclerView, trong trường hợp này là một layout
-     * @param position - Vị trí trên RecyclerView
+     * Since we have multiple different items, we need to specify individually
+     *========================================================================================
+     * @param container  View chứa RecyclerView, trong trường hợp này là một layout
+     * @param viewType  In case we need to specify different items, this parameter will indicate
+     *                 corresponding actions for a certain item.
      * @return Một ViewHolder có đủ các component ở trên đó, qua constructor, ta đã định hướng
      *          được các components này
      */
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup container, int position) {
-       View view = context.getLayoutInflater().inflate(R.layout.custom_recycler_view, container, false);
-    //  View view = LayoutInflater.from(container.getContext()).inflate(R.layout.custom_recycler_view, container, false);
-    //  or View view = ((Activity) container.getContext()).getLayoutInflater().inflate(...)
-    //  Chỉ có Activity, subclass của Context, có getLayoutInflater, downcast nó xuống
+    public MainViewHolder onCreateViewHolder(ViewGroup container, int viewType) {
+        //   View view = context.getLayoutInflater().inflate(R.layout...., container, false);
+        //  View view = LayoutInflater.from(container.getContext()).inflate(R.layout...., container, false);
+        //  or View view = ((Activity) container.getContext()).getLayoutInflater().inflate(...)
+        //  Chỉ có Activity, subclass của Context, có getLayoutInflater, downcast nó xuống
 
-        return new ViewHolder(view);
-
+        View view;
+        switch (viewType) {
+            case (DATE_INDICATOR):
+                view = context.getLayoutInflater().inflate(R.layout.recycler_view_date_indicator, container, false);
+                return new DateIndicatorViewHolder(view);
+            case (CONTENT):
+                view = context.getLayoutInflater().inflate(R.layout.recycler_view_content, container, false);
+                return new ContentViewHolder(view);
+            default:  // to use switch to RETURN, default has to be presented
+                view = context.getLayoutInflater().inflate(R.layout.recycler_view_content, container, false);
+                return new ContentViewHolder(view);
+        }
     }
 
     /**
@@ -103,27 +154,37 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
      * @param position - vị trí của item trên RecyclerView
      */
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(MainViewHolder viewHolder, int position) {
         RecyclerViewContent recyclerViewContent = list.get(position);
 
-        String title = recyclerViewContent.getTitle();
-        String soNgayLuyenTap = recyclerViewContent.getSoNgayLuyenTap();
-        String mauCau = recyclerViewContent.getMauCau();
-        boolean bellIcon = recyclerViewContent.getBellIcon();
+        switch (recyclerViewContent.getItemViewType()) {
+            case DATE_INDICATOR :
+                String today = context.getString(R.string.today);
+                ((DateIndicatorViewHolder) viewHolder).dateIndicator.setText(today);
+                break;
+            case CONTENT :
+                ContentViewHolder contentViewHolder = (ContentViewHolder) viewHolder;
 
-        viewHolder.title.setText(title);
+                String title = recyclerViewContent.getTitle();
+                String soNgayLuyenTap = recyclerViewContent.getSoNgayLuyenTap();
+                String mauCau = recyclerViewContent.getMauCau();
+                boolean bellIcon = recyclerViewContent.getBellIcon();
 
-        viewHolder.bellIcon.setImageResource(android.R.drawable.ic_lock_idle_alarm);
-        if (bellIcon)
-            viewHolder.bellIcon.setColorFilter(ContextCompat.getColor(context, R.color.bell_on));
-        else
-            viewHolder.bellIcon.setColorFilter(ContextCompat.getColor(context, R.color.bell_off));
+                contentViewHolder.title.setText(title);
 
-        String format_so_ngay_luyen_tap = context.getResources().getString(R.string.format_so_ngay_luyen_tap);
-        String format_mau_cau = context.getResources().getString(R.string.format_mau_cau);
-        viewHolder.soNgayLuyenTap.setText(String.format(format_so_ngay_luyen_tap, soNgayLuyenTap));
-        viewHolder.mauCau.setText(String.format(format_mau_cau, mauCau));
+                contentViewHolder.bellIcon.setImageResource(android.R.drawable.ic_lock_idle_alarm);
+                if (bellIcon)
+                    contentViewHolder.bellIcon.setColorFilter(ContextCompat.getColor(context, R.color.bell_on));
+                else
+                    contentViewHolder.bellIcon.setColorFilter(ContextCompat.getColor(context, R.color.bell_off));
 
+                String format_so_ngay_luyen_tap = context.getResources().getString(R.string.format_so_ngay_luyen_tap);
+                String format_mau_cau = context.getResources().getString(R.string.format_mau_cau);
+                contentViewHolder.soNgayLuyenTap.setText(String.format(format_so_ngay_luyen_tap, soNgayLuyenTap));
+                contentViewHolder.mauCau.setText(String.format(format_mau_cau, mauCau));
+
+                break;
+        }
     }
 
     @Override

@@ -1,16 +1,28 @@
 <resources>
 
-    <string name="app_name">Nhat Ky Hoc Tieng Nhat</string>
+<!--  For Shared Preferences -->
+
+    <string name="current_day">Access Preference File to Get Stored Day</string>
+    <string name="current_month">Access Preference File to Get Stored Month</string>
+    <string name="current_year">Access Preference File to Get Stored Year</string>
+
+
+<!-- For Application's Components -->
+
+    <string name="app_name">Diary of Japanese Study</string>
     <string name="action_settings">Settings</string>
     <string name="search">Search</string>
-    <string name="mau_cau">Mau Cau</string>
-    <string name="thuc_hanh">Luyen Tap</string>
-    <string name="success">Tab Content Created Successfully</string>
+    <string name="mau_cau">Clause</string>
+    <string name="thuc_hanh">Practice</string>
     <string name="format_so_ngay_luyen_tap">Number of days practicing: %s</string>
-    <string name="format_mau_cau">Mau Cau: %s</string>
+    <string name="format_mau_cau">Clause: %s</string>
     <string name="title_prompt">Enter The Title You Want:</string>
     <string name="so_ngay_luyen_tap_prompt">Enter Numbers of Days Practicing: </string>
     <string name="reminder_prompt">Set Reminder: </string>
-    <string name="grammatical_structure_prompt">Grammatical Structure: </string>
+    <string name="grammatical_structure_prompt">Enter Clause: </string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="tomorrow">Tomorrow</string>
+
 
 </resources>

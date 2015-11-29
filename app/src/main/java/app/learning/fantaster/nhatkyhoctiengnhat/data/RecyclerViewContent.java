@@ -7,6 +7,8 @@ public class RecyclerViewContent {
     private String title, mauCau, soNgayLuyenTap;
     private boolean bellIcon;
 
+    private int itemViewType;
+
     public String getTitle() {
         return title;
     }
@@ -23,6 +25,10 @@ public class RecyclerViewContent {
         return bellIcon;
     }
 
+    public int getItemViewType() {
+        return itemViewType;
+    }
+
     public void setTitle(String title) {
          this.title = title;
     }
@@ -37,6 +43,10 @@ public class RecyclerViewContent {
 
     public void setBellIcon(boolean bellIcon) {
         this.bellIcon = bellIcon;
+    }
+
+    public void setItemViewType(int itemViewType) {
+        this.itemViewType = itemViewType;
     }
 
 }

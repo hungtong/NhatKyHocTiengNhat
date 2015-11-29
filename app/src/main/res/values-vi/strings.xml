@@ -1,5 +1,12 @@
 <resources>
 
+    <!-- For Shared Preferences -->
+
+    <string name="current_day">Access Preference File to Get Stored Day</string>
+    <string name="current_month">Access Preference File to Get Stored Month</string>
+    <string name="current_year">Access Preference File to Get Stored Year</string>
+
+    <!-- For Application's Components-->
     <string name="app_name">Nhật Ký Học Tiếng Nhật</string>
     <string name="action_settings">Cài Đặt</string>
     <string name="search">Tìm Kiếm</string>
@@ -11,5 +18,8 @@
     <string name="so_ngay_luyen_tap_prompt">Nhập Số Ngày Luyện Tập: </string>
     <string name="reminder_prompt">Nhắc Nhở: </string>
     <string name="grammatical_structure_prompt">Cấu Trúc Ngữ Pháp: </string>
+    <string name="yesterday">Hôm Qua</string>
+    <string name="today">Hôm Nay</string>
+    <string name="tomorrow">Ngày Mai</string>
 
 </resources>

@@ -15,6 +15,7 @@ import com.example.bo.nhatkyhoctiengnhat.R;
 
 import java.util.ArrayList;
 
+import app.learning.fantaster.nhatkyhoctiengnhat.MainActivity;
 import app.learning.fantaster.nhatkyhoctiengnhat.TaoMoi;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.CustomRecyclerViewAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.RecyclerViewContent;
@@ -31,7 +32,6 @@ public class HomeTabFragment extends Fragment {
 
     private ArrayList<RecyclerViewContent> list;
     private CustomRecyclerViewAdapter adapter;
-
 
     /**
      * Since it is highly recommended that every Fragment should not have any constructor other than default
@@ -83,11 +83,17 @@ public class HomeTabFragment extends Fragment {
      * Specified the interface OnDeleteListener.
      * In Recycler View, selection as well as selected position are not handled
      */
-    class ConcreteOnDeleteListener implements CustomRecyclerViewAdapter.OnDeleteListener {
+    class ConcreteOnDeleteListener implements CustomRecyclerViewAdapter.RecyclerViewListener {
+
         @Override
-        public void onDelete(View childPressed, int position) {
+        public void onDelete(View childPressed, final int position) {
             list.remove(position);
             adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onModify(View childPressed, final int position) {
+            /// New Intent Upcoming
         }
     }
 
@@ -95,20 +101,36 @@ public class HomeTabFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUESTED_CODE && resultCode == RESULT_OK && data != null) {
-            RecyclerViewContent newModule = new RecyclerViewContent();
+
+            // If there is a signal requiring to update recycler view, it means every previous date
+            // indicator was already updated, now we simply need to add a "Today Date Indicator" right
+            // after when we created a new section.
+            if (MainActivity.signalToUpdateRecyclerView) {
+                RecyclerViewContent dateModule = new RecyclerViewContent();
+                dateModule.setItemViewType(CustomRecyclerViewAdapter.DATE_INDICATOR);
+                list.add(dateModule);
+                adapter.notifyDataSetChanged();
+            }
+
+            RecyclerViewContent contentModule = new RecyclerViewContent();
 
             String title = data.getStringExtra(KEY_LAY_TITLE);
             String soNgayLuyenTap = data.getStringExtra(KEY_LAY_SO_NGAY_LUYEN_TAP);
             String mauCau = data.getStringExtra(KEY_LAY_MAU_CAU);
             boolean bellIcon = data.getBooleanExtra(KEY_LAY_BELL_ICON, false);
 
-            newModule.setTitle(title);
-            newModule.setSoNgayLuyenTap(soNgayLuyenTap);
-            newModule.setMauCau(mauCau);
-            newModule.setBellIcon(bellIcon);
+            contentModule.setTitle(title);
+            contentModule.setSoNgayLuyenTap(soNgayLuyenTap);
+            contentModule.setMauCau(mauCau);
+            contentModule.setBellIcon(bellIcon);
+            contentModule.setItemViewType(CustomRecyclerViewAdapter.CONTENT);
 
-            list.add(newModule);
+            list.add(contentModule);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    private void updateRecyclerView() {
+
     }
 }

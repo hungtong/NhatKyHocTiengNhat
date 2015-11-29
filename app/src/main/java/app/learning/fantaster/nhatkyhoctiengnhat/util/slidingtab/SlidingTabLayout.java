@@ -228,9 +228,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
 
             CharSequence title = adapter.getPageTitle(i);
-            if (title.equals("HOME"))
-                tabTitleView.setBackgroundResource(android.R.drawable.ic_menu_report_image);
-            else tabTitleView.setText(title);
+            tabTitleView.setText(title);
             tabTitleView.setGravity(Gravity.CENTER_HORIZONTAL);
             tabTitleView.setTextColor(Color.WHITE);
             tabView.setOnClickListener(tabClickListener);

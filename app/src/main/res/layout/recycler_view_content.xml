@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:id="@+id/date" />
+
 
     <TextView
         android:layout_width="match_parent"
@@ -28,6 +36,7 @@
             android:id="@+id/so_ngay_luyen_tap"/>
 
         <ImageView
+            android:layout_gravity="start"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -46,7 +55,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/gray_border"
         android:id="@+id/line"/>
 
 
