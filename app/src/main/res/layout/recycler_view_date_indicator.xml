@@ -9,6 +9,7 @@
         android:textColor="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/today"
         android:id="@+id/date_indicator"/>
 
     <View

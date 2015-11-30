@@ -106,6 +106,7 @@ public class HomeTabFragment extends Fragment {
             // indicator was already updated, now we simply need to add a "Today Date Indicator" right
             // after when we created a new section.
             if (MainActivity.signalToUpdateRecyclerView) {
+                MainActivity.signalToUpdateRecyclerView = false;
                 RecyclerViewContent dateModule = new RecyclerViewContent();
                 dateModule.setItemViewType(CustomRecyclerViewAdapter.DATE_INDICATOR);
                 list.add(dateModule);

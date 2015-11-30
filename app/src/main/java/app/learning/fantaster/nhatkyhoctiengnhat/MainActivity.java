@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt(getString(R.string.current_year), STORED_DATE.getYear());
 
         editor.commit();
+
     }
 
     /**

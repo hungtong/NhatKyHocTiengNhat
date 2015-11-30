@@ -19,7 +19,7 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.RecyclerViewContent;
 /**
  * Adapter cho RecyclerView, RecyclerView.Adapter<E> là một generic type
  */
-public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.MainViewHolder> {
+public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Activity context;
     private final ArrayList<RecyclerViewContent> list;
@@ -41,6 +41,13 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         listener = concreteListener;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (list.get(position).getItemViewType() == DATE_INDICATOR)
+            return DATE_INDICATOR;
+        else return CONTENT;
+    }
+
     /**
      *
      * Thay vì trực tiếp tương tác lên các components của container, ta sẽ tạo một
@@ -51,17 +58,10 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
      * Trong khi initialize các components, ta phải liên tục gọi findViewById() làm cho
      * quá trình tạo các items chậm hơn.
      *
-     */
-    protected static class MainViewHolder extends RecyclerView.ViewHolder {
-        public MainViewHolder(View view){
-            super(view);
-        }
-    }
-
-    /**
      * This ViewHolder is typically for content of each section
      */
-    public static class ContentViewHolder extends MainViewHolder implements OnLongClickListener, View.OnClickListener {
+    public static class ContentViewHolder extends RecyclerView.ViewHolder
+                                        implements OnLongClickListener, View.OnClickListener {
         // Không cần Encapsulation
         public final TextView title, mauCau, soNgayLuyenTap;
         public final ImageView bellIcon;
@@ -100,7 +100,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     /**
      * This ViewHolder is typically for Date Indicator
      */
-    public static class DateIndicatorViewHolder extends MainViewHolder {
+    public static class DateIndicatorViewHolder extends RecyclerView.ViewHolder {
         public final TextView dateIndicator;
 
         public DateIndicatorViewHolder(View view) {
@@ -127,7 +127,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
      *          được các components này
      */
     @Override
-    public MainViewHolder onCreateViewHolder(ViewGroup container, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, int viewType) {
         //   View view = context.getLayoutInflater().inflate(R.layout...., container, false);
         //  View view = LayoutInflater.from(container.getContext()).inflate(R.layout...., container, false);
         //  or View view = ((Activity) container.getContext()).getLayoutInflater().inflate(...)
@@ -154,16 +154,15 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
      * @param position - vị trí của item trên RecyclerView
      */
     @Override
-    public void onBindViewHolder(MainViewHolder viewHolder, int position) {
-        RecyclerViewContent recyclerViewContent = list.get(position);
-
-        switch (recyclerViewContent.getItemViewType()) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        switch (viewHolder.getItemViewType()) {
             case DATE_INDICATOR :
                 String today = context.getString(R.string.today);
                 ((DateIndicatorViewHolder) viewHolder).dateIndicator.setText(today);
                 break;
             case CONTENT :
                 ContentViewHolder contentViewHolder = (ContentViewHolder) viewHolder;
+                RecyclerViewContent recyclerViewContent = list.get(position);
 
                 String title = recyclerViewContent.getTitle();
                 String soNgayLuyenTap = recyclerViewContent.getSoNgayLuyenTap();
