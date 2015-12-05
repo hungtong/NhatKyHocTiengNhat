@@ -21,5 +21,8 @@
     <string name="yesterday">Hôm Qua</string>
     <string name="today">Hôm Nay</string>
     <string name="tomorrow">Ngày Mai</string>
+    <string name="finish_anyway">Vẫn kết thúc</string>
+    <string name="inputs_is_not_filled_fully">Dữ liệu chưa được nhập đầy đủ, bạn vẫn muốn kết thúc?</string>
+    <string name="my_bad">Nhập thêm dữ liệu</string>
 
 </resources>

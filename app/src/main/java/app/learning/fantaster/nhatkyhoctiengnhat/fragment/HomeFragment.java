@@ -10,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bo.nhatkyhoctiengnhat.R;
-
+import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.util.slidingtab.SlidingTabLayout;
 
 /**
@@ -58,6 +57,7 @@ public class HomeFragment extends Fragment {
         });
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(CustomPagerAdapter.SO_LUONG_TAB);
         viewPager.setAdapter(new CustomPagerAdapter(getFragmentManager()));
         mSlidingTabLayout.setViewPager(viewPager);
 
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
      */
     class CustomPagerAdapter extends FragmentPagerAdapter {
 
-        private final int SO_LUONG_TAB = 3;
+        public static final int SO_LUONG_TAB = 3;
 
         public CustomPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -84,7 +84,15 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public Fragment getItem(int position) {
-            return HomeTabFragment.newInstance();
+            switch (position) {
+                case 0 :
+                    return HomeTabFragment.newInstance();
+                case 1 :
+                    return ClauseTabFragment.newInstance();
+                default:
+                    return HomeTabFragment.newInstance();
+            }
+
         }
 
         @Override
@@ -108,25 +116,6 @@ public class HomeFragment extends Fragment {
             }
             return title;
         }
-
-        /**
-         * Đây là method quan trọng nhất, trong ViewPager sẽ có nhiều page với những thành phần khác nhau
-         * Dựa vào vị trí position, ta sẽ cụ thể hóa các thành phần theo ý muốn
-         *
-         * Method này instantiate nội dung trong tab, để instantiate title hay những đặc tính của tab (cái
-         * bấm qua bấm lại), tùy chỉnh trong SlidingTabLayout 2 methods createDefaultTabView(...),
-         * populateTabStrip() và 1 class TabClickListener để tùy chỉnh event
-         */
-    /*    @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            // Trước hết inflate một layout đã có đủ hết các thành phần và chưa được cụ thể hóa (hết)
-            // getActivity() = Context mà view này được chứa trong
-           View view = getActivity().getLayoutInflater().inflate(R.layout.layout_home_tab, container, false);
-
-            container.addView(view); // Cái này rất quan trọng
-
-            return view;
-        }*/
 
     }
 }

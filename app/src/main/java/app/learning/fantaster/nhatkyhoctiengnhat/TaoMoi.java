@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.bo.nhatkyhoctiengnhat.R;
-
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.HomeTabFragment;
 
 
@@ -107,14 +105,14 @@ public class TaoMoi extends Activity{
     private void alertUser() {
        AlertDialog.Builder builder = new AlertDialog.Builder(TaoMoi.this);  //Better use explicit context
        builder.setTitle("Alert Dialog");
-       builder.setMessage("One or more inputs are not filled in, are you sure you want to finish?")
-               .setPositiveButton("Yes, finish anyway", new DialogInterface.OnClickListener() {
+       builder.setMessage(getString(R.string.inputs_is_not_filled_fully))
+               .setPositiveButton(getString(R.string.finish_anyway), new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int which) {
                        TaoMoi.this.finish();
                    }
                })
-               .setNegativeButton("Oops, my bad!!!", new DialogInterface.OnClickListener() {
+               .setNegativeButton(getString(R.string.my_bad), new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int which) {
                        dialog.cancel();

@@ -2,11 +2,10 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/home_tab_recycler_view"
+        android:id="@+id/clause_tab_recycler_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 
@@ -16,6 +15,6 @@
         android:layout_gravity="bottom|end"
         android:src="@android:drawable/ic_menu_edit"
         android:layout_margin="@dimen/fab_margin"
-        android:id="@+id/tao_entry_moi"   />
+        android:id="@+id/tao_clause_moi"   />
 
 </android.support.design.widget.CoordinatorLayout>

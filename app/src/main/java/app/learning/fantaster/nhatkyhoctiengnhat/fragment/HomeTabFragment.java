@@ -11,14 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bo.nhatkyhoctiengnhat.R;
-
 import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.MainActivity;
+import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.TaoMoi;
-import app.learning.fantaster.nhatkyhoctiengnhat.adapter.CustomRecyclerViewAdapter;
-import app.learning.fantaster.nhatkyhoctiengnhat.data.RecyclerViewContent;
+import app.learning.fantaster.nhatkyhoctiengnhat.adapter.EntryAdapter;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.EntryContent;
 
 public class HomeTabFragment extends Fragment {
 
@@ -30,8 +29,8 @@ public class HomeTabFragment extends Fragment {
     public static final String KEY_LAY_MAU_CAU = "KeyLayMauCau";
     public static final String KEY_LAY_BELL_ICON = "KeyLayBellIcon";
 
-    private ArrayList<RecyclerViewContent> list;
-    private CustomRecyclerViewAdapter adapter;
+    private ArrayList<EntryContent> list;
+    private EntryAdapter adapter;
 
     /**
      * Since it is highly recommended that every Fragment should not have any constructor other than default
@@ -45,7 +44,7 @@ public class HomeTabFragment extends Fragment {
      */
     public static HomeTabFragment newInstance() {
         Bundle bundle = new Bundle();   // Setup an empty Bundle to store data
-        bundle.putInt("home_tab_fragment", android.R.drawable.ic_menu_report_image); // put into Bundle data wanted to retrieve
+        bundle.putInt("home_tab_fragment", R.drawable.ic_home_white_24dp); // put into Bundle data wanted to retrieve
 
         HomeTabFragment fragment = new HomeTabFragment(); // default constructor and the only constructor that should
                                                             // be in every Fragment class
@@ -61,15 +60,15 @@ public class HomeTabFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_tab_recycler_view);
         list = new ArrayList<>();
-        adapter = new CustomRecyclerViewAdapter(((Activity) getContext()),list, new ConcreteOnDeleteListener());
+        adapter = new EntryAdapter(((Activity) getContext()),list, new ConcreteOnDeleteListener());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton taoMoiButton = (FloatingActionButton) view.findViewById(R.id.tao_moi);
+        FloatingActionButton taoMoiButton = (FloatingActionButton) view.findViewById(R.id.tao_entry_moi);
         taoMoiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +82,7 @@ public class HomeTabFragment extends Fragment {
      * Specified the interface OnDeleteListener.
      * In Recycler View, selection as well as selected position are not handled
      */
-    class ConcreteOnDeleteListener implements CustomRecyclerViewAdapter.RecyclerViewListener {
+    class ConcreteOnDeleteListener implements EntryAdapter.RecyclerViewListener {
 
         @Override
         public void onDelete(View childPressed, final int position) {
@@ -107,13 +106,13 @@ public class HomeTabFragment extends Fragment {
             // after when we created a new section.
             if (MainActivity.signalToUpdateRecyclerView) {
                 MainActivity.signalToUpdateRecyclerView = false;
-                RecyclerViewContent dateModule = new RecyclerViewContent();
-                dateModule.setItemViewType(CustomRecyclerViewAdapter.DATE_INDICATOR);
+                EntryContent dateModule = new EntryContent();
+                dateModule.setItemViewType(EntryAdapter.DATE_INDICATOR);
                 list.add(dateModule);
                 adapter.notifyDataSetChanged();
             }
 
-            RecyclerViewContent contentModule = new RecyclerViewContent();
+            EntryContent contentModule = new EntryContent();
 
             String title = data.getStringExtra(KEY_LAY_TITLE);
             String soNgayLuyenTap = data.getStringExtra(KEY_LAY_SO_NGAY_LUYEN_TAP);
@@ -124,7 +123,7 @@ public class HomeTabFragment extends Fragment {
             contentModule.setSoNgayLuyenTap(soNgayLuyenTap);
             contentModule.setMauCau(mauCau);
             contentModule.setBellIcon(bellIcon);
-            contentModule.setItemViewType(CustomRecyclerViewAdapter.CONTENT);
+            contentModule.setItemViewType(EntryAdapter.CONTENT);
 
             list.add(contentModule);
             adapter.notifyDataSetChanged();
