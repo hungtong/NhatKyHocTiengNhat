@@ -76,7 +76,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
-                android:src="@android:drawable/ic_lock_idle_alarm"
+                android:src="@drawable/ic_notifications_black_24dp"
                 android:id="@+id/initial_bell_icon"
                 android:layout_weight="1" />
 

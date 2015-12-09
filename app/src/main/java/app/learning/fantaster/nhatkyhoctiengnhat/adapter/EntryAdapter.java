@@ -24,18 +24,18 @@ public class EntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final Activity context;
     private final ArrayList<EntryContent> list;
 
-    private static RecyclerViewListener listener;
+    private static EntryListener listener;
 
     public static final int DATE_INDICATOR = 97000;
     public static final int CONTENT = 79120;
 
-    public interface RecyclerViewListener {
+    public interface EntryListener {
         void onDelete(View childPressed, final int position);
-        void onModify(View childPressed, final int position);
+        void onCloserView(View childPressed, final int position);
     }
 
     public EntryAdapter(Activity context, ArrayList<EntryContent> list,
-                        RecyclerViewListener concreteListener) {
+                        EntryListener concreteListener) {
         this.context = context;
         this.list = list;
         listener = concreteListener;
@@ -93,7 +93,7 @@ public class EntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            listener.onModify(view, getAdapterPosition());
+            listener.onCloserView(view, getAdapterPosition());
         }
     }
 
@@ -139,10 +139,10 @@ public class EntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 view = context.getLayoutInflater().inflate(R.layout.date_indicator_recycler_view, container, false);
                 return new DateIndicatorViewHolder(view);
             case (CONTENT):
-                view = context.getLayoutInflater().inflate(R.layout.content_recycler_view, container, false);
+                view = context.getLayoutInflater().inflate(R.layout.entry_content, container, false);
                 return new ContentViewHolder(view);
             default:  // to use switch to RETURN, default has to be presented
-                view = context.getLayoutInflater().inflate(R.layout.content_recycler_view, container, false);
+                view = context.getLayoutInflater().inflate(R.layout.entry_content, container, false);
                 return new ContentViewHolder(view);
         }
     }
@@ -171,7 +171,7 @@ public class EntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                 contentViewHolder.title.setText(title);
 
-                contentViewHolder.bellIcon.setImageResource(android.R.drawable.ic_lock_idle_alarm);
+                contentViewHolder.bellIcon.setImageResource(R.drawable.ic_notifications_black_24dp);
                 if (bellIcon)
                     contentViewHolder.bellIcon.setColorFilter(ContextCompat.getColor(context, R.color.bell_on));
                 else

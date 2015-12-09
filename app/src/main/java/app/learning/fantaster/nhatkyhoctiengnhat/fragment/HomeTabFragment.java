@@ -82,7 +82,7 @@ public class HomeTabFragment extends Fragment {
      * Specified the interface OnDeleteListener.
      * In Recycler View, selection as well as selected position are not handled
      */
-    class ConcreteOnDeleteListener implements EntryAdapter.RecyclerViewListener {
+    class ConcreteOnDeleteListener implements EntryAdapter.EntryListener {
 
         @Override
         public void onDelete(View childPressed, final int position) {
@@ -91,7 +91,7 @@ public class HomeTabFragment extends Fragment {
         }
 
         @Override
-        public void onModify(View childPressed, final int position) {
+        public void onCloserView(View childPressed, final int position) {
             /// New Intent Upcoming
         }
     }

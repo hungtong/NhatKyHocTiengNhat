@@ -3,7 +3,7 @@
     <color name="colorPrimary">#F44336</color>
     <color name="colorPrimaryDark">#D50000</color>
     <color name="colorAccent">#FFFFFF</color>
-    <color name="bell_off">#FFFFFF</color>
+    <color name="bell_off">#030303</color>
     <color name="bell_on">#FFFFFF40</color>
     <color name="gray_border">#9E9E9E</color>
 </resources>

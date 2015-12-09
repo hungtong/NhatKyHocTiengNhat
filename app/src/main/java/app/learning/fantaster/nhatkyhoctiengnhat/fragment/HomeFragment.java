@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
                     title = getString(R.string.mau_cau);
                     break;
                 case 2 :
-                    title = getString(R.string.thuc_hanh);
+                    title = getString(R.string.jlpt_test);
                     break;
             }
             return title;

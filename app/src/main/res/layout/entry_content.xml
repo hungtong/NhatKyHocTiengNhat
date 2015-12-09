@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/date" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/date"
+        android:layout_marginBottom="5dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:id="@+id/title" />
+
+    <TextView
+        android:textSize="25sp"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/title"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/so_ngay_luyen_tap"/>
+
+    <ImageView
+        android:layout_gravity="start"
+        android:layout_below="@id/title"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@id/so_ngay_luyen_tap"
+        android:layout_toEndOf="@id/so_ngay_luyen_tap"
+        android:contentDescription="@string/app_name"
+        android:id="@+id/bell_icon"/>
+
+    <TextView
+        android:textSize="25sp"
+        android:layout_below="@id/so_ngay_luyen_tap"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/mau_cau"
+        android:layout_marginBottom="15dp"/>
+
+    <View
+        android:layout_below="@id/mau_cau"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/gray_border"
+        android:id="@+id/line"/>
+
+
+</RelativeLayout>

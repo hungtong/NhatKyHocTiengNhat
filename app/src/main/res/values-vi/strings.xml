@@ -11,7 +11,7 @@
     <string name="action_settings">Cài Đặt</string>
     <string name="search">Tìm Kiếm</string>
     <string name="mau_cau">Mẫu Câu</string>
-    <string name="thuc_hanh">Luyện Tập</string>
+    <string name="jlpt_test">Đề thi thử JLPT</string>
     <string name="format_so_ngay_luyen_tap">Số Ngày Luyện Tập: %s</string>
     <string name="format_mau_cau">Mẫu Câu: %s</string>
     <string name="title_prompt">Nhập Tiêu Đề:</string>

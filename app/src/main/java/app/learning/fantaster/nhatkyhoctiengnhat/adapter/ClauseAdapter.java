@@ -17,12 +17,23 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
     private Activity context;
     private ArrayList<ClauseCardContent> list;
 
-    public ClauseAdapter(Activity context, ArrayList<ClauseCardContent> list) {
-        this.context = context;
-        this.list = list;
+    private static ClauseListener listener;
+
+    public interface ClauseListener {
+        void onDelete(View childPressed, final int position);
+        void onCloserView(View childPressed, final int position);
     }
 
-    public static class ClauseViewHolder extends RecyclerView.ViewHolder {
+    public ClauseAdapter(Activity context, ArrayList<ClauseCardContent> list,
+                         ClauseListener concreteListener) {
+        this.context = context;
+        this.list = list;
+        listener = concreteListener;
+    }
+
+    public static class ClauseViewHolder extends RecyclerView.ViewHolder
+                                        implements View.OnClickListener, View.OnLongClickListener {
+
         public final ImageView headerImage;     //We only need to specify components in Card View
         public final TextView title, clause;
 
@@ -31,6 +42,20 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
             headerImage = (ImageView) view.findViewById(R.id.clause_card_header_image);
             title = (TextView) view.findViewById(R.id.clause_card_title);
             clause = (TextView) view.findViewById(R.id.clause_card_content);
+
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onCloserView(view, getAdapterPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            listener.onDelete(view, getAdapterPosition());
+            return true;
         }
     }
 
