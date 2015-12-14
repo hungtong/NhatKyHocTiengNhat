@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ public class JLPTExam extends Activity {
     private int totalNumberOfQuestions;
     private int currentNumberOfQuestions = 0;
     private boolean[] correctOrNot;
+    private int[] chosenOptionId;
     private String[] options1;
     private String[] options2;
     private String[] options3;
@@ -102,6 +104,7 @@ public class JLPTExam extends Activity {
 
         totalNumberOfQuestions = list.size();
         correctOrNot = new boolean[totalNumberOfQuestions];
+        chosenOptionId = new int[totalNumberOfQuestions];
         options1 = new String[totalNumberOfQuestions];
         options2 = new String[totalNumberOfQuestions];
         options3 = new String[totalNumberOfQuestions];
@@ -132,15 +135,19 @@ public class JLPTExam extends Activity {
         }
 
         option1.setText(options[0]);
+        option1.setBackgroundResource(android.R.drawable.btn_default);
         options1[currentNumberOfQuestions] = options[0];
 
         option2.setText(options[1]);
+        option2.setBackgroundResource(android.R.drawable.btn_default);
         options2[currentNumberOfQuestions] = options[1];
 
         option3.setText(options[2]);
+        option3.setBackgroundResource(android.R.drawable.btn_default);
         options3[currentNumberOfQuestions] = options[2];
 
         option4.setText(options[3]);
+        option4.setBackgroundResource(android.R.drawable.btn_default);
         options4[currentNumberOfQuestions] = options[3];
     }
 
@@ -152,39 +159,50 @@ public class JLPTExam extends Activity {
         @Override
         public void onClick(View view) {
             String correctAnswer = list.get(currentNumberOfQuestions).correctAnswer;
-            int chosenColor = getColor(R.color.button_chosen);
             switch (view.getId()) {
                 case R.id.option1 :
-                    option1.setBackgroundColor(chosenColor);
-                    option2.setBackgroundResource(android.R.drawable.btn_default);
-                    option3.setBackgroundResource(android.R.drawable.btn_default);
-                    option4.setBackgroundResource(android.R.drawable.btn_default);
+                    option1.setBackgroundColor(Color.YELLOW);
                     if (option1.getText().toString().equalsIgnoreCase(correctAnswer))
                         correctOrNot[currentNumberOfQuestions] = true;
+
+                    chosenOptionId[currentNumberOfQuestions] = R.id.option1;
+
+                    option2.setBackgroundResource(android.R.drawable.btn_default);
+                    option3.setBackgroundResource(android.R.drawable.btn_default);
+                    option4.setBackgroundResource(android.R.drawable.btn_default);
                     break;
                 case R.id.option2 :
-                    option2.setBackgroundColor(chosenColor);
-                    option1.setBackgroundResource(android.R.drawable.btn_default);
-                    option3.setBackgroundResource(android.R.drawable.btn_default);
-                    option4.setBackgroundResource(android.R.drawable.btn_default);
+                    option2.setBackgroundColor(Color.YELLOW);
                     if (option2.getText().toString().equalsIgnoreCase(correctAnswer))
                         correctOrNot[currentNumberOfQuestions] = true;
+
+                    chosenOptionId[currentNumberOfQuestions] = R.id.option2;
+
+                    option3.setBackgroundResource(android.R.drawable.btn_default);
+                    option4.setBackgroundResource(android.R.drawable.btn_default);
+                    option1.setBackgroundResource(android.R.drawable.btn_default);
                     break;
                 case R.id.option3 :
-                    option3.setBackgroundColor(chosenColor);
+                    option3.setBackgroundColor(Color.YELLOW);
+                    if (option3.getText().toString().equalsIgnoreCase(correctAnswer))
+                        correctOrNot[currentNumberOfQuestions] = true;
+
+                    chosenOptionId[currentNumberOfQuestions] = R.id.option3;
+
                     option2.setBackgroundResource(android.R.drawable.btn_default);
                     option1.setBackgroundResource(android.R.drawable.btn_default);
                     option4.setBackgroundResource(android.R.drawable.btn_default);
-                    if (option3.getText().toString().equalsIgnoreCase(correctAnswer))
-                        correctOrNot[currentNumberOfQuestions] = true;
                     break;
                 case R.id.option4 :
-                    option4.setBackgroundColor(chosenColor);
+                    option4.setBackgroundColor(Color.YELLOW);
+                    if (option4.getText().toString().equalsIgnoreCase(correctAnswer))
+                        correctOrNot[currentNumberOfQuestions] = true;
+
+                    chosenOptionId[currentNumberOfQuestions] = R.id.option4;
+
                     option2.setBackgroundResource(android.R.drawable.btn_default);
                     option3.setBackgroundResource(android.R.drawable.btn_default);
                     option1.setBackgroundResource(android.R.drawable.btn_default);
-                    if (option4.getText().toString().equalsIgnoreCase(correctAnswer))
-                        correctOrNot[currentNumberOfQuestions] = true;
                     break;
             }
         }
@@ -212,7 +230,7 @@ public class JLPTExam extends Activity {
      * button.
      */
     private void moveToNextQuestion() {
-        if (currentNumberOfQuestions < totalNumberOfQuestions) {
+        if (currentNumberOfQuestions < totalNumberOfQuestions - 1) {
             currentNumberOfQuestions++;
             Question nextQuestion = list.get(currentNumberOfQuestions); // this is typically for questionView and questionCounting
             questionView.setText(nextQuestion.question);
@@ -230,14 +248,21 @@ public class JLPTExam extends Activity {
      * the answer is right or wrong
      */
     private void moveToLastQuestion() {
-        if (currentNumberOfQuestions > 1) {
-            currentNumberOfQuestions--; // back up 1
+        if (currentNumberOfQuestions > 0) {
+            if (chosenOptionId[currentNumberOfQuestions] != 0)
+                ((Button) findViewById(chosenOptionId[currentNumberOfQuestions])).setBackgroundResource(android.R.drawable.btn_default);
+            currentNumberOfQuestions--; // decrease 1
             Question lastQuestion = list.get(currentNumberOfQuestions); // now we have the last question
             questionView.setText(lastQuestion.question);
+
             option1.setText(options1[currentNumberOfQuestions]);
             option2.setText(options2[currentNumberOfQuestions]);
             option3.setText(options3[currentNumberOfQuestions]);
             option4.setText(options4[currentNumberOfQuestions]);
+
+            if (chosenOptionId[currentNumberOfQuestions] != 0)
+                ((Button) findViewById(chosenOptionId[currentNumberOfQuestions])).setBackgroundColor(Color.YELLOW);
+
             questionCounting.setText(String.format(getString(R.string.out_of_total),
                     currentNumberOfQuestions + 1, totalNumberOfQuestions));
         }

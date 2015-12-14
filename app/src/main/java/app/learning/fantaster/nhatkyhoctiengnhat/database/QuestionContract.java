@@ -4,7 +4,7 @@ public class QuestionContract {
 
         // information about database
         public static final int DATABASE_VERSION = 1;
-        public static final String DATABASE_NAME = "JLPT.db";
+        public static final String DATABASE_NAME = "JLPT.sqlite";
         public static String DATABASE_PATH = "/data/data/app.learning.fantaster.nhatkyhoctiengnhat/databases/";
 
         // information about table

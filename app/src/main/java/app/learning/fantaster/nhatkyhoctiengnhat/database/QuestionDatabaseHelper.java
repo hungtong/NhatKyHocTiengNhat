@@ -124,7 +124,6 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
 
     public void openDatabase() throws SQLException{
         String pathToDatabase = QuestionContract.DATABASE_PATH + QuestionContract.DATABASE_NAME;
-
         database = SQLiteDatabase.openDatabase(pathToDatabase, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
