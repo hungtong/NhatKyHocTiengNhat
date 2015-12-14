@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
                 case 1 :
                     return ClauseTabFragment.newInstance();
                 default:
-                    return HomeTabFragment.newInstance();
+                    return QuestionTabFragment.newInstance();
             }
 
         }

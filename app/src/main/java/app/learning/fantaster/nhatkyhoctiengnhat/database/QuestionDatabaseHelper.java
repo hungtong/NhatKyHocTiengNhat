@@ -12,13 +12,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 
-public class JLPTQuestionDatabaseHelper extends SQLiteOpenHelper {
+public class QuestionDatabaseHelper extends SQLiteOpenHelper {
 
     private final Context context;
     private SQLiteDatabase database;
 
-    public JLPTQuestionDatabaseHelper(Context context) {
-        super(context, JLPTContract.DATABASE_NAME, null, JLPTContract.DATABASE_VERSION);
+    public QuestionDatabaseHelper(Context context) {
+        super(context, QuestionContract.DATABASE_NAME, null, QuestionContract.DATABASE_VERSION);
         this.context = context;
     }
 
@@ -29,7 +29,8 @@ public class JLPTQuestionDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if (newVersion > oldVersion)
+            deleteDatabase();
     }
 
     /**
@@ -39,7 +40,7 @@ public class JLPTQuestionDatabaseHelper extends SQLiteOpenHelper {
     private boolean checkDatabase() {
         boolean databaseExisted = false;
         try {
-            String pathToData = JLPTContract.DATABASE_PATH + JLPTContract.DATABASE_NAME;
+            String pathToData = QuestionContract.DATABASE_PATH + QuestionContract.DATABASE_NAME;
             File file  = new File(pathToData);
             databaseExisted = file.exists();
         } catch (SQLiteException ex) {
@@ -60,9 +61,9 @@ public class JLPTQuestionDatabaseHelper extends SQLiteOpenHelper {
      * @throws IOException
      */
     private void copyDatabase() throws IOException, IndexOutOfBoundsException {
-        String pathToDatabase = JLPTContract.DATABASE_PATH + JLPTContract.DATABASE_NAME;
+        String pathToDatabase = QuestionContract.DATABASE_PATH + QuestionContract.DATABASE_NAME;
 
-        InputStream inputStream = context.getAssets().open(JLPTContract.DATABASE_NAME);
+        InputStream inputStream = context.getAssets().open(QuestionContract.DATABASE_NAME);
         OutputStream outputStream = new FileOutputStream(pathToDatabase);
 
 
@@ -101,6 +102,7 @@ public class JLPTQuestionDatabaseHelper extends SQLiteOpenHelper {
             getReadableDatabase();
 
             try {
+                close();
                 copyDatabase(); // not existed, copy the one in asset folder to create here
             } catch (IOException ex) {
                 throw new Error("Error copying database");
@@ -113,7 +115,7 @@ public class JLPTQuestionDatabaseHelper extends SQLiteOpenHelper {
      *  not in the asset folder
      */
     public void deleteDatabase() {
-        File file = new File(JLPTContract.DATABASE_PATH + JLPTContract.DATABASE_NAME);
+        File file = new File(QuestionContract.DATABASE_PATH + QuestionContract.DATABASE_NAME);
         if (file.exists()) {
             database = null;
             file.delete();
@@ -121,11 +123,12 @@ public class JLPTQuestionDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void openDatabase() throws SQLException{
-        String pathToDatabase = JLPTContract.DATABASE_PATH + JLPTContract.DATABASE_NAME;
-        database = SQLiteDatabase.openDatabase(pathToDatabase, null, SQLiteDatabase.OPEN_READONLY);
+        String pathToDatabase = QuestionContract.DATABASE_PATH + QuestionContract.DATABASE_NAME;
+
+        database = SQLiteDatabase.openDatabase(pathToDatabase, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
-    public synchronized void closeDatabse() {
+    public synchronized void closeDatabase() {
         if (database != null)
             database.close();
         super.close();

@@ -104,8 +104,8 @@ public class TaoMoi extends Activity{
      */
     private void alertUser() {
        AlertDialog.Builder builder = new AlertDialog.Builder(TaoMoi.this);  //Better use explicit context
-       builder.setTitle("Alert Dialog");
-       builder.setMessage(getString(R.string.inputs_is_not_filled_fully))
+       builder.setTitle(getString(R.string.alert_missing_inputs));
+       builder.setMessage(getString(R.string.inputs_are_not_filled_fully))
                .setPositiveButton(getString(R.string.finish_anyway), new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int which) {

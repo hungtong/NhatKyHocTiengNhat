@@ -136,7 +136,7 @@ public class EntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         View view;
         switch (viewType) {
             case (DATE_INDICATOR):
-                view = context.getLayoutInflater().inflate(R.layout.date_indicator_recycler_view, container, false);
+                view = context.getLayoutInflater().inflate(R.layout.date_indicator_content, container, false);
                 return new DateIndicatorViewHolder(view);
             case (CONTENT):
                 view = context.getLayoutInflater().inflate(R.layout.entry_content, container, false);

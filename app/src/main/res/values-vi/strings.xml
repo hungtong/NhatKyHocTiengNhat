@@ -22,7 +22,13 @@
     <string name="today">Hôm Nay</string>
     <string name="tomorrow">Ngày Mai</string>
     <string name="finish_anyway">Vẫn kết thúc</string>
-    <string name="inputs_is_not_filled_fully">Dữ liệu chưa được nhập đầy đủ, bạn vẫn muốn kết thúc?</string>
     <string name="my_bad">Nhập thêm dữ liệu</string>
+    <string name="start">Bắt Đầu!!!</string>
+    <string name="alert_exam_ending">Bài thi kết thúc</string>
+    <string name="alert_missing_inputs">Dữ liệu chưa được nhập đầy đủ</string>
+    <string name="do_you_want_to_check_again">Bài thi đến đây là kết thúc, hãy chắc chắn rằng các câu hỏi được kiểm tra cẩn thận. Bạn muốn nộp bài bây giờ chứ?</string>
+    <string name="i_want_to_check_again">Tôi muốn kiểm tra lại</string>
+    <string name="inputs_are_not_filled_fully">Dữ liệu chưa được nhập đầy đủ, bạn vẫn muốn kết thúc chứ?</string>
+    <string name="turn_in">Tôi muốn nộp bài</string>
 
 </resources>

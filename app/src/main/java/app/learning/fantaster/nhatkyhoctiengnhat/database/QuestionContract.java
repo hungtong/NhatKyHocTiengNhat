@@ -1,11 +1,11 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.database;
 
-public class JLPTContract {
+public class QuestionContract {
 
         // information about database
         public static final int DATABASE_VERSION = 1;
         public static final String DATABASE_NAME = "JLPT.db";
-        public static final String DATABASE_PATH = "/data/data/app.learning.fantaster.nhatkyhoctiengnhat/databases/";
+        public static String DATABASE_PATH = "/data/data/app.learning.fantaster.nhatkyhoctiengnhat/databases/";
 
         // information about table
         public static final String TABLE_NAME = "JLPTQuestions";
@@ -19,6 +19,4 @@ public class JLPTContract {
         public static final String COLUMN_NAME_TRANSLATION = "translation";
         public static final String COLUMN_NAME_EXPLANATION = "explanation";
 
-        // information about SQL commands used in onCreate and onUpgrade
-        public static final String CREATE_TABLE = "create";
 }

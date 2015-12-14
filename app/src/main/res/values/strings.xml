@@ -20,12 +20,19 @@
     <string name="so_ngay_luyen_tap_prompt">Enter Numbers of Days Practicing: </string>
     <string name="reminder_prompt">Set Reminder: </string>
     <string name="grammatical_structure_prompt">Enter Clause: </string>
-    <string name="inputs_is_not_filled_fully">One or more inputs are not filled in, are you sure you want to finish?</string>
+    <string name="alert_missing_inputs">Missing Inputs</string>
+    <string name="inputs_are_not_filled_fully">One or more inputs are not filled in, are you sure you want to finish?</string>
     <string name="finish_anyway">Yes, finish anyway</string>
     <string name="my_bad">Oops, my bad!!!</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="tomorrow">Tomorrow</string>
+    <string name="start">Start!!!</string>
+    <string name="out_of_total" translatable="false">%d/%d</string>
+    <string name="alert_exam_ending">The End</string>
+    <string name="do_you_want_to_check_again">This is the end of the exam, make sure your answers thoroughly checked. Do you want to turn it in now? </string>
+    <string name="turn_in">Yes, please!</string>
+    <string name="i_want_to_check_again">I need to double check</string>
 
 
 </resources>
