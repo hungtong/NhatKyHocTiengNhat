@@ -1,9 +1,10 @@
-package app.learning.fantaster.nhatkyhoctiengnhat.database;
+package app.learning.fantaster.nhatkyhoctiengnhat.database.question;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,7 +45,7 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
             File file  = new File(pathToData);
             databaseExisted = file.exists();
         } catch (SQLiteException ex) {
-
+            Log.d("SQLException", ex.toString());
         }
         return databaseExisted;
     }
@@ -93,19 +94,13 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
      * Create a new database if there does not yet exist any database.
      */
     public void createDatabase() throws IOException, Error {
-        boolean databaseExisted = checkDatabase();
-
-        if (databaseExisted) {
-
-        }
-        else {
-            getReadableDatabase();
-
+        if (!checkDatabase()) { // only create when there is not a database
+            this.getReadableDatabase();
             try {
-                close();
-                copyDatabase(); // not existed, copy the one in asset folder to create here
+                this.close();
+                copyDatabase();
             } catch (IOException ex) {
-                throw new Error("Error copying database");
+                Log.d("IOException", ex.toString());
             }
         }
     }

@@ -30,5 +30,10 @@
     <string name="i_want_to_check_again">Tôi muốn kiểm tra lại</string>
     <string name="inputs_are_not_filled_fully">Dữ liệu chưa được nhập đầy đủ, bạn vẫn muốn kết thúc chứ?</string>
     <string name="turn_in">Tôi muốn nộp bài</string>
+    <string name="result">Chúc mừng!Bạn đã hoàn thành bài thi\nBạn có %d đáp án đúng</string>
+    <string name="vocab_title">Từ Vựng</string>
+    <string name="reading_title">Đọc Hiểu</string>
+    <string name="grammar_title">Ngữ Pháp</string>
+    <string name="head_of_text">Đây là câu hỏi đầu tiên!!!</string>
 
 </resources>

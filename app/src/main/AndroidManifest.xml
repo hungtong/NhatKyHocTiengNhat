@@ -20,7 +20,7 @@
         </activity>
 
         <activity android:name="app.learning.fantaster.nhatkyhoctiengnhat.TaoMoi" />
-        <activity android:name="app.learning.fantaster.nhatkyhoctiengnhat.JLPTExam" />
+        <activity android:name="app.learning.fantaster.nhatkyhoctiengnhat.Exam" />
     </application>
 
 </manifest>

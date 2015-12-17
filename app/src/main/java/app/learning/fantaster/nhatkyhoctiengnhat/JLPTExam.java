@@ -19,8 +19,8 @@ import java.util.Collections;
 import java.util.Random;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
-import app.learning.fantaster.nhatkyhoctiengnhat.database.DAOQuestion;
-import app.learning.fantaster.nhatkyhoctiengnhat.database.QuestionDatabaseHelper;
+import app.learning.fantaster.nhatkyhoctiengnhat.database.question.DAOQuestion;
+import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDatabaseHelper;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.QuestionTabFragment;
 
 
@@ -134,19 +134,19 @@ public class JLPTExam extends Activity {
             options[positionToSwap] = temp;
         }
 
-        option1.setText(options[0]);
+        option1.setText("1." + options[0]);
         option1.setBackgroundResource(android.R.drawable.btn_default);
         options1[currentNumberOfQuestions] = options[0];
 
-        option2.setText(options[1]);
+        option2.setText("2." + options[1]);
         option2.setBackgroundResource(android.R.drawable.btn_default);
         options2[currentNumberOfQuestions] = options[1];
 
-        option3.setText(options[2]);
+        option3.setText("3." + options[2]);
         option3.setBackgroundResource(android.R.drawable.btn_default);
         options3[currentNumberOfQuestions] = options[2];
 
-        option4.setText(options[3]);
+        option4.setText("4." + options[3]);
         option4.setBackgroundResource(android.R.drawable.btn_default);
         options4[currentNumberOfQuestions] = options[3];
     }

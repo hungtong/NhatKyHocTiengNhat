@@ -1,10 +1,11 @@
-package app.learning.fantaster.nhatkyhoctiengnhat.database;
+package app.learning.fantaster.nhatkyhoctiengnhat.database.question;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
 
@@ -72,8 +73,6 @@ public class DAOQuestion {
         String selection = QuestionContract.COLUMN_NAME_QUESTION_ID + "=?";
 
         // Specify for '?'
-        // I don't think that in the context of Android Programming, ? can be numberic
-        //      so it is necessary to convert a integer into String
         String[] selectionArgs = { String.valueOf(questionId) };
 
         // GROUP BY ... , fill in ... , null not to be grouped
@@ -92,20 +91,24 @@ public class DAOQuestion {
         // In fact, we have to use commands to move it. In other words, it is quite manual
         Cursor cursor = database.query(table, columns, selection, selectionArgs,
                                         groupBy, having, orderBy, limit);
-        if (cursor != null)
+        Question newQuestion = null;
+        if (cursor != null) {
             cursor.moveToFirst(); // Move the cursor to the beginning row
 
-        Question newQuestion = new Question(Integer.parseInt(cursor.getString(0)), //  questionId
-                            cursor.getString(1), // question
-                            cursor.getString(2), // questionType
-                            cursor.getString(3), // correctAnswer
-                            cursor.getString(4), // distractor1
-                            cursor.getString(5), // distractor2
-                            cursor.getString(6), // distractor3
-                            cursor.getString(7), // translation
-                            cursor.getString(8)  // explanation
-        );
-        cursor.close();
+            newQuestion = new Question(cursor.getInt(0), //  questionId
+                    cursor.getString(1), // question
+                    cursor.getInt(2), // questionType
+                    cursor.getString(3), // correctAnswer
+                    cursor.getString(4), // distractor1
+                    cursor.getString(5), // distractor2
+                    cursor.getString(6), // distractor3
+                    cursor.getString(7), // translation
+                    cursor.getString(8)  // explanation
+            );
+            cursor.close();
+
+        }
+
         return newQuestion;
     }
 
@@ -119,12 +122,12 @@ public class DAOQuestion {
 
         // Unlike query(...bunch of stuff...), rawQuery using a command edited.
         Cursor cursor = database.rawQuery(commandSQL, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
+            Question newQuestion;
             do {
-                Question newQuestion = new Question(Integer.parseInt(cursor.getString(0)), //  questionId
+                newQuestion = new Question(cursor.getInt(0), //  questionId
                         cursor.getString(1), // question
-                        cursor.getString(2), // questionType
+                        cursor.getInt(2), // questionType
                         cursor.getString(3), // correctAnswer
                         cursor.getString(4), // distractor1
                         cursor.getString(5), // distractor2
@@ -134,8 +137,62 @@ public class DAOQuestion {
                 );
                 list.add(newQuestion);
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
+
+        return list;
+    }
+
+    /**
+     * Return a all questions in the table which belong to a specific type
+     * @param questionType question type needed
+     * @return all questions that belong to question type needed
+     */
+    public ArrayList<Question> getAllQuestionsByType(int questionType) {
+        ArrayList<Question> list = new ArrayList<>();
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+
+        String selection = QuestionContract.COLUMN_NAME_QUESTION_TYPE + "=?";
+        String[] selectionArgs = {String.valueOf(questionType)};
+
+        Cursor cursor = database.query(QuestionContract.TABLE_NAME, null, selection, selectionArgs,
+                null, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            Question newQuestion;
+            do {
+                newQuestion = new Question(cursor.getInt(0), //  questionId
+                        cursor.getString(1), // question
+                        cursor.getInt(2), // questionType
+                        cursor.getString(3), // correctAnswer
+                        cursor.getString(4), // distractor1
+                        cursor.getString(5), // distractor2
+                        cursor.getString(6), // distractor3
+                        cursor.getString(7), // translation
+                        cursor.getString(8)  // explanation
+                );
+                list.add(newQuestion);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return list;
+    }
+
+    /**
+     * Return a number of questions which belong to a specific type in the table. These questions should
+     * be shuffled before being returned
+     * @param numberOfQuestion how many questions needed to return
+     * @param questionType what type of question
+     * @return an exact number of questions required or everything left in stock.
+     */
+    public ArrayList<Question> getRandomTypeQuestions(int numberOfQuestion, int questionType) {
+        ArrayList<Question> list = getAllQuestionsByType(questionType);
+        Collections.shuffle(list);
+        if (list.size() >  numberOfQuestion) {
+            for (int i = list.size() - 1; i > numberOfQuestion; i--)
+                list.remove(i);
+        }
         return list;
     }
 
@@ -147,9 +204,11 @@ public class DAOQuestion {
 
         String commnadSQL = "select * from" + QuestionContract.TABLE_NAME;
         Cursor cursor = database.rawQuery(commnadSQL, null);
-
-        int count = cursor.getCount();
-        cursor.close();
+        int count = 0;
+        if (cursor != null) {
+            count = cursor.getCount();
+            cursor.close();
+        }
         return count;
     }
 
@@ -184,7 +243,7 @@ public class DAOQuestion {
                                whereArgs);
     }
 
-    /* ====================== UPDATE ====================== */
+    /* ====================== DELETE ====================== */
 
     /**
      *  Delete a row with its ID given

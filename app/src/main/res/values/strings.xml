@@ -33,7 +33,11 @@
     <string name="do_you_want_to_check_again">This is the end of the exam, make sure your answers thoroughly checked. Do you want to turn it in now? </string>
     <string name="turn_in">Yes, please!</string>
     <string name="i_want_to_check_again">I need to double check</string>
-    <string name="result">Congratulations!\nYou have %d correct answers</string>
+    <string name="result">Congratulations! You completed the exam\nYou have %d correct answers</string>
+    <string name="reading_title">Reading</string>
+    <string name="vocab_title">Vocabulary</string>
+    <string name="grammar_title">Grammar</string>
+    <string name="head_of_text">This is the first question!!!</string>
 
 
 </resources>
