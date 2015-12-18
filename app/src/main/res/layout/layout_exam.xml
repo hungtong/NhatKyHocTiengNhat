@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/question_container"
         android:layout_width="match_parent"
-        android:layout_height="370dp"/>
+        android:layout_height="450dp"/>
 
     <LinearLayout
         android:id="@+id/navigation"

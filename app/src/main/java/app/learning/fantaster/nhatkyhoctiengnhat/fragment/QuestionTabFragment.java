@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import app.learning.fantaster.nhatkyhoctiengnhat.Exam;
+import app.learning.fantaster.nhatkyhoctiengnhat.JLPTExam;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 
 public class QuestionTabFragment extends Fragment {
@@ -36,7 +36,7 @@ public class QuestionTabFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Exam.class);
+                Intent intent = new Intent(getContext(), JLPTExam.class);
                 startActivityForResult(intent, REQUESTED_CODE);
             }
         });

@@ -1,13 +1,12 @@
 package app.learning.fantaster.nhatkyhoctiengnhat;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,265 +14,206 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.DAOQuestion;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDatabaseHelper;
+import app.learning.fantaster.nhatkyhoctiengnhat.fragment.LongOptionFragment;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.QuestionTabFragment;
+import app.learning.fantaster.nhatkyhoctiengnhat.fragment.ShortOptionFragment;
+import app.learning.fantaster.nhatkyhoctiengnhat.util.OptionClickListener;
 
+public class JLPTExam extends AppCompatActivity implements OptionClickListener {
 
-public class JLPTExam extends Activity {
-
-    private TextView questionView;
-    private Button option1, option2, option3, option4;
-    private ImageView backward, forward;
     private TextView questionCounting;
 
-    private ArrayList<Question> list;
+    public static final int TOTAL_QUESTIONS = 25;
+    public static final int NUMBER_OF_VOCAB_QUESTIONS = 15;
+    public static final int NUMBER_OF_GRAMMAR_QUESTIONS = 5;
+    public static final int NUMBER_OF_READING_QUESTIONS = 5;
+    public static final int NUMBER_OF_OPTIONS = 4;
+    public static final int OPTION_1 = 0;
+    public static final int OPTION_2 = 1;
+    public static final int OPTION_3 = 2;
+    public static final int OPTION_4 = 3;
+    public static final int VOCAB_TYPE = 1;
+    public static final int GRAMMAR_TYPE = 2;
+    public static final int READING_TYPE = 3;
+    public static final String FRAGMENT_TAG_FOR_SHORT_OPTION = "fragment tag for short option";
+    public static final String FRAGMENT_TAG_FOR_LONG_OPTION = "fragment tag for long option";
 
-    private int totalNumberOfQuestions;
-    private int currentNumberOfQuestions = 0;
-    private boolean[] correctOrNot;
+
+    public static int currentNumberOfQuestions = 0;
+
+    private ArrayList<Question> list;
+    private String[] options1, options2, options3, options4;
     private int[] chosenOptionId;
-    private String[] options1;
-    private String[] options2;
-    private String[] options3;
-    private String[] options4;
+    private boolean[] correctOrNot;
+    private String[] fragmentTag;
+
+    public String getQuestionAt(int whichQuestions) {
+        return list.get(whichQuestions).question;
+    }
+
+    public int getQuestionTypeAt(int whichQuestions) {
+        return list.get(whichQuestions).questionType;
+    }
+
+    public String getOption(int whichQuestions, int whichOptions) {
+        switch (whichOptions)  {
+            case OPTION_1 :
+                return options1[whichQuestions];
+            case OPTION_2 :
+                return options2[whichQuestions];
+            case OPTION_3 :
+                return options3[whichQuestions];
+            default :
+                return options4[whichQuestions];
+        }
+    }
+
+    public int getChosenOptionAt(int whichQuestions) {
+        return chosenOptionId[whichQuestions];
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_jlpt_exam);
+        setContentView(R.layout.layout_exam);
 
-        inititiateUI();
-    }
-
-    private void inititiateUI() {
-        questionView = (TextView) findViewById(R.id.question);
-        option1 = (Button) findViewById(R.id.option1);
-        option2 = (Button) findViewById(R.id.option2);
-        option3 = (Button) findViewById(R.id.option3);
-        option4 = (Button) findViewById(R.id.option4);
-        backward = (ImageView) findViewById(R.id.backward_arrow);
-        forward = (ImageView) findViewById(R.id.forward_arrow);
         questionCounting = (TextView) findViewById(R.id.question_counting);
-
-        prepareQuestion();
-        Question currentQuestion = list.get(0);
-
-        questionView.setText(currentQuestion.question);
-
-        shuffleOptions(currentQuestion);
-
-        option1.setOnClickListener(new OptionClickListener());
-        option2.setOnClickListener(new OptionClickListener());
-        option3.setOnClickListener(new OptionClickListener());
-        option4.setOnClickListener(new OptionClickListener());
-
-        backward.setOnClickListener(new ArrowClickListener());
-        forward.setOnClickListener(new ArrowClickListener());
+        ImageView backward = (ImageView) findViewById(R.id.backward_arrow);
+        ImageView forward = (ImageView) findViewById(R.id.forward_arrow);
 
         questionCounting.setText(String.format(getString(R.string.out_of_total),
-                                currentNumberOfQuestions + 1, totalNumberOfQuestions));
+                currentNumberOfQuestions + 1, TOTAL_QUESTIONS));
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToNextQuestion();
+            }
+        });
+        backward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToLastQuestion();
+            }
+        });
 
+        prepareQuestion();
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (fragmentTag[currentNumberOfQuestions].equals(FRAGMENT_TAG_FOR_SHORT_OPTION))
+            fragmentTransaction.replace(R.id.question_container, new ShortOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+        else fragmentTransaction.replace(R.id.question_container, new LongOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+        fragmentTransaction.commit();
     }
 
-    /**
-     * Basically, initiate QuestionDatabaseHelper as well as Date Object Access for Question to
-     * get all questions in the table, shuffle questions
-     */
+    @Override
+    public void onOptionClick(int chosenOptionId, String optionContent) {
+        this.chosenOptionId[currentNumberOfQuestions] = chosenOptionId;
+        if (optionContent.equalsIgnoreCase(list.get(currentNumberOfQuestions).correctAnswer))
+            correctOrNot[currentNumberOfQuestions] = true;
+    }
+
     private void prepareQuestion() {
         QuestionDatabaseHelper databaseHelper = new QuestionDatabaseHelper(JLPTExam.this);
         try {
             databaseHelper.createDatabase();
-        }
-        catch (IOException ex) {
-            throw new Error("Failed to create database.");
+        } catch (IOException ex) {
+            Log.d("Failed", "Failed to create database");
         }
         try {
             databaseHelper.openDatabase();
         } catch (SQLException ex) {
-            throw new Error("Failed to open database.");
+            Log.d("Failed", "Failed to open database");
         }
 
         DAOQuestion dao = new DAOQuestion(databaseHelper);
-        list = dao.getAllQuestions();
-        Collections.shuffle(list); // shuffle the list
+        list = dao.getRandomTypeQuestions(NUMBER_OF_VOCAB_QUESTIONS, VOCAB_TYPE);
+        list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_GRAMMAR_QUESTIONS, GRAMMAR_TYPE));
+        list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_READING_QUESTIONS, READING_TYPE));
 
-        totalNumberOfQuestions = list.size();
-        correctOrNot = new boolean[totalNumberOfQuestions];
-        chosenOptionId = new int[totalNumberOfQuestions];
-        options1 = new String[totalNumberOfQuestions];
-        options2 = new String[totalNumberOfQuestions];
-        options3 = new String[totalNumberOfQuestions];
-        options4 = new String[totalNumberOfQuestions];
+        options1 = new String[TOTAL_QUESTIONS];
+        options2 = new String[TOTAL_QUESTIONS];
+        options3 = new String[TOTAL_QUESTIONS];
+        options4 = new String[TOTAL_QUESTIONS];
+
+        chosenOptionId = new int[TOTAL_QUESTIONS];
+        correctOrNot = new boolean[TOTAL_QUESTIONS];
+        fragmentTag = new String[TOTAL_QUESTIONS];
+
+        Question newQuestion;
+        for (int i = 0; i < TOTAL_QUESTIONS; i++) {
+            newQuestion = list.get(i);
+            shuffleOptions(newQuestion, i);
+            fragmentTag[i] = FRAGMENT_TAG_FOR_SHORT_OPTION;
+            if (options1[i].length() > 50 || options2[i].length() > 50 ||
+                    options3[i].length() > 50 || options4[i].length() > 50) {
+                fragmentTag[i] = FRAGMENT_TAG_FOR_LONG_OPTION;
+            }
+        }
 
     }
 
-    /**
-     * Shuffle Options so that option A is not always the correct answer
-     * @param currentQuestion - question proceeded at this point
-     */
-    private void shuffleOptions(Question currentQuestion) {
-        String[] options = new String[4];
+    private void shuffleOptions(Question question, int whichQuestion) {
 
-        options[0] = currentQuestion.correctAnswer;
-        options[1] = currentQuestion.distractor1;
-        options[2] = currentQuestion.distractor2;
-        options[3] = currentQuestion.distractor3;
+        String[] options = new String[NUMBER_OF_OPTIONS];
+        options[0] = question.correctAnswer;
+        options[1] = question.distractor1;
+        options[2] = question.distractor2;
+        options[3] = question.distractor3;
 
         Random random = new Random();
         int positionToSwap;
         String temp;
-        for (int i = 0; i < options.length; i++) {
-            positionToSwap = random.nextInt(options.length);
+        for (int i = 0; i < NUMBER_OF_OPTIONS; i++) {
+            positionToSwap = random.nextInt(NUMBER_OF_OPTIONS);
             temp = options[i];
             options[i] = options[positionToSwap];
             options[positionToSwap] = temp;
         }
 
-        option1.setText("1." + options[0]);
-        option1.setBackgroundResource(android.R.drawable.btn_default);
-        options1[currentNumberOfQuestions] = options[0];
-
-        option2.setText("2." + options[1]);
-        option2.setBackgroundResource(android.R.drawable.btn_default);
-        options2[currentNumberOfQuestions] = options[1];
-
-        option3.setText("3." + options[2]);
-        option3.setBackgroundResource(android.R.drawable.btn_default);
-        options3[currentNumberOfQuestions] = options[2];
-
-        option4.setText("4." + options[3]);
-        option4.setBackgroundResource(android.R.drawable.btn_default);
-        options4[currentNumberOfQuestions] = options[3];
+        options1[whichQuestion] = options[0];
+        options2[whichQuestion] = options[1];
+        options3[whichQuestion] = options[2];
+        options4[whichQuestion] = options[3];
     }
 
-    /**
-     *  Specify Click Handling for option buttons
-     */
-    class OptionClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            String correctAnswer = list.get(currentNumberOfQuestions).correctAnswer;
-            switch (view.getId()) {
-                case R.id.option1 :
-                    option1.setBackgroundColor(Color.YELLOW);
-                    if (option1.getText().toString().equalsIgnoreCase(correctAnswer))
-                        correctOrNot[currentNumberOfQuestions] = true;
-
-                    chosenOptionId[currentNumberOfQuestions] = R.id.option1;
-
-                    option2.setBackgroundResource(android.R.drawable.btn_default);
-                    option3.setBackgroundResource(android.R.drawable.btn_default);
-                    option4.setBackgroundResource(android.R.drawable.btn_default);
-                    break;
-                case R.id.option2 :
-                    option2.setBackgroundColor(Color.YELLOW);
-                    if (option2.getText().toString().equalsIgnoreCase(correctAnswer))
-                        correctOrNot[currentNumberOfQuestions] = true;
-
-                    chosenOptionId[currentNumberOfQuestions] = R.id.option2;
-
-                    option3.setBackgroundResource(android.R.drawable.btn_default);
-                    option4.setBackgroundResource(android.R.drawable.btn_default);
-                    option1.setBackgroundResource(android.R.drawable.btn_default);
-                    break;
-                case R.id.option3 :
-                    option3.setBackgroundColor(Color.YELLOW);
-                    if (option3.getText().toString().equalsIgnoreCase(correctAnswer))
-                        correctOrNot[currentNumberOfQuestions] = true;
-
-                    chosenOptionId[currentNumberOfQuestions] = R.id.option3;
-
-                    option2.setBackgroundResource(android.R.drawable.btn_default);
-                    option1.setBackgroundResource(android.R.drawable.btn_default);
-                    option4.setBackgroundResource(android.R.drawable.btn_default);
-                    break;
-                case R.id.option4 :
-                    option4.setBackgroundColor(Color.YELLOW);
-                    if (option4.getText().toString().equalsIgnoreCase(correctAnswer))
-                        correctOrNot[currentNumberOfQuestions] = true;
-
-                    chosenOptionId[currentNumberOfQuestions] = R.id.option4;
-
-                    option2.setBackgroundResource(android.R.drawable.btn_default);
-                    option3.setBackgroundResource(android.R.drawable.btn_default);
-                    option1.setBackgroundResource(android.R.drawable.btn_default);
-                    break;
-            }
-        }
-
-    }
-
-    class ArrowClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.backward_arrow :
-                    moveToLastQuestion();
-                    break;
-                case R.id.forward_arrow :
-                    moveToNextQuestion();
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Click forward button to move to next question without checking the answer.
-     * Assumed that in this case, user, for some reasons, does not want to answer by clicking an option
-     * button.
-     */
     private void moveToNextQuestion() {
-        if (currentNumberOfQuestions < totalNumberOfQuestions - 1) {
+        if (currentNumberOfQuestions < TOTAL_QUESTIONS - 1) {
             currentNumberOfQuestions++;
-            Question nextQuestion = list.get(currentNumberOfQuestions); // this is typically for questionView and questionCounting
-            questionView.setText(nextQuestion.question);
-
-            shuffleOptions(nextQuestion);
-
             questionCounting.setText(String.format(getString(R.string.out_of_total),
-                    currentNumberOfQuestions + 1, totalNumberOfQuestions));
+                    currentNumberOfQuestions + 1, TOTAL_QUESTIONS));
+
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            if (fragmentTag[currentNumberOfQuestions].equals(FRAGMENT_TAG_FOR_SHORT_OPTION))
+                fragmentTransaction.replace(R.id.question_container, new ShortOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+            else fragmentTransaction.replace(R.id.question_container, new LongOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+            fragmentTransaction.commit();
         }
-        else calculatePointsAndReturnResult();  // If this is the last question
+        else calculatePointsAndReturnResult();
     }
 
-    /**
-     * Click backward button to move back to last question, retrieve last state without caring whether
-     * the answer is right or wrong
-     */
     private void moveToLastQuestion() {
         if (currentNumberOfQuestions > 0) {
-            if (chosenOptionId[currentNumberOfQuestions] != 0)
-                ((Button) findViewById(chosenOptionId[currentNumberOfQuestions])).setBackgroundResource(android.R.drawable.btn_default);
-            currentNumberOfQuestions--; // decrease 1
-            Question lastQuestion = list.get(currentNumberOfQuestions); // now we have the last question
-            questionView.setText(lastQuestion.question);
-
-            option1.setText(options1[currentNumberOfQuestions]);
-            option2.setText(options2[currentNumberOfQuestions]);
-            option3.setText(options3[currentNumberOfQuestions]);
-            option4.setText(options4[currentNumberOfQuestions]);
-
-            if (chosenOptionId[currentNumberOfQuestions] != 0)
-                ((Button) findViewById(chosenOptionId[currentNumberOfQuestions])).setBackgroundColor(Color.YELLOW);
-
+            currentNumberOfQuestions--;
             questionCounting.setText(String.format(getString(R.string.out_of_total),
-                    currentNumberOfQuestions + 1, totalNumberOfQuestions));
+                    currentNumberOfQuestions + 1, TOTAL_QUESTIONS));
+
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            if (fragmentTag[currentNumberOfQuestions].equals(FRAGMENT_TAG_FOR_SHORT_OPTION))
+                fragmentTransaction.replace(R.id.question_container, new ShortOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+            else fragmentTransaction.replace(R.id.question_container, new LongOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+            fragmentTransaction.commit();
         }
-        else Toast.makeText(getBaseContext(), "This is the first question!!!", Toast.LENGTH_SHORT).show();
-
+        else Toast.makeText(getBaseContext(), getString(R.string.head_of_text), Toast.LENGTH_SHORT).show(); // Out of bound
     }
-
 
     private void calculatePointsAndReturnResult() {
         int points = 0;
-        for (int i = 0; i < totalNumberOfQuestions; i++)
+        for (int i = 0; i < TOTAL_QUESTIONS; i++)
             if (correctOrNot[i])
                 points++;
         alertUser(points);

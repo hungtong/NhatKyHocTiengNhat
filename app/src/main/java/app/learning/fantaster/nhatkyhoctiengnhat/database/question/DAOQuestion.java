@@ -190,7 +190,7 @@ public class DAOQuestion {
         ArrayList<Question> list = getAllQuestionsByType(questionType);
         Collections.shuffle(list);
         if (list.size() >  numberOfQuestion) {
-            for (int i = list.size() - 1; i > numberOfQuestion; i--)
+            for (int i = list.size() - 1; i >= numberOfQuestion; i--)
                 list.remove(i);
         }
         return list;
