@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.JLPTExam;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
-import app.learning.fantaster.nhatkyhoctiengnhat.util.OptionClickListener;
+import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.OptionClickListener;
 
 public class LongOptionFragment extends Fragment {
 
@@ -67,10 +67,10 @@ public class LongOptionFragment extends Fragment {
         }
 
         questionView.setText(exam.getQuestionAt(currentQuestion));
-        option1.setText(exam.getOption(currentQuestion, JLPTExam.OPTION_1));
-        option2.setText(exam.getOption(currentQuestion, JLPTExam.OPTION_2));
-        option3.setText(exam.getOption(currentQuestion, JLPTExam.OPTION_3));
-        option4.setText(exam.getOption(currentQuestion, JLPTExam.OPTION_4));
+        option1.setText(String.format(getString(R.string.optionA), exam.getOption(currentQuestion, JLPTExam.OPTION_1)));
+        option2.setText(String.format(getString(R.string.optionB), exam.getOption(currentQuestion, JLPTExam.OPTION_2)));
+        option3.setText(String.format(getString(R.string.optionC), exam.getOption(currentQuestion, JLPTExam.OPTION_3)));
+        option4.setText(String.format(getString(R.string.optionD), exam.getOption(currentQuestion, JLPTExam.OPTION_4)));
 
         int currentChosenOptionId = exam.getChosenOptionAt(currentQuestion);
         if (currentChosenOptionId != 0) {
@@ -105,9 +105,10 @@ public class LongOptionFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int clickedId = view.getId();
+            int currentQuestion = JLPTExam.currentNumberOfQuestions;
             int chosenOptionId = exam.getChosenOptionAt(JLPTExam.currentNumberOfQuestions);
             switch (clickedId) {
-                case R.id.option1_in_long_fragment :
+                case R.id.option1_in_short_fragment :
                     if (chosenOptionId == 0)
                         option1.setBackgroundColor(Color.YELLOW);
                     else {
@@ -116,8 +117,9 @@ public class LongOptionFragment extends Fragment {
                         option3.setBackgroundResource(android.R.drawable.btn_default);
                         option4.setBackgroundResource(android.R.drawable.btn_default);
                     }
+                    listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_1));
                     break;
-                case R.id.option2_in_long_fragment :
+                case R.id.option2_in_short_fragment :
                     if (chosenOptionId == 0)
                         option2.setBackgroundColor(Color.YELLOW);
                     else {
@@ -126,8 +128,9 @@ public class LongOptionFragment extends Fragment {
                         option3.setBackgroundResource(android.R.drawable.btn_default);
                         option4.setBackgroundResource(android.R.drawable.btn_default);
                     }
+                    listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_2));
                     break;
-                case R.id.option3_in_long_fragment :
+                case R.id.option3_in_short_fragment :
                     if (chosenOptionId == 0)
                         option3.setBackgroundColor(Color.YELLOW);
                     else {
@@ -136,8 +139,9 @@ public class LongOptionFragment extends Fragment {
                         option1.setBackgroundResource(android.R.drawable.btn_default);
                         option4.setBackgroundResource(android.R.drawable.btn_default);
                     }
+                    listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_3));
                     break;
-                case R.id.option4_in_long_fragment :
+                case R.id.option4_in_short_fragment :
                     if (chosenOptionId == 0)
                         option4.setBackgroundColor(Color.YELLOW);
                     else {
@@ -146,9 +150,9 @@ public class LongOptionFragment extends Fragment {
                         option3.setBackgroundResource(android.R.drawable.btn_default);
                         option1.setBackgroundResource(android.R.drawable.btn_default);
                     }
+                    listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_4));
                     break;
             }
-            listener.onOptionClick(clickedId, ((Button) view).getText().toString());
         }
 
     }

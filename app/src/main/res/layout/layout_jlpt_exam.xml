@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,6 +25,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/layout_tao_moi_content" />
+    <include layout="@layout/layout_jlpt_exam_content"/>
 
 </android.support.design.widget.CoordinatorLayout>

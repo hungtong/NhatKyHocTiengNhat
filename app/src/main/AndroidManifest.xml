@@ -11,7 +11,8 @@
         <activity
             android:name="app.learning.fantaster.nhatkyhoctiengnhat.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +20,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="app.learning.fantaster.nhatkyhoctiengnhat.TaoMoi" />
-        <activity android:name=".JLPTExam" />
+        <activity
+            android:name="app.learning.fantaster.nhatkyhoctiengnhat.TaoMoi"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".JLPTExam"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".ExamResult"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

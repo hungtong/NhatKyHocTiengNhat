@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title_prompt"
+            android:layout_width="match_parent"
+            android:layout_gravity="start"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/title_prompt"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:inputType="textShortMessage"
+            android:textSize="20sp"
+            android:id="@+id/title_input"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1" />
+
+        <TableRow
+            android:layout_height="0px"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/so_ngay_luyen_tap_prompt"
+                android:layout_width="0px"
+                android:layout_gravity="start"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="@string/so_ngay_luyen_tap_prompt"/>
+
+            <EditText
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:inputType="number"
+                android:textSize="20sp"
+                android:id="@+id/so_ngay_luyen_tap_input"
+                android:layout_weight="1" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_height="0px"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/reminder_prompt"
+                android:layout_width="0px"
+                android:layout_gravity="start"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="@string/reminder_prompt"/>
+
+            <ImageView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_notifications_black_24dp"
+                android:id="@+id/initial_bell_icon"
+                android:layout_weight="1" />
+
+        </TableRow>
+
+        <TextView
+            android:id="@+id/grammatical_structure_prompt"
+            android:layout_width="match_parent"
+            android:layout_gravity="start"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/grammatical_structure_prompt"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:maxLength="500"
+            android:textSize="20sp"
+            android:id="@+id/grammatical_structure_input"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/done_tao_moi"
+        android:src="@android:drawable/stat_sys_upload_done"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.support.design.widget.CoordinatorLayout>

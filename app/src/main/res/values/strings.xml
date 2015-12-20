@@ -33,11 +33,22 @@
     <string name="do_you_want_to_check_again">This is the end of the exam, make sure your answers thoroughly checked. Do you want to turn it in now? </string>
     <string name="turn_in">Yes, please!</string>
     <string name="i_want_to_check_again">I need to double check</string>
-    <string name="result">Congratulations! You completed the exam\nYou have %d correct answers</string>
     <string name="reading_title">Reading</string>
     <string name="vocab_title">Vocabulary</string>
     <string name="grammar_title">Grammar</string>
     <string name="head_of_text">This is the first question!!!</string>
-
+    <string name="optionA" translatable="false">A. %s</string>
+    <string name="optionB" translatable="false">B. %s</string>
+    <string name="optionC" translatable="false">C. %s</string>
+    <string name="optionD" translatable="false">D. %s</string>
+    <string name="time_up">Time Up!!!</string>
+    <string name="test_performance" translatable="false">%d%</string>
+    <string name="total_time">Total Time: %s</string>
+    <string name="attempts">Attempts: %d</string>
+    <string name="right_answers">Right Answers: %d</string>
+    <string name="wrong_answers">Wrong Answers: %d</string>
+    <string name="share">Share Result</string>
+    <string name="view_details">View Details</string>
+    <string name="congrat">Congratulations! You Have Completed The Exam</string>
 
 </resources>
