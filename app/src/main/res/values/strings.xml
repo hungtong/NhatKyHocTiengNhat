@@ -50,5 +50,7 @@
     <string name="share">Share Result</string>
     <string name="view_details">View Details</string>
     <string name="congrat">Congratulations! You Have Completed The Exam</string>
+    <string name="unattempted">Unattempted</string>
+    <string name="share_via">Share Via</string>
 
 </resources>

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.EntryContent;
-
+import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.EntryListener;
 
 
 /**
@@ -29,11 +29,6 @@ public class EntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static final int DATE_INDICATOR = 97000;
     public static final int CONTENT = 79120;
 
-    public interface EntryListener {
-        void onDelete(View childPressed, final int position);
-        void onCloserView(View childPressed, final int position);
-    }
-
     public EntryAdapter(Activity context, ArrayList<EntryContent> list,
                         EntryListener concreteListener) {
         this.context = context;
@@ -45,7 +40,7 @@ public class EntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public int getItemViewType(int position) {
         if (list.get(position).getItemViewType() == DATE_INDICATOR)
             return DATE_INDICATOR;
-        else return CONTENT;
+        return CONTENT;
     }
 
     /**

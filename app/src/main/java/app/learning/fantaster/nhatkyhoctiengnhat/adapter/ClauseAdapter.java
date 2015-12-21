@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.ClauseCardContent;
+import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.ClauseListener;
 
 public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseViewHolder> {
 
@@ -18,11 +19,6 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
     private ArrayList<ClauseCardContent> list;
 
     private static ClauseListener listener;
-
-    public interface ClauseListener {
-        void onDelete(View childPressed, final int position);
-        void onCloserView(View childPressed, final int position);
-    }
 
     public ClauseAdapter(Activity context, ArrayList<ClauseCardContent> list,
                          ClauseListener concreteListener) {

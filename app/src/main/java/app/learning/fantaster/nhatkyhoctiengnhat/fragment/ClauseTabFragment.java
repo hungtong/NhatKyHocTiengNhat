@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.ClauseAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.ClauseCardContent;
+import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.ClauseListener;
 
 
 public class ClauseTabFragment extends Fragment {
@@ -43,7 +44,7 @@ public class ClauseTabFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    class OnConcreteListener implements ClauseAdapter.ClauseListener {
+    class OnConcreteListener implements ClauseListener {
 
         @Override
         public void onDelete(View childPressed, final int position) {

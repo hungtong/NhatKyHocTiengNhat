@@ -10,14 +10,17 @@
     <TextView
         android:id="@+id/question_number_incorrect_entry"
         android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_width="50dp"
-        android:layout_height="30dp" />
+        android:layout_height="60dp" />
 
     <TextView
         android:id="@+id/brief_question_incorrect_entry"
         android:textSize="25sp"
         android:textStyle="bold"
+        android:maxLength="50"
         android:layout_toRightOf="@+id/question_number_incorrect_entry"
         android:layout_toEndOf="@+id/question_number_incorrect_entry"
         android:layout_alignTop="@+id/question_number_incorrect_entry"
@@ -39,24 +42,26 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/user_answer"
+        android:id="@+id/user_answer_incorrect_entry"
         android:textSize="25sp"
+        android:maxLength="50"
         android:layout_below="@+id/brief_question_incorrect_entry"
         android:layout_alignLeft="@+id/question_number_incorrect_entry"
-        android:layout_alignEnd="@+id/question_number_incorrect_entry"
-        android:layout_alignStart="@+id/brief_question_incorrect_entry"
+        android:layout_alignEnd="@+id/brief_question_incorrect_entry"
+        android:layout_alignStart="@+id/question_number_incorrect_entry"
         android:layout_alignRight="@+id/brief_question_incorrect_entry"
         android:layout_width="wrap_content"
-        android:layout_height="20dp" />
+        android:layout_height="30dp" />
 
     <TextView
         android:id="@+id/correct_answer_incorrect_entry"
+        android:maxLength="50"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_below="@+id/user_answer"
+        android:layout_height="30dp"
+        android:layout_below="@+id/user_answer_incorrect_entry"
         android:layout_alignLeft="@+id/question_number_incorrect_entry"
-        android:layout_alignEnd="@+id/question_number_incorrect_entry"
-        android:layout_alignStart="@+id/brief_question_incorrect_entry"
+        android:layout_alignEnd="@+id/brief_question_incorrect_entry"
+        android:layout_alignStart="@+id/question_number_incorrect_entry"
         android:layout_alignRight="@+id/brief_question_incorrect_entry"/>
 
 </RelativeLayout>

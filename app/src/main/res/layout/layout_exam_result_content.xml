@@ -80,7 +80,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/view_translation_explanation"
+            android:id="@+id/view_details"
             android:layout_below="@+id/result_details_container"
             android:textSize="18sp"
             android:text="@string/view_details"
@@ -89,7 +89,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:layout_alignParentBottom="true"
-            android:layout_above="@+id/view_translation_explanation"
+            android:layout_above="@+id/view_details"
             android:id="@+id/exam_in_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

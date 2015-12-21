@@ -43,5 +43,7 @@
     <string name="share">Chia Sẻ</string>
     <string name="view_details">Xem Chi Tiết</string>
     <string name="congrat">Chúc Mừng! Bạn Đã Hoàn Thành Bài Thi</string>
+    <string name="unattempted">Chưa Được Chọn</string>
+    <string name="share_via">Chia Sẻ Qua</string>
 
 </resources>
