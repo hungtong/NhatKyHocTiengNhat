@@ -18,6 +18,9 @@ android:layout_height="match_parent">
 
 <TextView
     android:id="@+id/brief_question_correct_entry"
+    android:scrollHorizontally="true"
+    android:ellipsize="end"
+    android:maxLines="1"
     android:textSize="25sp"
     android:textStyle="bold"
     android:maxLength="50"
@@ -44,6 +47,9 @@ android:layout_height="match_parent">
 <TextView
     android:id="@+id/user_answer_correct_entry"
     android:maxLength="50"
+    android:scrollHorizontally="true"
+    android:ellipsize="end"
+    android:maxLines="1"
     android:textSize="25sp"
     android:layout_below="@+id/brief_question_correct_entry"
     android:layout_alignLeft="@+id/question_number_correct_entry"
@@ -51,17 +57,28 @@ android:layout_height="match_parent">
     android:layout_alignStart="@+id/question_number_correct_entry"
     android:layout_alignRight="@+id/brief_question_correct_entry"
     android:layout_width="wrap_content"
-    android:layout_height="20dp" />
+    android:layout_height="40dp" />
 
 <TextView
     android:id="@+id/correct_answer_correct_entry"
+    android:scrollHorizontally="true"
+    android:ellipsize="end"
+    android:maxLines="1"
     android:layout_width="wrap_content"
-    android:layout_height="20dp"
+    android:layout_height="40dp"
+    android:textSize="25sp"
     android:maxLength="50"
     android:layout_below="@+id/user_answer_correct_entry"
     android:layout_alignLeft="@+id/question_number_correct_entry"
     android:layout_alignEnd="@+id/brief_question_correct_entry"
     android:layout_alignStart="@+id/question_number_correct_entry"
     android:layout_alignRight="@+id/brief_question_correct_entry"/>
+
+    <View
+        android:layout_below="@+id/correct_answer_correct_entry"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/gray_border"
+        android:id="@+id/line"/>
 
 </RelativeLayout>

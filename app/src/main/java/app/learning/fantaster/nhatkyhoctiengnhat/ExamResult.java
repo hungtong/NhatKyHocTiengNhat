@@ -31,8 +31,8 @@ public class ExamResult extends AppCompatActivity{
     private void initialize() {
         final Intent intent = getIntent();
 
-    //    listQuestion = intent.getParcelableArrayListExtra(JLPTExam.KEY_GET_QUESTION_LIST);
-    //    listAnswer = intent.getParcelableArrayListExtra(JLPTExam.KEY_GET_ANSWERS_LIST);
+        listQuestion = intent.getParcelableArrayListExtra(JLPTExam.KEY_GET_QUESTION_LIST);
+        listAnswer = intent.getParcelableArrayListExtra(JLPTExam.KEY_GET_ANSWERS_LIST);
 
         final String totalTime = String.format(getString(R.string.total_time), intent.getStringExtra(JLPTExam.KEY_GET_TIME_USED));
         ((TextView) findViewById(R.id.total_time)).setText(totalTime);
@@ -52,7 +52,6 @@ public class ExamResult extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 RecyclerView recyclerView = (RecyclerView) findViewById(R.id.exam_in_details);
-
 
                 DetailedResultAdapter adapter = new DetailedResultAdapter(ExamResult.this, listAnswer);
 

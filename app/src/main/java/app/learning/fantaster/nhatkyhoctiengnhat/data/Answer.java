@@ -26,6 +26,7 @@ public class Answer implements Parcelable {
     public Answer(Parcel in) {
         question = in.readString();
         answer = in.readString();
+        correctAnswer = in.readString();
         correctOrNot = in.readInt();
         attemptedOrNot = in.readInt();
     }

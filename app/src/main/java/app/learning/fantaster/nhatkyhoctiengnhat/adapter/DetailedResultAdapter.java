@@ -1,8 +1,7 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.adapter;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +103,7 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case UNATTEMPTED_ANSWER :
 
                 UnattemptedAnswerHolder unattemptedAnswerHolder = (UnattemptedAnswerHolder) viewHolder;
-                unattemptedAnswerHolder.questionNumber.setText(position);
+                unattemptedAnswerHolder.questionNumber.setText(String.valueOf(position + 1));
                 unattemptedAnswerHolder.question.setText(list.get(position).question);
                 unattemptedAnswerHolder.correctAnswer.setText(list.get(position).correctAnswer);
                 break;
@@ -112,21 +111,21 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case INCORRECT_ANSWER :
 
                 IncorrectAnswerHolder incorrectAnswerHolder = (IncorrectAnswerHolder) viewHolder;
-                incorrectAnswerHolder.questionNumber.setText(position);
+                incorrectAnswerHolder.questionNumber.setText(String.valueOf(position + 1));
                 incorrectAnswerHolder.question.setText(list.get(position).question);
                 incorrectAnswerHolder.userAnswer.setText(list.get(position).answer);
                 incorrectAnswerHolder.correctAnswer.setText(list.get(position).correctAnswer);
-                incorrectAnswerHolder.symbol.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                incorrectAnswerHolder.symbol.setColorFilter(ContextCompat.getColor(context, R.color.incorrect_answer));;
                 break;
 
             case CORRECT_ANSWER :
 
                 CorrectAnswerHolder correctAnswerHolder = (CorrectAnswerHolder) viewHolder;
-                correctAnswerHolder.questionNumber.setText(position);
+                correctAnswerHolder.questionNumber.setText(String.valueOf(position + 1));
                 correctAnswerHolder.question.setText(list.get(position).question);
                 correctAnswerHolder.userAnswer.setText(list.get(position).answer);
                 correctAnswerHolder.correctAnswer.setText(list.get(position).correctAnswer);
-                correctAnswerHolder.symbol.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                correctAnswerHolder.symbol.setColorFilter(ContextCompat.getColor(context, R.color.correct_answer));
                 break;
 
         }

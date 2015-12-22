@@ -108,7 +108,7 @@ public class LongOptionFragment extends Fragment {
             int currentQuestion = JLPTExam.currentNumberOfQuestions;
             int chosenOptionId = exam.getChosenOptionAt(JLPTExam.currentNumberOfQuestions);
             switch (clickedId) {
-                case R.id.option1_in_short_fragment :
+                case R.id.option1_in_long_fragment :
                     if (chosenOptionId == 0)
                         option1.setBackgroundColor(Color.YELLOW);
                     else {
@@ -119,7 +119,7 @@ public class LongOptionFragment extends Fragment {
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_1));
                     break;
-                case R.id.option2_in_short_fragment :
+                case R.id.option2_in_long_fragment :
                     if (chosenOptionId == 0)
                         option2.setBackgroundColor(Color.YELLOW);
                     else {
@@ -130,7 +130,7 @@ public class LongOptionFragment extends Fragment {
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_2));
                     break;
-                case R.id.option3_in_short_fragment :
+                case R.id.option3_in_long_fragment :
                     if (chosenOptionId == 0)
                         option3.setBackgroundColor(Color.YELLOW);
                     else {
@@ -141,7 +141,7 @@ public class LongOptionFragment extends Fragment {
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_3));
                     break;
-                case R.id.option4_in_short_fragment :
+                case R.id.option4_in_long_fragment :
                     if (chosenOptionId == 0)
                         option4.setBackgroundColor(Color.YELLOW);
                     else {

@@ -19,6 +19,9 @@
     <TextView
         android:id="@+id/brief_question_incorrect_entry"
         android:textSize="25sp"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textStyle="bold"
         android:maxLength="50"
         android:layout_toRightOf="@+id/question_number_incorrect_entry"
@@ -45,23 +48,37 @@
         android:id="@+id/user_answer_incorrect_entry"
         android:textSize="25sp"
         android:maxLength="50"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:layout_below="@+id/brief_question_incorrect_entry"
         android:layout_alignLeft="@+id/question_number_incorrect_entry"
         android:layout_alignEnd="@+id/brief_question_incorrect_entry"
         android:layout_alignStart="@+id/question_number_incorrect_entry"
         android:layout_alignRight="@+id/brief_question_incorrect_entry"
         android:layout_width="wrap_content"
-        android:layout_height="30dp" />
+        android:layout_height="40dp" />
 
     <TextView
         android:id="@+id/correct_answer_incorrect_entry"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:maxLength="50"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:textSize="25sp"
+        android:layout_height="40dp"
         android:layout_below="@+id/user_answer_incorrect_entry"
         android:layout_alignLeft="@+id/question_number_incorrect_entry"
         android:layout_alignEnd="@+id/brief_question_incorrect_entry"
         android:layout_alignStart="@+id/question_number_incorrect_entry"
         android:layout_alignRight="@+id/brief_question_incorrect_entry"/>
+
+    <View
+        android:layout_below="@+id/correct_answer_incorrect_entry"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/gray_border"
+        android:id="@+id/line"/>
 
 </RelativeLayout>

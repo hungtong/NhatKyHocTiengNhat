@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public int getIndicatorColor(int position) {
-                return ContextCompat.getColor(getActivity(), R.color.colorAccent);
+                return ContextCompat.getColor(getActivity(), R.color.white);
             }
 
             @Override
