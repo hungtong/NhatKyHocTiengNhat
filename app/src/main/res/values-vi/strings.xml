@@ -45,5 +45,8 @@
     <string name="congrat">Chúc Mừng! Bạn Đã Hoàn Thành Bài Thi</string>
     <string name="unattempted">Chưa Được Chọn</string>
     <string name="share_via">Chia Sẻ Qua</string>
+    <string name="explanation_title">Giải Thích</string>
+    <string name="translation_title">Lời Dịch</string>
+    <string name="back_to_main_screen">Trở Về Màn Hình Chính</string>
 
 </resources>

@@ -52,5 +52,15 @@
     <string name="congrat">Congratulations! You Have Completed The Exam</string>
     <string name="unattempted">Unattempted</string>
     <string name="share_via">Share Via</string>
+    <string name="translation_title">Translation</string>
+    <string name="explanation_title">Explanation</string>
+    <string name="back_to_main_screen">Come Back To Main Screen</string>
+    <string name="foo_clause">Clause</string>
+    <string name="foo_formula">Formula</string>
+    <string name="foo_brief_summary">Brief Summary</string>
+    <string name="foo_explanation">Explanation</string>
+    <string name="foo_example">Example</string>
+    <string name="foo_topic">Topic</string>
+    <string name="foo_last_example_on">Tuesday, 22nd December 2015</string>
 
 </resources>

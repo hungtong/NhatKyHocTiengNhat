@@ -31,8 +31,8 @@ public class ClauseDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-     //   if (newVersion > oldVersion)
-       //     deleteDatabase();
+        if (newVersion > oldVersion)
+            deleteDatabase();
     }
 
     /**

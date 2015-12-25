@@ -19,9 +19,7 @@ package app.learning.fantaster.nhatkyhoctiengnhat.util.slidingtab;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -33,8 +31,6 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import app.learning.fantaster.nhatkyhoctiengnhat.R;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -232,11 +228,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
 
             CharSequence title = adapter.getPageTitle(i);
-            if (title.equals("HOME")) {
-                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_home_white_24dp);
-                tabTitleView.setCompoundDrawables(drawable, null, null, null);
-            }
-            else tabTitleView.setText(title);
+            tabTitleView.setText(title);
             tabTitleView.setGravity(Gravity.CENTER_HORIZONTAL);
             tabTitleView.setTextColor(Color.WHITE);
             tabView.setOnClickListener(tabClickListener);

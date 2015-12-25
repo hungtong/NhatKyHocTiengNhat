@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -17,7 +15,6 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
 
     private Activity context;
     private ArrayList<ClauseCardContent> list;
-
     private static ClauseListener listener;
 
     public ClauseAdapter(Activity context, ArrayList<ClauseCardContent> list,
@@ -30,14 +27,9 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
     public static class ClauseViewHolder extends RecyclerView.ViewHolder
                                         implements View.OnClickListener, View.OnLongClickListener {
 
-        public final ImageView headerImage;     //We only need to specify components in Card View
-        public final TextView title, clause;
 
         public ClauseViewHolder(View view) {
             super(view);
-            headerImage = (ImageView) view.findViewById(R.id.clause_card_header_image);
-            title = (TextView) view.findViewById(R.id.clause_card_title);
-            clause = (TextView) view.findViewById(R.id.clause_card_content);
 
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -63,11 +55,7 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
 
     @Override
     public void onBindViewHolder(ClauseViewHolder viewHolder, int position) {
-        ClauseCardContent content = list.get(position);
 
-        viewHolder.headerImage.setImageResource(content.getHeaderImage());
-        viewHolder.title.setText(content.getTitle());
-        viewHolder.clause.setText(content.getClause());
     }
 
     @Override

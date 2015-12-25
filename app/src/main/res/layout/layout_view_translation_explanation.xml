@@ -26,7 +26,6 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <include layout="@layout/layout_exam_result_content"
-        />
+    <include layout="@layout/layout_view_translation_explanation_content" />
 
 </android.support.design.widget.CoordinatorLayout>

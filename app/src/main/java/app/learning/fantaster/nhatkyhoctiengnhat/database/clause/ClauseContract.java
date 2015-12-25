@@ -11,11 +11,11 @@ public class ClauseContract {
     public static final String TABLE_NAME = "Clauses";
     public static final String COLUMN_NAME_CLAUSE_ID = "_id";
     public static final String COLUMN_NAME_CLAUSE = "clause";
-    public static final String COLUMN_NAME_CLAUSE_TYPE ="clauseType";
-    public static final String COLUMN_NAME_TRANSLATION = "translation";
+    public static final String COLUMN_NAME_FORMULA ="formula";
+    public static final String COLUMN_NAME_BRIEF_SUMMARY = "briefSummary";
     public static final String COLUMN_NAME_EXPLANATION = "explanation";
-    public static final String COLUMN_NAME_COMMENT = "comment";
-    public static final String COLUMN_NAME_DATE_CREATED = "dateCreated";
-
+    public static final String COLUMN_NAME_EXAMPLE = "example";
+    public static final String COLUMN_NAME_TOPIC = "topic";
+    public static final String COLUNM_NAME_LAST_EXAMPLE_ON = "lastExampleOn";
 
 }

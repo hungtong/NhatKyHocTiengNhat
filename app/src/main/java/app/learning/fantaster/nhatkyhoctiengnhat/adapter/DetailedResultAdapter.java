@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Answer;
+import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.SeeTranslationExplanation;
 
 public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -21,10 +22,12 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private Activity context;
     private ArrayList<Answer> list;
+    private static SeeTranslationExplanation listener;
 
-    public DetailedResultAdapter(Activity context, ArrayList<Answer> list) {
+    public DetailedResultAdapter(Activity context, ArrayList<Answer> list, SeeTranslationExplanation concreteListener) {
         this.context = context;
         this.list = list;
+        listener = concreteListener;
     }
 
     static class CorrectAnswerHolder extends RecyclerView.ViewHolder {
@@ -38,6 +41,13 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             userAnswer = (TextView) view.findViewById(R.id.user_answer_correct_entry);
             correctAnswer = (TextView) view.findViewById(R.id.correct_answer_correct_entry);
             symbol = (ImageView) view.findViewById(R.id.right_symbol);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onSeeTranslationExplanation(getAdapterPosition());
+                }
+            });
         }
 
     }
@@ -53,6 +63,13 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             userAnswer = (TextView) view.findViewById(R.id.user_answer_incorrect_entry);
             correctAnswer = (TextView) view.findViewById(R.id.correct_answer_incorrect_entry);
             symbol = (ImageView) view.findViewById(R.id.wrong_symbol);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onSeeTranslationExplanation(getAdapterPosition());
+                }
+            });
         }
 
     }
@@ -65,6 +82,13 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             questionNumber = (TextView) view.findViewById(R.id.question_number_unattempted_entry);
             question = (TextView) view.findViewById(R.id.brief_question_unattempted_entry);
             correctAnswer = (TextView) view.findViewById(R.id.correct_answer_unattempted_entry);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onSeeTranslationExplanation(getAdapterPosition());
+                }
+            });
         }
 
     }

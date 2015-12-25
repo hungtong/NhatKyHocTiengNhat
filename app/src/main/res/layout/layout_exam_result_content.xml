@@ -80,14 +80,23 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/view_details"
+            android:id="@+id/back_to_question_tab_fragment"
+            android:layout_width="match_parent"
             android:layout_below="@+id/result_details_container"
+            android:textSize="18sp"
+            android:text="@string/back_to_main_screen"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/view_details"
+            android:layout_below="@+id/back_to_question_tab_fragment"
             android:textSize="18sp"
             android:text="@string/view_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/view_details"
             android:id="@+id/exam_in_details"

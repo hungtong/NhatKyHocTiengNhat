@@ -1,6 +1,5 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.database.clause;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -20,27 +19,6 @@ public class DAOClause {
         this.databaseHelper = databaseHelper;
     }
 
-     /* ====================== CREATE ====================== */
-
-    /**
-     * Create a row in Table
-     */
-    public void addClause(Clause clause) {
-        SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        ContentValues newClause = new ContentValues();
-
-        newClause.put(ClauseContract.COLUMN_NAME_CLAUSE_ID, clause.clauseId);
-        newClause.put(ClauseContract.COLUMN_NAME_CLAUSE, clause.clause);
-        newClause.put(ClauseContract.COLUMN_NAME_CLAUSE_TYPE, clause.clauseType);
-        newClause.put(ClauseContract.COLUMN_NAME_TRANSLATION , clause.translation);
-        newClause.put(ClauseContract.COLUMN_NAME_EXPLANATION, clause.explanation);
-        newClause.put(ClauseContract.COLUMN_NAME_COMMENT, clause.comment);
-        newClause.put(ClauseContract.COLUMN_NAME_DATE_CREATED, clause.dateCreated);
-
-        database.insert(ClauseContract.TABLE_NAME, null, newClause);
-    }
-
-    /* ====================== READ ====================== */
 
     /**
      *  Return the whole table in List<Clause>
@@ -57,11 +35,12 @@ public class DAOClause {
             do {
               clause = new Clause(  cursor.getInt(0),                   // clause id
                                     cursor.getString(1),                // clause
-                                    cursor.getInt(2),                   // clause type
-                                    cursor.getString(3),                // translation
+                                    cursor.getString(2),                // formula
+                                    cursor.getString(3),                // briefSummary
                                     cursor.getString(4),                // explanation
-                                    cursor.getString(5),                // comment
-                                    cursor.getString(6)                 // dateCreated
+                                    cursor.getString(5),                // example
+                                    cursor.getString(6),                 // topic
+                                    cursor.getString(7)                 // lastExampleOn
               );
               list.add(clause);
             } while (cursor.moveToNext());

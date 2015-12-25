@@ -1,43 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/clause_card"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    card_view:cardCornerRadius="6dp">
+
+    card_view:cardCornerRadius="10dp">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/clause_card_header_image"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="5"/>
-
         <TextView
-            android:id="@+id/clause_card_title"
-            android:textSize="25sp"
+            android:text="@string/foo_clause"
+            android:id="@+id/clause"
+            android:textSize="30sp"
+            android:gravity="center"
             android:textStyle="bold"
+            android:layout_gravity="center"
+            android:background="@color/correct_answer"
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="3"/>
+            android:layout_height="60dp" />
 
         <TextView
-            android:id="@+id/clause_card_content"
-            android:textSize="20sp"
-            android:scrollHorizontally="true"
-            android:ellipsize="end"
-            android:maxLines="3"
+            android:text="@string/foo_formula"
+            android:id="@+id/formula"
+            android:textSize="25sp"
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="7"/>
+            android:layout_height="40dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/gray_border" />
+
+        <TextView
+            android:text="@string/foo_brief_summary"
+            android:id="@+id/brief_summary"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/gray_border" />
+
+        <TextView
+            android:text="@string/foo_explanation"
+            android:id="@+id/explanation"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/gray_border" />
+
+        <TextView
+            android:text="@string/foo_example"
+            android:id="@+id/example"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/gray_border" />
+
+        <TextView
+            android:text="@string/foo_topic"
+            android:id="@+id/topic"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/gray_border" />
+
+        <TextView
+            android:text="@string/foo_last_example_on"
+            android:id="@+id/lastExampleOn"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
 
     </LinearLayout>
 

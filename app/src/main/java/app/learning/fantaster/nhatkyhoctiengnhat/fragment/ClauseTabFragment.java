@@ -2,8 +2,8 @@ package app.learning.fantaster.nhatkyhoctiengnhat.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +34,12 @@ public class ClauseTabFragment extends Fragment {
     public void onViewCreated(View view, Bundle saveInstanceState) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.clause_tab_recycler_view);
 
-        list = initiateList();
+        list = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            list.add(new ClauseCardContent());
         adapter = new ClauseAdapter(getActivity(), list, new OnConcreteListener());
 
-        // spanCount : number of columns or rows,  orientation : vertical or horizontal
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3 ,StaggeredGridLayoutManager.VERTICAL);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -58,7 +59,7 @@ public class ClauseTabFragment extends Fragment {
         }
 
     }
-
+/*
     private ArrayList<ClauseCardContent> initiateList() {
         ArrayList<ClauseCardContent> myList = new ArrayList<>();
 
@@ -91,5 +92,5 @@ public class ClauseTabFragment extends Fragment {
 
         return myList;
     }
-
+*/
 }
