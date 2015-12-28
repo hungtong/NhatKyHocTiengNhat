@@ -61,6 +61,10 @@
     <string name="foo_explanation">Explanation</string>
     <string name="foo_example">Example</string>
     <string name="foo_topic">Topic</string>
-    <string name="foo_last_example_on">Tuesday, 22nd December 2015</string>
+    <string name="foo_last_example_on">Last Example Added</string>
+    <string name="confirm">Confirm</string>
+    <string name="make_change">Make Change</string>
+    <string name="agree">Agree</string>
+    <string name="add_example">Add Example</string>
 
 </resources>

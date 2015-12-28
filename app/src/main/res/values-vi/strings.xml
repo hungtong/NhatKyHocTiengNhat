@@ -48,5 +48,16 @@
     <string name="explanation_title">Giải Thích</string>
     <string name="translation_title">Lời Dịch</string>
     <string name="back_to_main_screen">Trở Về Màn Hình Chính</string>
+    <string name="foo_brief_summary">Tóm Tắt Ngắn</string>
+    <string name="foo_clause">Mẫu Câu</string>
+    <string name="foo_example">Ví Dụ</string>
+    <string name="foo_explanation">Giải Thích</string>
+    <string name="foo_formula">Công Thức</string>
+    <string name="foo_last_example_on">Lần Cuối Thêm Ví Dụ</string>
+    <string name="foo_topic">Chủ Điểm</string>
+    <string name="confirm">Đồng Ý</string>
+    <string name="make_change">Thay Đổi</string>
+    <string name="agree">Đồng Ý</string>
+    <string name="add_example">Thêm Ví Dụ</string>
 
 </resources>

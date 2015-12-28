@@ -21,11 +21,5 @@
         android:layout_margin="@dimen/fab_margin"
         android:id="@+id/topic_filter"   />
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-
-        android:id="@+id/infrequent_clause_filter"/>
 
 </android.support.design.widget.CoordinatorLayout>

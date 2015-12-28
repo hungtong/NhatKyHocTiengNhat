@@ -26,6 +26,8 @@ public class Clause implements Parcelable {
         this.lastExampleOn = lastExampleOn;
     }
 
+    public Clause() {}
+
     public Clause(Parcel in) {
         clauseId = in.readInt();
         clause = in.readString();

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
-import app.learning.fantaster.nhatkyhoctiengnhat.data.Answer;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.DAOQuestion;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDatabaseHelper;
@@ -78,7 +78,7 @@ public class JLPTExam extends AppCompatActivity implements OptionClickListener {
     public static int currentNumberOfQuestions = 0;
 
     private ArrayList<Question> list;
-    private ArrayList<Answer> listAnswer;
+    private ArrayList<QuizResult> listQuizResult;
     private String[] options1, options2, options3, options4;
     private int[] chosenOptionId;
     private boolean[] correctOrNot;
@@ -177,13 +177,13 @@ public class JLPTExam extends AppCompatActivity implements OptionClickListener {
      */
     @Override
     public void onOptionClick(int chosenOptionId, String optionContent) {
-        Answer answer = listAnswer.get(currentNumberOfQuestions);
-        answer.answer = optionContent;
-        answer.attemptedOrNot = 1;
+        QuizResult quizResult = listQuizResult.get(currentNumberOfQuestions);
+        quizResult.answer = optionContent;
+        quizResult.attemptedOrNot = 1;
         this.chosenOptionId[currentNumberOfQuestions] = chosenOptionId;
         if (optionContent.equalsIgnoreCase(list.get(currentNumberOfQuestions).correctAnswer)) {
             correctOrNot[currentNumberOfQuestions] = true;
-            answer.correctOrNot = 1;
+            quizResult.correctOrNot = 1;
         }
 
     }
@@ -209,7 +209,7 @@ public class JLPTExam extends AppCompatActivity implements OptionClickListener {
         list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_GRAMMAR_QUESTIONS, GRAMMAR_TYPE));
         list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_READING_QUESTIONS, READING_TYPE));
 
-        listAnswer = new ArrayList<>();
+        listQuizResult = new ArrayList<>();
         options1 = new String[TOTAL_QUESTIONS];
         options2 = new String[TOTAL_QUESTIONS];
         options3 = new String[TOTAL_QUESTIONS];
@@ -228,7 +228,7 @@ public class JLPTExam extends AppCompatActivity implements OptionClickListener {
                     options3[i].length() > 50 || options4[i].length() > 50) {
                 fragmentTag[i] = FRAGMENT_TAG_FOR_LONG_OPTION;
             }
-            listAnswer.add(new Answer(newQuestion.question, newQuestion.correctAnswer));
+            listQuizResult.add(new QuizResult(newQuestion.question, newQuestion.correctAnswer));
         }
 
     }
@@ -324,7 +324,7 @@ public class JLPTExam extends AppCompatActivity implements OptionClickListener {
                 try {
                     intent.putExtra(KEY_GET_TIME_USED, getTotalTime());
                 } catch (ParseException ex) {}
-                intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listAnswer);
+                intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listQuizResult);
                 intent.putParcelableArrayListExtra(KEY_GET_QUESTION_LIST, list);
                 startActivity(intent);
             }
@@ -360,7 +360,7 @@ public class JLPTExam extends AppCompatActivity implements OptionClickListener {
             intent.putExtra(KEY_GET_POINTS, getPoints());
             intent.putExtra(KEY_GET_ATTEMPTS, getNumberOfAttemtps());
             intent.putExtra(KEY_GET_TIME_USED, "20:00");
-            intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listAnswer);
+            intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listQuizResult);
             intent.putParcelableArrayListExtra(KEY_GET_QUESTION_LIST, list);
             startActivity(intent);
         }

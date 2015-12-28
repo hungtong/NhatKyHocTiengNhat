@@ -15,7 +15,6 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="@string/foo_clause"
             android:id="@+id/clause"
             android:textSize="30sp"
             android:gravity="center"
@@ -26,11 +25,20 @@
             android:layout_height="60dp" />
 
         <TextView
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
             android:text="@string/foo_formula"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/formula"
             android:textSize="25sp"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="30dp" />
 
         <View
             android:layout_width="match_parent"
@@ -38,11 +46,20 @@
             android:background="@color/gray_border" />
 
         <TextView
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
             android:text="@string/foo_brief_summary"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/brief_summary"
             android:textSize="25sp"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="30dp" />
 
         <View
             android:layout_width="match_parent"
@@ -50,11 +67,20 @@
             android:background="@color/gray_border" />
 
         <TextView
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
             android:text="@string/foo_explanation"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/explanation"
             android:textSize="25sp"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="30dp" />
 
         <View
             android:layout_width="match_parent"
@@ -62,23 +88,20 @@
             android:background="@color/gray_border" />
 
         <TextView
-            android:text="@string/foo_example"
-            android:id="@+id/example"
+            android:textStyle="bold"
             android:textSize="25sp"
+            android:text="@string/foo_topic"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@color/gray_border" />
+            android:layout_height="wrap_content" />
 
         <TextView
-            android:text="@string/foo_topic"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/topic"
             android:textSize="25sp"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="30dp" />
 
         <View
             android:layout_width="match_parent"
@@ -86,11 +109,38 @@
             android:background="@color/gray_border" />
 
         <TextView
+            android:textStyle="bold"
+            android:textSize="25sp"
             android:text="@string/foo_last_example_on"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
             android:id="@+id/lastExampleOn"
             android:textSize="25sp"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="30dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/gray_border" />
+
+        <TextView
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:text="@string/foo_example"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:id="@+id/example"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp" />
 
     </LinearLayout>
 

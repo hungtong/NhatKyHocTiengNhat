@@ -1,19 +1,64 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.data;
 
-public class QuizResult {
-    public String question;
-    public String userChoice;
-    public String correctAnswer;
-    public String translation;
-    public String explanation;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    public QuizResult(String question,
-                      String userChoice, String correctAnswer,
-                      String translation, String explanation) {
+public class QuizResult implements Parcelable {
+
+    public String question;
+    public String answer;
+    public String correctAnswer;
+    public int correctOrNot;
+    public int attemptedOrNot;
+
+    public QuizResult(String question, String answer, String correctAnswer, int correctOrNot, int attemptedOrNot) {
         this.question = question;
-        this.userChoice = userChoice;
+        this.answer = answer;
         this.correctAnswer = correctAnswer;
-        this.translation = translation;
-        this.explanation = explanation;
+        this.correctOrNot = correctOrNot;
+        this.attemptedOrNot = attemptedOrNot;
     }
+
+    public QuizResult(String question, String correctAnswer) {
+        this(question, null, correctAnswer, 0, 0);
+    }
+
+    public QuizResult(Parcel in) {
+        question = in.readString();
+        answer = in.readString();
+        correctAnswer = in.readString();
+        correctOrNot = in.readInt();
+        attemptedOrNot = in.readInt();
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(question);
+        out.writeString(answer);
+        out.writeString(correctAnswer);
+        out.writeInt(correctOrNot);
+        out.writeInt(attemptedOrNot);
+    }
+
+    public static final Parcelable.Creator<QuizResult> CREATOR =
+            new Parcelable.Creator<QuizResult>() {
+                @Override
+                public QuizResult[] newArray(int size) {
+                    return new QuizResult[size];
+                }
+
+                /**
+                 * With data written in the parcel, new Question(in) read those data and create new Parcelable class
+                 */
+                @Override
+                public QuizResult createFromParcel(Parcel in) {
+                    return new QuizResult(in);
+                }
+            };
+
+
+
 }

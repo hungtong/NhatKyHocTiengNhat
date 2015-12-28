@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
-import app.learning.fantaster.nhatkyhoctiengnhat.data.Answer;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
 import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.SeeTranslationExplanation;
 
 public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -21,10 +21,10 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static final int UNATTEMPTED_ANSWER = 29333;
 
     private Activity context;
-    private ArrayList<Answer> list;
+    private ArrayList<QuizResult> list;
     private static SeeTranslationExplanation listener;
 
-    public DetailedResultAdapter(Activity context, ArrayList<Answer> list, SeeTranslationExplanation concreteListener) {
+    public DetailedResultAdapter(Activity context, ArrayList<QuizResult> list, SeeTranslationExplanation concreteListener) {
         this.context = context;
         this.list = list;
         listener = concreteListener;
@@ -95,11 +95,11 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        Answer answer = list.get(position);
-        if (answer.attemptedOrNot == 0)
+        QuizResult quizResult = list.get(position);
+        if (quizResult.attemptedOrNot == 0)
             return UNATTEMPTED_ANSWER;
         else {
-            if (answer.correctOrNot == 0)
+            if (quizResult.correctOrNot == 0)
                 return INCORRECT_ANSWER;
             return CORRECT_ANSWER;
         }

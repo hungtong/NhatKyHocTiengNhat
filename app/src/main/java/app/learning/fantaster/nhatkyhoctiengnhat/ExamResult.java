@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.DetailedResultAdapter;
-import app.learning.fantaster.nhatkyhoctiengnhat.data.Answer;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
 import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.SeeTranslationExplanation;
 
@@ -30,7 +30,7 @@ public class ExamResult extends AppCompatActivity{
     public static final String KEY_GET_EXPLANATION = "key to get explanation";
 
     private ArrayList<Question> listQuestion;
-    private ArrayList<Answer> listAnswer;
+    private ArrayList<QuizResult> listQuizResult;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class ExamResult extends AppCompatActivity{
         final Intent intent = getIntent();
 
         listQuestion = intent.getParcelableArrayListExtra(JLPTExam.KEY_GET_QUESTION_LIST);
-        listAnswer = intent.getParcelableArrayListExtra(JLPTExam.KEY_GET_ANSWERS_LIST);
+        listQuizResult = intent.getParcelableArrayListExtra(JLPTExam.KEY_GET_ANSWERS_LIST);
 
         final String totalTime = String.format(getString(R.string.total_time), intent.getStringExtra(JLPTExam.KEY_GET_TIME_USED));
         ((TextView) findViewById(R.id.total_time)).setText(totalTime);
@@ -65,7 +65,7 @@ public class ExamResult extends AppCompatActivity{
             public void onClick(View v) {
                 RecyclerView recyclerView = (RecyclerView) findViewById(R.id.exam_in_details);
 
-                DetailedResultAdapter adapter = new DetailedResultAdapter(ExamResult.this, listAnswer, new SeeTranslationExplanation() {
+                DetailedResultAdapter adapter = new DetailedResultAdapter(ExamResult.this, listQuizResult, new SeeTranslationExplanation() {
                     @Override
                     public void onSeeTranslationExplanation(int position) {
                         Intent intent = new Intent(ExamResult.this, TranslationExplanation.class);
