@@ -48,7 +48,6 @@ public class DetailedClause extends AppCompatActivity {
             }
         });
 
-        final int position = getIntent().getIntExtra(ClauseTabFragment.KEY_GET_POSITION, 0);
         findViewById(R.id.agree_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +55,6 @@ public class DetailedClause extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra(KEY_GET_UPDATED_EXAMPLE, exampleSection.getText().toString());
                 intent.putExtra(KEY_GET_UPDATED_LAST_EXAMPLE_ON, lastExampleOnSection.getText().toString());
-                intent.putExtra(ClauseTabFragment.KEY_GET_POSITION, position);
                 setResult(ClauseTabFragment.RESULT_CODE_OK, intent);
                 finish();
             }

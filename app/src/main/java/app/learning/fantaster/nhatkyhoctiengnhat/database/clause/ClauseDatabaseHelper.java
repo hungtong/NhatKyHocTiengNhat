@@ -11,8 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionContract;
+import java.sql.SQLException;
 
 public class ClauseDatabaseHelper extends SQLiteOpenHelper {
 
@@ -20,7 +19,7 @@ public class ClauseDatabaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase database;
 
     public ClauseDatabaseHelper(Context context) {
-        super(context, QuestionContract.DATABASE_NAME, null, QuestionContract.DATABASE_VERSION);
+        super(context, ClauseContract.DATABASE_NAME, null, ClauseContract.DATABASE_VERSION);
         this.context = context;
     }
 
@@ -81,7 +80,7 @@ public class ClauseDatabaseHelper extends SQLiteOpenHelper {
     /**
      * Create a new database if there does not yet exist any database.
      */
-    public void createDatabase() {
+    public void createDatabase() throws IOException{
         if (!checkDatabase()) { // only create when there is not a database
             this.getReadableDatabase();
             try {
@@ -93,7 +92,7 @@ public class ClauseDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void openDatabase() {
+    public void openDatabase() throws SQLException {
         String pathToDatabase = ClauseContract.DATABASE_PATH + ClauseContract.DATABASE_NAME;
         database = SQLiteDatabase.openDatabase(pathToDatabase, null, SQLiteDatabase.OPEN_READWRITE);
     }

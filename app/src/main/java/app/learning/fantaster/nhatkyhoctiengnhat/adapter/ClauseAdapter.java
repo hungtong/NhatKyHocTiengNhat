@@ -26,7 +26,7 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
     }
 
     public static class ClauseViewHolder extends RecyclerView.ViewHolder
-                                        implements View.OnClickListener, View.OnLongClickListener {
+                                        implements View.OnClickListener {
 
         public final TextView clause, formula, briefSummary, explanation, example, topic, lastExampleOn;
 
@@ -42,7 +42,6 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
             lastExampleOn = (TextView) view.findViewById(R.id.lastExampleOn);
 
             view.setOnClickListener(this);
-            view.setOnLongClickListener(this);
         }
 
         @Override
@@ -50,11 +49,6 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
             listener.onCloserView(view, getAdapterPosition());
         }
 
-        @Override
-        public boolean onLongClick(View view) {
-            listener.onDelete(view, getAdapterPosition());
-            return true;
-        }
     }
 
     @Override
