@@ -1,4 +1,4 @@
-package app.learning.fantaster.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.HomeTabFragment;
 
 

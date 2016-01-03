@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
-import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.SeeTranslationExplanation;
 
 public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -23,6 +22,10 @@ public class DetailedResultAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private Activity context;
     private ArrayList<QuizResult> list;
     private static SeeTranslationExplanation listener;
+
+    public interface SeeTranslationExplanation {
+        void onSeeTranslationExplanation(final int position);
+    }
 
     public DetailedResultAdapter(Activity context, ArrayList<QuizResult> list, SeeTranslationExplanation concreteListener) {
         this.context = context;

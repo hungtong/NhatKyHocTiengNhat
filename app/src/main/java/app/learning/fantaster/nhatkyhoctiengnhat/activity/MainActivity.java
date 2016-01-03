@@ -1,4 +1,4 @@
-package app.learning.fantaster.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import java.util.Calendar;
 
+import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.StoredDate;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.HomeFragment;
 

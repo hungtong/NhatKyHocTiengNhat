@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import app.learning.fantaster.nhatkyhoctiengnhat.JLPTExam;
+import app.learning.fantaster.nhatkyhoctiengnhat.activity.JLPTExam;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 
 public class QuestionTabFragment extends Fragment {

@@ -1,4 +1,4 @@
-package app.learning.fantaster.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import app.learning.fantaster.nhatkyhoctiengnhat.R;
 
 public class ClauseSection extends AppCompatActivity {
 

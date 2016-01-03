@@ -17,25 +17,26 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import app.learning.fantaster.nhatkyhoctiengnhat.DetailedClause;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
+import app.learning.fantaster.nhatkyhoctiengnhat.activity.DetailedClause;
+import app.learning.fantaster.nhatkyhoctiengnhat.activity.TopicSearch;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.ClauseAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.ClauseDatabaseHelper;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.DAOClause;
-import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.ClauseListener;
 
 
 public class ClauseTabFragment extends Fragment {
 
-    public static final int REQUEST_CODE = 463;
+    public static final int REQUEST_FILL_IN_CLAUSE_CARD = 463;
+    public static final int REQUEST_TOPIC_FILTER = 364;
     public static final int RESULT_CODE_OK = 364;
+    public static final String KEY_GET_LIST_TOPIC = "key to get list topic";
 
     private ArrayList<Clause> list;
     private ClauseAdapter adapter;
 
     private int selectedPosition = 0;
-    private ClauseDatabaseHelper databaseHelper;
     private DAOClause dao;
 
     public static ClauseTabFragment newInstance() {
@@ -51,7 +52,7 @@ public class ClauseTabFragment extends Fragment {
     public void onViewCreated(View view, Bundle saveInstanceState) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.clause_tab_recycler_view);
 
-        databaseHelper = new ClauseDatabaseHelper(getActivity());
+        ClauseDatabaseHelper databaseHelper = new ClauseDatabaseHelper(getActivity());
         try {
             databaseHelper.createDatabase();
         } catch (IOException ex) {
@@ -72,55 +73,72 @@ public class ClauseTabFragment extends Fragment {
         view.findViewById(R.id.topic_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), TopicSearch.class);
+                intent.putStringArrayListExtra(KEY_GET_LIST_TOPIC, dao.getTopics());
+                startActivityForResult(intent, REQUEST_TOPIC_FILTER);
             }
         });
 
         view.findViewById(R.id.original_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.clear();
-                adapter.notifyDataSetChanged();
-                list.addAll(dao.getAllClauses());
-                adapter.notifyDataSetChanged();
+                doOriginalFilter();
             }
         });
 
         view.findViewById(R.id.last_example_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int SIZE = list.size();
-                Clause[] clauseArray = list.toArray(new Clause[list.size()]);
-                list.clear();
-                adapter.notifyDataSetChanged();
-                final long[] lastExampleOn = new long[SIZE];
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mma EEEE, d MMMM yyyy");
-                for (int i = 0; i < lastExampleOn.length; i++) {
-                    try {
-                        if (clauseArray[i].lastExampleOn == null)
-                            lastExampleOn[i] = 0;
-                        else lastExampleOn[i] = simpleDateFormat.parse(clauseArray[i].lastExampleOn).getTime();
-                    } catch (ParseException ex) {
-                        Log.d("Bad Format", "Unable to convert date to milliseconds");
-                    }
-                }
-                quickSort(0, lastExampleOn.length - 1, lastExampleOn, clauseArray);
-
-                list.addAll(Arrays.asList(clauseArray));
-                adapter.notifyDataSetChanged();
+                doFilterUponExample();
             }
         });
     }
 
-    class OnConcreteListener implements ClauseListener {
+    class OnConcreteListener implements ClauseAdapter.ClauseListener {
 
         @Override
         public void onCloserView(View childPressed, final int position) {
             selectedPosition = position;
             Intent intent = new Intent(getActivity(), DetailedClause.class);
-            startActivityForResult(intent, REQUEST_CODE);
+            startActivityForResult(intent, REQUEST_FILL_IN_CLAUSE_CARD);
         }
 
+    }
+
+    /**
+     * This filter display the list taken from original database
+     */
+    private void doOriginalFilter() {
+        list.clear();
+        adapter.notifyDataSetChanged();
+        list.addAll(dao.getAllClauses());
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
+     * This filter arrange all items in increasing order of date adding example.
+     */
+    private void doFilterUponExample() {
+        Clause[] clauseArray = list.toArray(new Clause[list.size()]);
+        final long[] lastExampleOn = new long[list.size()];
+
+        list.clear();
+        adapter.notifyDataSetChanged();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mma EEEE, d MMMM yyyy");
+        for (int i = 0; i < lastExampleOn.length; i++) {
+            try {
+                if (clauseArray[i].lastExampleOn == null)
+                    lastExampleOn[i] = 0;
+                else lastExampleOn[i] = simpleDateFormat.parse(clauseArray[i].lastExampleOn).getTime();
+            } catch (ParseException ex) {
+                Log.d("Bad Format", "Unable to convert date to milliseconds");
+            }
+        }
+        quickSort(0, lastExampleOn.length - 1, lastExampleOn, clauseArray);
+
+        list.addAll(Arrays.asList(clauseArray));
+        adapter.notifyDataSetChanged();
     }
 
     private void quickSort(int left, int right, long[] lastExampleOn, Clause[] clauseArray) {
@@ -155,14 +173,43 @@ public class ClauseTabFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE_OK && data != null) {
-            String updatedExample = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_EXAMPLE);
-            if (!updatedExample.equals("")) {
-                list.get(selectedPosition).example = updatedExample;
-                list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
+        if (resultCode == RESULT_CODE_OK && data != null) {
+            switch (requestCode) {
+                case REQUEST_FILL_IN_CLAUSE_CARD :
+                    fillInClauseCard(data);
+                    break;
+                case REQUEST_TOPIC_FILTER :
+                    filterByTopic(data);
+                    break;
             }
-            adapter.notifyItemChanged(selectedPosition);
-        }   // Remember make changes on database as well
+        }
+    }
+
+    private void fillInClauseCard(Intent data) {
+        String updatedExample = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_EXAMPLE);
+        if (!updatedExample.equals("")) {
+            list.get(selectedPosition).example = updatedExample;
+            list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
+            dao.updateClause(list.get(selectedPosition)); // make changes on database
+        }
+        adapter.notifyItemChanged(selectedPosition);
+    }
+
+    private void filterByTopic(Intent data) {
+        String desiredTopic = data.getStringExtra(TopicSearch.KEY_GET_DESIRED_TOPIC);
+        ArrayList<Clause> temporaryList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++)
+            if (list.get(i).topic.equalsIgnoreCase(desiredTopic))
+                temporaryList.add(list.get(i));
+
+        for (int i = 0; i < list.size(); i++)
+            if (!list.get(i).topic.equalsIgnoreCase(desiredTopic))
+                temporaryList.add(list.get(i));
+
+        list.clear();
+        list.addAll(temporaryList);
+        adapter.notifyDataSetChanged();
+
     }
 
 }

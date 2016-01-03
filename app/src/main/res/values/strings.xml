@@ -66,5 +66,9 @@
     <string name="make_change">Make Change</string>
     <string name="agree">Agree</string>
     <string name="add_example">Add Example</string>
+    <string name="search_keyword">Search Keyword</string>
+    <string name="search_topic">Search Topic</string>
+    <string name="reset">Reset</string>
+
 
 </resources>

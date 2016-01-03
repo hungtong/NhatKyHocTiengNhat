@@ -1,4 +1,4 @@
-package app.learning.fantaster.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,10 +19,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.DetailedResultAdapter;
-import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
-import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.SeeTranslationExplanation;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
 
 public class ExamResult extends AppCompatActivity{
 
@@ -65,7 +65,7 @@ public class ExamResult extends AppCompatActivity{
             public void onClick(View v) {
                 RecyclerView recyclerView = (RecyclerView) findViewById(R.id.exam_in_details);
 
-                DetailedResultAdapter adapter = new DetailedResultAdapter(ExamResult.this, listQuizResult, new SeeTranslationExplanation() {
+                DetailedResultAdapter adapter = new DetailedResultAdapter(ExamResult.this, listQuizResult, new DetailedResultAdapter.SeeTranslationExplanation() {
                     @Override
                     public void onSeeTranslationExplanation(int position) {
                         Intent intent = new Intent(ExamResult.this, TranslationExplanation.class);

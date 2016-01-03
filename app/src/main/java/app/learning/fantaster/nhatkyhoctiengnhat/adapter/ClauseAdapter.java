@@ -10,13 +10,16 @@ import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
-import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.ClauseListener;
 
 public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseViewHolder> {
 
     private Activity context;
     private ArrayList<Clause> list;
     private static ClauseListener listener;
+
+    public interface ClauseListener {
+        void onCloserView(View childPressed, final int position);
+    }
 
     public ClauseAdapter(Activity context, ArrayList<Clause> list,
                          ClauseListener concreteListener) {

@@ -13,12 +13,11 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import app.learning.fantaster.nhatkyhoctiengnhat.MainActivity;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
-import app.learning.fantaster.nhatkyhoctiengnhat.TaoMoi;
+import app.learning.fantaster.nhatkyhoctiengnhat.activity.MainActivity;
+import app.learning.fantaster.nhatkyhoctiengnhat.activity.TaoMoi;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.EntryAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.EntryContent;
-import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.EntryListener;
 
 public class HomeTabFragment extends Fragment {
 
@@ -83,7 +82,7 @@ public class HomeTabFragment extends Fragment {
      * Specified the interface OnDeleteListener.
      * In Recycler View, selection as well as selected position are not handled
      */
-    class ConcreteOnDeleteListener implements EntryListener {
+    class ConcreteOnDeleteListener implements EntryAdapter.EntryListener {
 
         @Override
         public void onDelete(View childPressed, final int position) {

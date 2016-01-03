@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
 
@@ -69,6 +70,37 @@ public class DAOClause {
         String[] whereArgs = { String.valueOf(clause.clauseId) };
 
         database.update(ClauseContract.TABLE_NAME, updatedClause, whereClause, whereArgs);
+    }
+
+    public ArrayList<String> getTopics() {
+        ArrayList<String> topics = new ArrayList<>(getClauseCount());
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        String commandSQL = "select " + ClauseContract.COLUMN_NAME_TOPIC + " from " + ClauseContract.TABLE_NAME;
+        Cursor cursor = database.rawQuery(commandSQL, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                topics.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(topics);
+        topics.clear();
+        topics.addAll(linkedHashSet);
+
+        return topics;
+    }
+
+    public int getClauseCount() {
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        String commandSQL = "select * from " + ClauseContract.TABLE_NAME;
+        Cursor cursor = database.rawQuery(commandSQL, null);
+        int count = 0;
+        if (cursor != null) {
+            count = cursor.getCount();
+            cursor.close();
+        }
+        return count;
     }
 
 

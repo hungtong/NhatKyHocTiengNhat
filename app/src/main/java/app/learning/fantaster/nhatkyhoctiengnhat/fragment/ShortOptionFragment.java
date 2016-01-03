@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import app.learning.fantaster.nhatkyhoctiengnhat.JLPTExam;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
-import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.OptionClickListener;
+import app.learning.fantaster.nhatkyhoctiengnhat.activity.JLPTExam;
 
 public class ShortOptionFragment extends Fragment {
 
@@ -21,6 +20,10 @@ public class ShortOptionFragment extends Fragment {
     private Button option1, option2, option3, option4;
 
     private OptionClickListener listener; // sending information
+
+    public interface OptionClickListener {
+        void onOptionClick(int chosenOptionId, String optionContent);
+    }
 
 /*    public TextView getTypeIndicator() { return typeIndicator; }
     public TextView getQuestionView() { return questionView; }

@@ -1,4 +1,4 @@
-package app.learning.fantaster.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.ClauseTabFragment;
 
 public class DetailedClause extends AppCompatActivity {

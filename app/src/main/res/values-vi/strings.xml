@@ -59,5 +59,8 @@
     <string name="make_change">Thay Đổi</string>
     <string name="agree">Đồng Ý</string>
     <string name="add_example">Thêm Ví Dụ</string>
+    <string name="reset">Thiết Lập Lại</string>
+    <string name="search_keyword">Tìm Kiếm Từ Khóa</string>
+    <string name="search_topic">Tìm Kiếm Chủ Đề</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package app.learning.fantaster.nhatkyhoctiengnhat;
+package app.learning.fantaster.nhatkyhoctiengnhat.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,13 +25,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.DAOQuestion;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDatabaseHelper;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.LongOptionFragment;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.ShortOptionFragment;
-import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.OptionClickListener;
 
 /**
  * - This is our exam
@@ -44,7 +44,7 @@ import app.learning.fantaster.nhatkyhoctiengnhat.util.listener.OptionClickListen
  * - To move backward or forward we only need to adjust current number of questions and display data which were
  * initialized at the beginning.
  */
-public class JLPTExam extends AppCompatActivity implements OptionClickListener {
+public class JLPTExam extends AppCompatActivity implements LongOptionFragment.OptionClickListener {
 
     private TextView questionCounting;
     private TextView countdownTimer;
