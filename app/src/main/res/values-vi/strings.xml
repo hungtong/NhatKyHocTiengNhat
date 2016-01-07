@@ -62,5 +62,6 @@
     <string name="reset">Thiết Lập Lại</string>
     <string name="search_keyword">Tìm Kiếm Từ Khóa</string>
     <string name="search_topic">Tìm Kiếm Chủ Đề</string>
+    <string name="memory_trick">Mẹo Nhớ</string>
 
 </resources>

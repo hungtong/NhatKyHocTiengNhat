@@ -22,7 +22,6 @@ public class DAOClause {
     }
 
 
-
     /**
      *  Return the whole table in List<Clause>
      */
@@ -43,7 +42,8 @@ public class DAOClause {
                                     cursor.getString(4),                // explanation
                                     cursor.getString(5),                // example
                                     cursor.getString(6),                 // topic
-                                    cursor.getString(7)                 // lastExampleOn
+                                    cursor.getString(7),                 // lastExampleOn
+                                    cursor.getString(8)                 // memoryTrick
               );
               list.add(clause);
             } while (cursor.moveToNext());
@@ -65,6 +65,7 @@ public class DAOClause {
         updatedClause.put(ClauseContract.COLUMN_NAME_EXAMPLE, clause.example);
         updatedClause.put(ClauseContract.COLUMN_NAME_TOPIC, clause.topic);
         updatedClause.put(ClauseContract.COLUNM_NAME_LAST_EXAMPLE_ON, clause.lastExampleOn);
+        updatedClause.put(ClauseContract.COLUMN_NAME_MEMORY_TRICK, clause.memoryTrick);
 
         String whereClause = ClauseContract.COLUMN_NAME_CLAUSE_ID + "=?";
         String[] whereArgs = { String.valueOf(clause.clauseId) };

@@ -135,10 +135,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/gray_border" />
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_width="match_parent"
+                android:text="@string/memory_trick"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/memory_trick_section"
+                android:textSize="25sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/add_example_button"
                 android:layout_marginTop="10dp"
                 android:text="@string/add_example"
+                android:textSize="25sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/add_memory_trick_button"
+                android:layout_marginTop="10dp"
+                android:text="@string/add_memory_trick"
                 android:textSize="25sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

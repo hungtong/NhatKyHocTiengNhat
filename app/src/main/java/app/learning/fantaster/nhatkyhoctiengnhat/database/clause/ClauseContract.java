@@ -17,5 +17,6 @@ public class ClauseContract {
     public static final String COLUMN_NAME_EXAMPLE = "example";
     public static final String COLUMN_NAME_TOPIC = "topic";
     public static final String COLUNM_NAME_LAST_EXAMPLE_ON = "lastExampleOn";
+    public static final String COLUMN_NAME_MEMORY_TRICK = "memoryTrick";
 
 }

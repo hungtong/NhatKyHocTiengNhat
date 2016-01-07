@@ -11,14 +11,14 @@ import android.widget.EditText;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 
-public class ClauseSection extends AppCompatActivity {
+public class NewExample extends AppCompatActivity {
 
     public static final String KEY_GET_NEW_EXAMPLE = "key to get new example";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_section_in_clause);
+        setContentView(R.layout.layout_add_example);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,7 +31,7 @@ public class ClauseSection extends AppCompatActivity {
         findViewById(R.id.make_change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ClauseSection.this, DetailedClause.class);
+                Intent intent = new Intent(NewExample.this, DetailedClause.class);
                 String newSectionContent = ((EditText) findViewById(R.id.section_content)).getText().toString();
                 intent.putExtra(KEY_GET_NEW_EXAMPLE, newSectionContent);
                 setResult(DetailedClause.RESULT_CODE_OK, intent);

@@ -12,10 +12,11 @@ public class Clause implements Parcelable {
     public String example;
     public String topic;
     public String lastExampleOn;
+    public String memoryTrick;
 
 
     public Clause(int clauseId, String clause, String formula, String briefSummary,
-                    String explanation, String example, String topic, String lastExampleOn) {
+                    String explanation, String example, String topic, String lastExampleOn, String memoryTrick) {
         this.clauseId = clauseId;
         this.clause = clause;
         this.formula = formula;
@@ -24,6 +25,7 @@ public class Clause implements Parcelable {
         this.example = example;
         this.topic = topic;
         this.lastExampleOn = lastExampleOn;
+        this.memoryTrick = memoryTrick;
     }
 
     public Clause() {}
@@ -37,6 +39,7 @@ public class Clause implements Parcelable {
         example = in.readString();
         topic = in.readString();
         lastExampleOn = in.readString();
+        memoryTrick = in.readString();
     }
 
     @Override
@@ -49,6 +52,7 @@ public class Clause implements Parcelable {
         out.writeString(example);
         out.writeString(topic);
         out.writeString(lastExampleOn);
+        out.writeString(memoryTrick);
     }
 
     @Override

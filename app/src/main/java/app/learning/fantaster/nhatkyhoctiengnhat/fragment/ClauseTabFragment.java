@@ -32,6 +32,7 @@ public class ClauseTabFragment extends Fragment {
     public static final int REQUEST_TOPIC_FILTER = 364;
     public static final int RESULT_CODE_OK = 364;
     public static final String KEY_GET_LIST_TOPIC = "key to get list topic";
+    public static final String KEY_GET_CURRENT_CLAUSE = "key to get current clause selected";
 
     private ArrayList<Clause> list;
     private ClauseAdapter adapter;
@@ -100,6 +101,7 @@ public class ClauseTabFragment extends Fragment {
         public void onCloserView(View childPressed, final int position) {
             selectedPosition = position;
             Intent intent = new Intent(getActivity(), DetailedClause.class);
+            intent.putExtra(KEY_GET_CURRENT_CLAUSE, list.get(position));
             startActivityForResult(intent, REQUEST_FILL_IN_CLAUSE_CARD);
         }
 
@@ -186,12 +188,11 @@ public class ClauseTabFragment extends Fragment {
     }
 
     private void fillInClauseCard(Intent data) {
-        String updatedExample = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_EXAMPLE);
-        if (!updatedExample.equals("")) {
-            list.get(selectedPosition).example = updatedExample;
-            list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
-            dao.updateClause(list.get(selectedPosition)); // make changes on database
-        }
+        list.get(selectedPosition).example = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_EXAMPLE);
+        list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
+        list.get(selectedPosition).memoryTrick = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_MEMORY_TRICK);
+
+        dao.updateClause(list.get(selectedPosition)); // make changes on database
         adapter.notifyItemChanged(selectedPosition);
     }
 

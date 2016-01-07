@@ -1,7 +1,6 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,8 +13,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
-import app.learning.fantaster.nhatkyhoctiengnhat.activity.MainActivity;
-import app.learning.fantaster.nhatkyhoctiengnhat.activity.TaoMoi;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.EntryAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.EntryContent;
 
@@ -23,11 +20,6 @@ public class HomeTabFragment extends Fragment {
 
     public static final int RESULT_OK = 928;
     public static final int REQUESTED_CODE = 212;
-
-    public static final String KEY_LAY_TITLE = "KeyLayTitle";
-    public static final String KEY_LAY_SO_NGAY_LUYEN_TAP = "KeyLaySoNgayLuyenTap";
-    public static final String KEY_LAY_MAU_CAU = "KeyLayMauCau";
-    public static final String KEY_LAY_BELL_ICON = "KeyLayBellIcon";
 
     private ArrayList<EntryContent> list;
     private EntryAdapter adapter;
@@ -72,8 +64,6 @@ public class HomeTabFragment extends Fragment {
         taoMoiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), TaoMoi.class);
-                startActivityForResult(intent, REQUESTED_CODE);
             }
         });
     }
@@ -96,41 +86,4 @@ public class HomeTabFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUESTED_CODE && resultCode == RESULT_OK && data != null) {
-
-            // If there is a signal requiring to update recycler view, it means every previous date
-            // indicator was already updated, now we simply need to add a "Today Date Indicator" right
-            // after when we created a new section.
-            if (MainActivity.signalToUpdateRecyclerView) {
-                MainActivity.signalToUpdateRecyclerView = false;
-                EntryContent dateModule = new EntryContent();
-                dateModule.setItemViewType(EntryAdapter.DATE_INDICATOR);
-                list.add(dateModule);
-                adapter.notifyDataSetChanged();
-            }
-
-            EntryContent contentModule = new EntryContent();
-
-            String title = data.getStringExtra(KEY_LAY_TITLE);
-            String soNgayLuyenTap = data.getStringExtra(KEY_LAY_SO_NGAY_LUYEN_TAP);
-            String mauCau = data.getStringExtra(KEY_LAY_MAU_CAU);
-            boolean bellIcon = data.getBooleanExtra(KEY_LAY_BELL_ICON, false);
-
-            contentModule.setTitle(title);
-            contentModule.setSoNgayLuyenTap(soNgayLuyenTap);
-            contentModule.setMauCau(mauCau);
-            contentModule.setBellIcon(bellIcon);
-            contentModule.setItemViewType(EntryAdapter.CONTENT);
-
-            list.add(contentModule);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    private void updateRecyclerView() {
-
-    }
 }
