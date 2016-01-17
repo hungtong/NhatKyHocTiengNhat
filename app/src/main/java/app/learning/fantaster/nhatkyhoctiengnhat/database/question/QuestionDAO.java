@@ -13,10 +13,10 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
  * Data Access Object with All CRUD OPERATIONS
  * CRUD : Create, Read, Update and Delete
  */
-public class DAOQuestion {
+public class QuestionDAO {
     private QuestionDatabaseHelper databaseHelper;
 
-    public DAOQuestion(QuestionDatabaseHelper databaseHelper) {
+    public QuestionDAO(QuestionDatabaseHelper databaseHelper) {
         this.databaseHelper = databaseHelper;
     }
 

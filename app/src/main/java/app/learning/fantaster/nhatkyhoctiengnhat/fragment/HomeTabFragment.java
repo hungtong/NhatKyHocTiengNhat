@@ -1,27 +1,21 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.EntryAdapter;
-import app.learning.fantaster.nhatkyhoctiengnhat.data.EntryContent;
 
 public class HomeTabFragment extends Fragment {
 
     public static final int RESULT_OK = 928;
     public static final int REQUESTED_CODE = 212;
 
-    private ArrayList<EntryContent> list;
+//    private ArrayList<EntryContent> list;
     private EntryAdapter adapter;
 
     /**
@@ -53,19 +47,7 @@ public class HomeTabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_tab_recycler_view);
-        list = new ArrayList<>();
-        adapter = new EntryAdapter(((Activity) getContext()),list, new ConcreteOnDeleteListener());
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(adapter);
-
-        FloatingActionButton taoMoiButton = (FloatingActionButton) view.findViewById(R.id.tao_entry_moi);
-        taoMoiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
     }
 
     /**
@@ -76,8 +58,7 @@ public class HomeTabFragment extends Fragment {
 
         @Override
         public void onDelete(View childPressed, final int position) {
-            list.remove(position);
-            adapter.notifyDataSetChanged();
+
         }
 
         @Override

@@ -28,7 +28,7 @@ import java.util.Random;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
-import app.learning.fantaster.nhatkyhoctiengnhat.database.question.DAOQuestion;
+import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDAO;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDatabaseHelper;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.LongOptionFragment;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.ShortOptionFragment;
@@ -204,7 +204,7 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
             Log.d("Failed", "Failed to open database");
         }
 
-        DAOQuestion dao = new DAOQuestion(databaseHelper);
+        QuestionDAO dao = new QuestionDAO(databaseHelper);
         list = dao.getRandomTypeQuestions(NUMBER_OF_VOCAB_QUESTIONS, VOCAB_TYPE);
         list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_GRAMMAR_QUESTIONS, GRAMMAR_TYPE));
         list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_READING_QUESTIONS, READING_TYPE));

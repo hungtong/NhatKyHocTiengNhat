@@ -23,7 +23,7 @@ import app.learning.fantaster.nhatkyhoctiengnhat.activity.TopicSearch;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.ClauseAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.ClauseDatabaseHelper;
-import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.DAOClause;
+import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.ClauseDAO;
 
 
 public class ClauseTabFragment extends Fragment {
@@ -38,7 +38,7 @@ public class ClauseTabFragment extends Fragment {
     private ClauseAdapter adapter;
 
     private int selectedPosition = 0;
-    private DAOClause dao;
+    private ClauseDAO dao;
 
     public static ClauseTabFragment newInstance() {
         return new ClauseTabFragment();
@@ -64,7 +64,7 @@ public class ClauseTabFragment extends Fragment {
         } catch (SQLException ex) {
             Log.d("Failed", "Failed to open database");
         }
-        dao = new DAOClause(databaseHelper);
+        dao = new ClauseDAO(databaseHelper);
         list = dao.getAllClauses();
         adapter = new ClauseAdapter(getActivity(), list, new OnConcreteListener());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

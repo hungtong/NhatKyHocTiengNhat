@@ -3,20 +3,23 @@ package app.learning.fantaster.nhatkyhoctiengnhat.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Clause implements Parcelable {
     public int clauseId;
     public String clause;
     public String formula;
     public String briefSummary;
     public String explanation;
-    public String example;
-    public String topic;
+    public ArrayList<String> example;
+    public ArrayList<String> topic;
     public String lastExampleOn;
-    public String memoryTrick;
+    public ArrayList<String> memoryTrick;
 
 
     public Clause(int clauseId, String clause, String formula, String briefSummary,
-                    String explanation, String example, String topic, String lastExampleOn, String memoryTrick) {
+                    String explanation, ArrayList<String> example, ArrayList<String> topic,
+                    String lastExampleOn, ArrayList<String> memoryTrick) {
         this.clauseId = clauseId;
         this.clause = clause;
         this.formula = formula;
@@ -36,10 +39,10 @@ public class Clause implements Parcelable {
         formula = in.readString();
         briefSummary = in.readString();
         explanation = in.readString();
-        example = in.readString();
-        topic = in.readString();
+        example = in.readArrayList(String.class.getClassLoader());
+        topic = in.readArrayList(String.class.getClassLoader());
         lastExampleOn = in.readString();
-        memoryTrick = in.readString();
+        memoryTrick = in.readArrayList(String.class.getClassLoader());
     }
 
     @Override
@@ -49,10 +52,10 @@ public class Clause implements Parcelable {
         out.writeString(formula);
         out.writeString(briefSummary);
         out.writeString(explanation);
-        out.writeString(example);
-        out.writeString(topic);
+        out.writeList(example);
+        out.writeList(topic);
         out.writeString(lastExampleOn);
-        out.writeString(memoryTrick);
+        out.writeList(memoryTrick);
     }
 
     @Override
