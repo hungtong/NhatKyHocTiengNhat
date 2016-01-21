@@ -63,5 +63,6 @@
     <string name="search_keyword">Tìm Kiếm Từ Khóa</string>
     <string name="search_topic">Tìm Kiếm Chủ Đề</string>
     <string name="memory_trick">Mẹo Nhớ</string>
+    <string name="no_topic">Chưa Được Phân Loại</string>
 
 </resources>

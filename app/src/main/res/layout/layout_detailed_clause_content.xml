@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -129,9 +130,8 @@
                 android:text="@string/foo_example"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/example_section"
-                android:textSize="25sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -147,11 +147,10 @@
                 android:text="@string/memory_trick"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/memory_trick_section"
-                android:textSize="25sp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"    />
 
             <Button
                 android:id="@+id/add_example_button"
@@ -179,5 +178,6 @@
 
     </LinearLayout>
 
-
 </ScrollView>
+
+

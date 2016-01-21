@@ -61,7 +61,7 @@
     <string name="foo_explanation">Explanation</string>
     <string name="foo_example">Example</string>
     <string name="foo_topic">Topic</string>
-    <string name="foo_last_example_on">Last Example Added</string>
+    <string name="foo_last_example_on">Last Example Added On</string>
     <string name="confirm">Confirm</string>
     <string name="make_change">Make Change</string>
     <string name="agree">Agree</string>
@@ -71,6 +71,7 @@
     <string name="search_topic">Search Topic</string>
     <string name="reset">Reset</string>
     <string name="memory_trick">Memory Trick</string>
+    <string name="no_topic">Unclassified</string>
 
 
 </resources>

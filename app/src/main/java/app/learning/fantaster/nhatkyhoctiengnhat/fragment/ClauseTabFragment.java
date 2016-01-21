@@ -22,8 +22,8 @@ import app.learning.fantaster.nhatkyhoctiengnhat.activity.DetailedClause;
 import app.learning.fantaster.nhatkyhoctiengnhat.activity.TopicSearch;
 import app.learning.fantaster.nhatkyhoctiengnhat.adapter.ClauseAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
-import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.ClauseDatabaseHelper;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.ClauseDAO;
+import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.ClauseDatabaseHelper;
 
 
 public class ClauseTabFragment extends Fragment {
@@ -188,24 +188,49 @@ public class ClauseTabFragment extends Fragment {
     }
 
     private void fillInClauseCard(Intent data) {
-        list.get(selectedPosition).example = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_EXAMPLE);
         list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
-        list.get(selectedPosition).memoryTrick = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_MEMORY_TRICK);
+        list.get(selectedPosition).example.clear();
+        list.get(selectedPosition).example.addAll(data.getStringArrayListExtra(DetailedClause.KEY_GET_UPDATED_EXAMPLE));
+        list.get(selectedPosition).memoryTrick.clear();
+        list.get(selectedPosition).memoryTrick.addAll(data.getStringArrayListExtra(DetailedClause.KEY_GET_UPDATED_MEMORY_TRICK));
 
-        dao.updateClause(list.get(selectedPosition)); // make changes on database
+        dao.addExample(list.get(selectedPosition));
+        dao.addMemoryTrick(list.get(selectedPosition));
+
         adapter.notifyItemChanged(selectedPosition);
     }
 
     private void filterByTopic(Intent data) {
         String desiredTopic = data.getStringExtra(TopicSearch.KEY_GET_DESIRED_TOPIC);
         ArrayList<Clause> temporaryList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++)
-            if (list.get(i).topic.equalsIgnoreCase(desiredTopic))
-                temporaryList.add(list.get(i));
+        ArrayList<String> currentTopics = new ArrayList<>();
 
-        for (int i = 0; i < list.size(); i++)
-            if (!list.get(i).topic.equalsIgnoreCase(desiredTopic))
+        // Let topics containing keyword be on the front
+        for (int i = 0; i < list.size(); i++) {
+            currentTopics.addAll(list.get(i).topic);
+            for (int j = 0; j < currentTopics.size(); j++)
+                if (currentTopics.get(j).equalsIgnoreCase(desiredTopic)) {
+                    temporaryList.add(list.get(i));
+                    break;
+                }
+            currentTopics.clear();
+        }
+
+        boolean notContainKeyword = true;
+        // Let topics not containing keyword be on the back
+        for (int i = 0; i < list.size(); i++) {
+            currentTopics.addAll(list.get(i).topic);
+            for (int j = 0; j < currentTopics.size(); j++)
+                if (currentTopics.get(j).equalsIgnoreCase(desiredTopic)) {
+                    notContainKeyword = false;
+                    break;
+                }
+            if (notContainKeyword)
                 temporaryList.add(list.get(i));
+            notContainKeyword = true;
+            currentTopics.clear();
+        }
+
 
         list.clear();
         list.addAll(temporaryList);

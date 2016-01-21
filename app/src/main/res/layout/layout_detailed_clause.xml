@@ -24,6 +24,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/layout_detailed_clause_card_content"/>
+    <include layout="@layout/layout_detailed_clause_content"/>
 
 </android.support.design.widget.CoordinatorLayout>

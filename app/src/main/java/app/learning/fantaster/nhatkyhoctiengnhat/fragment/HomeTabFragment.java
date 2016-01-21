@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
-import app.learning.fantaster.nhatkyhoctiengnhat.adapter.EntryAdapter;
 
 public class HomeTabFragment extends Fragment {
 
@@ -16,7 +15,7 @@ public class HomeTabFragment extends Fragment {
     public static final int REQUESTED_CODE = 212;
 
 //    private ArrayList<EntryContent> list;
-    private EntryAdapter adapter;
+//    private EntryAdapter adapter;
 
     /**
      * Since it is highly recommended that every Fragment should not have any constructor other than default
@@ -54,7 +53,7 @@ public class HomeTabFragment extends Fragment {
      * Specified the interface OnDeleteListener.
      * In Recycler View, selection as well as selected position are not handled
      */
-    class ConcreteOnDeleteListener implements EntryAdapter.EntryListener {
+/*    class ConcreteOnDeleteListener implements EntryAdapter.EntryListener {
 
         @Override
         public void onDelete(View childPressed, final int position) {
@@ -66,5 +65,5 @@ public class HomeTabFragment extends Fragment {
             /// New Intent Upcoming
         }
     }
-
+*/
 }

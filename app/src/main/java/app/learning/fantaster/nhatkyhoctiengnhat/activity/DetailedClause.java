@@ -3,6 +3,8 @@ package app.learning.fantaster.nhatkyhoctiengnhat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,16 +12,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
+import app.learning.fantaster.nhatkyhoctiengnhat.adapter.UserAddOnAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.ClauseTabFragment;
 
 public class DetailedClause extends AppCompatActivity {
 
-    public static final String KEY_GET_CURRENT_EXAMPLE = "key to get current example";
-    public static final String KEY_GET_CURRENT_MEMORY_TRICK = "key to get current trick";
     public static final String KEY_GET_UPDATED_EXAMPLE =  "key to get updated example";
     public static final String KEY_GET_UPDATED_MEMORY_TRICK = "key to get updated memory trick";
     public static final String KEY_GET_UPDATED_LAST_EXAMPLE_ON =  "key to get updated last example on";
@@ -28,12 +30,15 @@ public class DetailedClause extends AppCompatActivity {
     public static final int REQUEST_CODE_MEMORY_TRICK = 112;
     public static final int RESULT_CODE_OK = 970;
 
-    private TextView exampleSection, memoryTrickSection, lastExampleOnSection;
-    
+    private TextView lastExampleOnSection;
+    private RecyclerView exampleSection, memoryTrickSection;
+    private UserAddOnAdapter exampleAdapter, memoryTrickAdapter;
+    private ArrayList<String> examples, memoryTricks;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_detailed_clause_card);
+        setContentView(R.layout.layout_detailed_clause);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -45,21 +50,38 @@ public class DetailedClause extends AppCompatActivity {
         ((TextView) findViewById(R.id.formula_section)).setText(clauseSelected.formula);
         ((TextView) findViewById(R.id.brief_summary_section)).setText(clauseSelected.briefSummary);
         ((TextView) findViewById(R.id.explanation_section)).setText(clauseSelected.explanation);
-        ((TextView) findViewById(R.id.topic_section)).setText(clauseSelected.topic);
 
-        exampleSection = (TextView) findViewById(R.id.example_section);
-        memoryTrickSection = (TextView) findViewById(R.id.memory_trick_section);
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < clauseSelected.topic.size(); i++) {
+            builder.append(clauseSelected.topic.get(i)).append("\n");
+        }
+        ((TextView) findViewById(R.id.topic_section)).setText(builder.toString());
+
         lastExampleOnSection = (TextView) findViewById(R.id.lastExampleOn_section);
-
-        exampleSection.setText(clauseSelected.example);
-        memoryTrickSection.setText(clauseSelected.memoryTrick);
         lastExampleOnSection.setText(clauseSelected.lastExampleOn);
+
+        exampleSection = (RecyclerView) findViewById(R.id.example_section);
+    //    exampleSection.setNestedScrollingEnabled(false);
+        memoryTrickSection = (RecyclerView) findViewById(R.id.memory_trick_section);
+  //      memoryTrickSection.setNestedScrollingEnabled(false);
+
+        examples = new ArrayList<>(clauseSelected.example);
+        exampleAdapter = new UserAddOnAdapter(DetailedClause.this, examples);
+        memoryTricks = new ArrayList<>(clauseSelected.memoryTrick);
+        memoryTrickAdapter = new UserAddOnAdapter(DetailedClause.this, memoryTricks);
+
+        RecyclerView.LayoutManager exampleLayoutManager = new LinearLayoutManager(DetailedClause.this);
+        RecyclerView.LayoutManager memoryTrickLayoutManager = new LinearLayoutManager(DetailedClause.this);
+
+        exampleSection.setAdapter(exampleAdapter);
+        exampleSection.setLayoutManager(exampleLayoutManager);
+        memoryTrickSection.setAdapter(memoryTrickAdapter);
+        memoryTrickSection.setLayoutManager(memoryTrickLayoutManager);
 
         findViewById(R.id.add_example_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DetailedClause.this, NewExample.class);
-                intent.putExtra(KEY_GET_CURRENT_EXAMPLE, exampleSection.getText().toString());
                 startActivityForResult(intent, REQUEST_CODE_EXAMPLE);
             }
         });
@@ -68,7 +90,6 @@ public class DetailedClause extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DetailedClause.this, NewMemoryTrick.class);
-                intent.putExtra(KEY_GET_CURRENT_MEMORY_TRICK, memoryTrickSection.getText().toString());
                 startActivityForResult(intent, REQUEST_CODE_MEMORY_TRICK);
             }
         });
@@ -78,9 +99,9 @@ public class DetailedClause extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DetailedClause.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra(KEY_GET_UPDATED_EXAMPLE, exampleSection.getText().toString());
+                intent.putStringArrayListExtra(KEY_GET_UPDATED_EXAMPLE, examples);
+                intent.putStringArrayListExtra(KEY_GET_UPDATED_MEMORY_TRICK, memoryTricks);
                 intent.putExtra(KEY_GET_UPDATED_LAST_EXAMPLE_ON, lastExampleOnSection.getText().toString());
-                intent.putExtra(KEY_GET_UPDATED_MEMORY_TRICK, memoryTrickSection.getText().toString());
                 setResult(ClauseTabFragment.RESULT_CODE_OK, intent);
                 finish();
             }
@@ -93,14 +114,17 @@ public class DetailedClause extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_CODE_EXAMPLE :
                     String newExample = data.getStringExtra(NewExample.KEY_GET_NEW_EXAMPLE);
-                    exampleSection.setText(newExample);
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mma EEEE, d MMMM yyyy");
                     ((TextView) findViewById(R.id.lastExampleOn_section)).setText(simpleDateFormat.format(new Date()));
+                    examples.add(newExample);
+                    exampleAdapter.notifyDataSetChanged();
+
                     break;
 
                 case REQUEST_CODE_MEMORY_TRICK :
                     String newMemoryTrick = data.getStringExtra(NewMemoryTrick.KEY_GET_NEW_MEMORY_TRICK);
-                    memoryTrickSection.setText(newMemoryTrick);
+                    memoryTricks.add(newMemoryTrick);
+                    memoryTrickAdapter.notifyDataSetChanged();
                     break;
             }
 

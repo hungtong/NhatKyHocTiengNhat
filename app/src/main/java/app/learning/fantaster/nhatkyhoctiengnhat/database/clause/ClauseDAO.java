@@ -15,11 +15,47 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
  */
 public class ClauseDAO {
 
+    public static String TEMPORARY_VALUE = "This is a substitution for setting NULL";
+
     private ClauseDatabaseHelper databaseHelper;
 
     public ClauseDAO(ClauseDatabaseHelper databaseHelper) {
         this.databaseHelper = databaseHelper;
     }
+
+    /* ====================== CREATE ====================== */
+
+    /**
+     *  Adding example is pretty simple since we don't have to check whether new example has already existed or not.
+     *  In fact, being picky about one subtle change does not worth it.
+     * @param clause new clause
+     */
+    public void addExample(Clause clause) {
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ClauseContract.COLUMN_CLAUSE_ID, clause.clauseId);
+        contentValues.put(ClauseContract.COLUMN_EXAMPLE, clause.example.get(clause.example.size() - 1));
+
+        database.insert(ClauseContract.TABLE_EXAMPLES, null, contentValues);
+    }
+
+    /**
+     *  Adding memory trick is pretty simple since we don't have to check whether new memory trick has already existed or not.
+     *  In fact, being picky about one subtle change does not worth it.
+     * @param clause new clause
+     */
+    public void addMemoryTrick(Clause clause) {
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ClauseContract.COLUMN_CLAUSE_ID, clause.clauseId);
+        contentValues.put(ClauseContract.COLUMN_MEMORY_TRICK, clause.memoryTrick.get(clause.memoryTrick.size() - 1));
+
+        database.insert(ClauseContract.TABLE_MEMORY_TRICKS, null, contentValues);
+    }
+
+    /* ====================================== READ ====================================== */
 
     /**
      * Get all examples belonged to the clause whose given clause id. Pretty much query on Example Table
@@ -32,7 +68,7 @@ public class ClauseDAO {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         String commandSQL = "select "+ ClauseContract.COLUMN_EXAMPLE +
                             " from " + ClauseContract.TABLE_EXAMPLES  +
-                            "where " + ClauseContract.COLUMN_CLAUSE_ID + "=" + clauseId;
+                            " where " + ClauseContract.COLUMN_CLAUSE_ID + "=" + clauseId;
         Cursor cursor = database.rawQuery(commandSQL, null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -55,7 +91,7 @@ public class ClauseDAO {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         String commandSQL = "select " + ClauseContract.COLUMN_MEMORY_TRICK +
                             " from " + ClauseContract.TABLE_MEMORY_TRICKS  +
-                            "where " + ClauseContract.COLUMN_CLAUSE_ID + "=" + clauseId;
+                            " where " + ClauseContract.COLUMN_CLAUSE_ID + "=" + clauseId;
         Cursor cursor = database.rawQuery(commandSQL, null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -69,7 +105,7 @@ public class ClauseDAO {
 
     /**
      * Get all topics by the given clauseId. Since this is many-to-many, the task is more complicated.
-     * The CLausesTopics table is the bridge in the relationship and it only containes Id so we need to refer back to
+     * The ClausesTopics table is the bridge in the relationship and it only containes Id so we need to refer back to
      * Topics Table
      * @param clauseId
      * @return
@@ -80,7 +116,7 @@ public class ClauseDAO {
         String commandSQL = "select * " + "from " +
                             ClauseContract.TABLE_CLAUSES_TOPICS + " as tableClausesTopics," +
                             ClauseContract.TABLE_TOPICS + " as tableTopics" +
-                            "where tableClausesTopics." + ClauseContract.COLUMN_CLAUSE_ID + "=" +clauseId + ", " +
+                            " where tableClausesTopics." + ClauseContract.COLUMN_CLAUSE_ID + "=" +clauseId + " and" +
                             " tableClausesTopics." + ClauseContract.COLUMN_TOPIC_ID + "=" + "tableTopics." + ClauseContract.COLUMN_ID;
         Cursor cursor = database.rawQuery(commandSQL, null);
         if (cursor != null && cursor.moveToFirst()) {
@@ -152,19 +188,22 @@ public class ClauseDAO {
         }
         return count;
     }
+
+    /* ============================== UPDATE ============================== */
+
     /*
         - Update database when a specific clause changed
         - Specifically, database needs changes on tables:
             +   Clauses (contains PRIMARY KEY)
             +   Examples
             +   Memory Tricks
-            +   Clauses-Topics
+        - Note that we don't make changes on tables Topics and ClausesTopics, because these two have to be created
+          and fulfilled value by programmer (me ... oops ... actually ... another guy)
      */
     public void updateClause(Clause clause) {
         updateTableClauses(clause);
         updateTableExamples(clause);
         updateTableMemoryTricks(clause);
-        updateTableClausesTopics(clause);
     }
 
     public void updateTableClauses(Clause clause) {
@@ -183,68 +222,49 @@ public class ClauseDAO {
         database.update(ClauseContract.TABLE_CLAUSES, updatedValues, where, whereArgs);
     }
 
-    /*
-         Apply the strategy clear-and-fill-again.
-    */
     public void updateTableExamples(Clause clause) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        ContentValues updatedValues = new ContentValues();
+        ContentValues updatedExamples = new ContentValues();
 
-        // Make IDs in respect to this clause's example null == CLEAR , clause id shoudl remain unchanged
-        updatedValues.putNull(ClauseContract.COLUMN_CLAUSE_ID);
-        database.update(ClauseContract.TABLE_EXAMPLES, updatedValues, ClauseContract.COLUMN_CLAUSE_ID + "=?",
-                new String[]{String.valueOf(clause.clauseId)});
-
-        // FILL AGAIN
-        updatedValues.clear();
-        int numberOfExamples = clause.example.size();
-        if (numberOfExamples != 0)
-            for (int i = 0; i < numberOfExamples; i++) {
-                updatedValues.put(ClauseContract.COLUMN_CLAUSE_ID, clause.clauseId);// Example must remain the same
-                database.update(ClauseContract.TABLE_EXAMPLES, updatedValues,
-                        ClauseContract.COLUMN_EXAMPLE + "=?", new String[]{"'" + clause.example.get(i)  + "'"});
-            }
+        for (int i = 0; i < clause.example.size(); i++) {
+            updatedExamples.put(ClauseContract.COLUMN_EXAMPLE, clause.example.get(i));
+            database.update(ClauseContract.TABLE_EXAMPLES, updatedExamples,
+                            ClauseContract.COLUMN_CLAUSE_ID + "=?", new String[] { String.valueOf(clause.clauseId) });
+        }
     }
 
-    /*
-         Apply the strategy clear-and-fill-again since this is one-to-many relationship
-    */
     public void updateTableMemoryTricks(Clause clause) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        ContentValues updatedValues = new ContentValues();
+        ContentValues updatedExamples = new ContentValues();
 
-        // Make IDs in respect to this clause's memory trick null == CLEAR
-        updatedValues.putNull(ClauseContract.COLUMN_CLAUSE_ID);
-        database.update(ClauseContract.TABLE_MEMORY_TRICKS, updatedValues, ClauseContract.COLUMN_ID + "=?",
-                new String[] { String.valueOf(clause.clauseId) });
-
-        // FILL AGAIN
-        updatedValues.clear();
-        int numberOfExamples = clause.example.size();
-        if (numberOfExamples != 0)
-            for (int i = 0; i < numberOfExamples; i++) {
-                updatedValues.put(ClauseContract.COLUMN_CLAUSE_ID, clause.clauseId); // Memory trick must remain the same
-
-                database.update(ClauseContract.TABLE_MEMORY_TRICKS, updatedValues,
-                        ClauseContract.COLUMN_MEMORY_TRICK + "=?", new String[]{"'" + clause.example.get(i) + "'"});
-            }
+        for (int i = 0; i < clause.memoryTrick.size(); i++) {
+            updatedExamples.put(ClauseContract.COLUMN_MEMORY_TRICK, clause.memoryTrick.get(i));
+            database.update(ClauseContract.TABLE_MEMORY_TRICKS, updatedExamples,
+                    ClauseContract.COLUMN_CLAUSE_ID + "=?", new String[] { String.valueOf(clause.clauseId) });
+        }
     }
 
-    /*
-        Apply the strategy of clear-and-fill-again, but in this case we may not fill in everything again (in case of removing), rows
-        that were not filled will be discarded. RULE OF THUMBS : Do not touch my little table Topics
+     /* ============================== DELETE ============================== */
+
+    /**
+     * Delete the example at a given id
+     * @param clause
      */
-    public void updateTableClausesTopics(Clause clause) {
+    public void deleteExample(Clause clause) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        ContentValues updatedValues = new ContentValues();
+        database.delete(ClauseContract.TABLE_EXAMPLES,
+                        ClauseContract.COLUMN_CLAUSE_ID + "=?",
+                        new String[] { String.valueOf(clause.clauseId) });
+    }
 
-        updatedValues.putNull(ClauseContract.COLUMN_TOPIC_ID);
-        database.update(ClauseContract.TABLE_CLAUSES_TOPICS, updatedValues,
-                        ClauseContract.COLUMN_CLAUSE_ID + "=?", new String[] { String.valueOf(clause.clauseId) });
-
-        int numberOfTopics = clause.topic.size();
-        if (numberOfTopics != 0) {
-            ArrayList<String> topics = new ArrayList<>(clause.topic);
-        }
+    /**
+     * Delete the memory trick at a given id
+     * @param clause
+     */
+    public void deleteMemoryTrick(Clause clause) {
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        database.delete(ClauseContract.TABLE_MEMORY_TRICKS,
+                ClauseContract.COLUMN_CLAUSE_ID + "=?",
+                new String[] { String.valueOf(clause.clauseId) });
     }
 }

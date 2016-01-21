@@ -31,7 +31,7 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
     public static class ClauseViewHolder extends RecyclerView.ViewHolder
                                         implements View.OnClickListener {
 
-        public final TextView clause, formula, briefSummary, explanation, example, topic, lastExampleOn;
+        public final TextView clause, formula, briefSummary, explanation, topic, lastExampleOn;
 
         public ClauseViewHolder(View view) {
             super(view);
@@ -40,7 +40,6 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
             formula = (TextView) view.findViewById(R.id.formula);
             briefSummary = (TextView) view.findViewById(R.id.brief_summary);
             explanation = (TextView) view.findViewById(R.id.explanation);
-            example = (TextView) view.findViewById(R.id.example);
             topic = (TextView) view.findViewById(R.id.topic);
             lastExampleOn = (TextView) view.findViewById(R.id.lastExampleOn);
 
@@ -68,9 +67,18 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
         viewHolder.formula.setText(currentClause.formula);
         viewHolder.briefSummary.setText(currentClause.briefSummary);
         viewHolder.explanation.setText(currentClause.explanation);
-        viewHolder.example.setText(currentClause.example);
-        viewHolder.topic.setText(currentClause.topic);
         viewHolder.lastExampleOn.setText(currentClause.lastExampleOn);
+
+        if (currentClause.topic.size() != 0) {
+            StringBuilder topics = new StringBuilder();
+            int i;
+            for (i = 0; i < currentClause.topic.size() - 1; i++)
+                topics.append(currentClause.topic.get(i)).append(", ");
+            topics.append(currentClause.topic.get(i));
+            viewHolder.topic.setText(topics.toString());
+        }
+        else viewHolder.topic.setText(context.getString(R.string.no_topic));
+
     }
 
     @Override

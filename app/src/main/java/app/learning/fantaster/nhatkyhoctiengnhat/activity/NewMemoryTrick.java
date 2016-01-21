@@ -26,8 +26,6 @@ public class NewMemoryTrick extends AppCompatActivity {
     }
 
     private void initialize() {
-        Intent intent = getIntent();
-        ((EditText) findViewById(R.id.section_content)).setText(intent.getStringExtra(DetailedClause.KEY_GET_CURRENT_EXAMPLE));
         findViewById(R.id.make_change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
