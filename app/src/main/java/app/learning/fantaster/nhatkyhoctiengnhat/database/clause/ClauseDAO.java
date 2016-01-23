@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
@@ -14,8 +15,6 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
  * CRUD : Create, Read, Update and Delete
  */
 public class ClauseDAO {
-
-    public static String TEMPORARY_VALUE = "This is a substitution for setting NULL";
 
     private ClauseDatabaseHelper databaseHelper;
 
@@ -76,7 +75,7 @@ public class ClauseDAO {
             } while (cursor.moveToNext());
         }
         cursor.close();
-
+        Collections.reverse(examples); // when we add, new member will be at the end, but when display it should be on top
         return examples;
     }
 
@@ -99,7 +98,7 @@ public class ClauseDAO {
             } while (cursor.moveToNext());
         }
         cursor.close();
-
+        Collections.reverse(memoryTricks);
         return memoryTricks;
     }
 

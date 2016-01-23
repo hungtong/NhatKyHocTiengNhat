@@ -72,6 +72,11 @@
     <string name="reset">Reset</string>
     <string name="memory_trick">Memory Trick</string>
     <string name="no_topic">Unclassified</string>
-
+    <string name="number_of_memory_tricks">You Have %d Memory Tricks</string>
+    <string name="number_of_user_examples">You Have %d Examples</string>
+    <string name="home">Home</string>
+    <string name="clause_description">Description</string>
+    <string name="user_example_tab">Examples</string>
+    <string name="user_memory_trick">Memory Tricks</string>
 
 </resources>

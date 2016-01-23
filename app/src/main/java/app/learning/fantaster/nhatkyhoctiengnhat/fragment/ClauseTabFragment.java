@@ -53,7 +53,7 @@ public class ClauseTabFragment extends Fragment {
     public void onViewCreated(View view, Bundle saveInstanceState) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.clause_tab_recycler_view);
 
-        ClauseDatabaseHelper databaseHelper = new ClauseDatabaseHelper(getActivity());
+        ClauseDatabaseHelper databaseHelper = ClauseDatabaseHelper.getInstance(getActivity());
         try {
             databaseHelper.createDatabase();
         } catch (IOException ex) {
@@ -188,16 +188,12 @@ public class ClauseTabFragment extends Fragment {
     }
 
     private void fillInClauseCard(Intent data) {
-        list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
-        list.get(selectedPosition).example.clear();
-        list.get(selectedPosition).example.addAll(data.getStringArrayListExtra(DetailedClause.KEY_GET_UPDATED_EXAMPLE));
-        list.get(selectedPosition).memoryTrick.clear();
-        list.get(selectedPosition).memoryTrick.addAll(data.getStringArrayListExtra(DetailedClause.KEY_GET_UPDATED_MEMORY_TRICK));
-
-        dao.addExample(list.get(selectedPosition));
-        dao.addMemoryTrick(list.get(selectedPosition));
-
-        adapter.notifyItemChanged(selectedPosition);
+        String lastExampleAddedOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
+        if (!lastExampleAddedOn.equals("")) {
+            list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
+            adapter.notifyItemChanged(selectedPosition);
+            dao.updateTableExamples(list.get(selectedPosition));
+        }
     }
 
     private void filterByTopic(Intent data) {

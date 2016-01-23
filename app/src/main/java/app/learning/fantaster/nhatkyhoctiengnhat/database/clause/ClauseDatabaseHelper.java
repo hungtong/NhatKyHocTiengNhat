@@ -14,9 +14,18 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 
 public class ClauseDatabaseHelper extends SQLiteOpenHelper {
+    private static ClauseDatabaseHelper instanceClauseDatabaseHelper;
 
     private final Context context;
     private SQLiteDatabase database;
+
+    // singleton
+    public static synchronized ClauseDatabaseHelper getInstance(Context context) {
+        if (instanceClauseDatabaseHelper == null) {
+            instanceClauseDatabaseHelper = new ClauseDatabaseHelper(context.getApplicationContext());
+        }
+        return instanceClauseDatabaseHelper;
+    }
 
     public ClauseDatabaseHelper(Context context) {
         super(context, ClauseContract.DATABASE_NAME, null, ClauseContract.DATABASE_VERSION);

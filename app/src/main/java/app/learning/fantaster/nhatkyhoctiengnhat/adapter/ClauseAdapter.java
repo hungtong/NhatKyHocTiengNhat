@@ -31,15 +31,13 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
     public static class ClauseViewHolder extends RecyclerView.ViewHolder
                                         implements View.OnClickListener {
 
-        public final TextView clause, formula, briefSummary, explanation, topic, lastExampleOn;
+        public final TextView clause, briefSummary, topic, lastExampleOn;
 
         public ClauseViewHolder(View view) {
             super(view);
 
             clause = (TextView) view.findViewById(R.id.clause);
-            formula = (TextView) view.findViewById(R.id.formula);
             briefSummary = (TextView) view.findViewById(R.id.brief_summary);
-            explanation = (TextView) view.findViewById(R.id.explanation);
             topic = (TextView) view.findViewById(R.id.topic);
             lastExampleOn = (TextView) view.findViewById(R.id.lastExampleOn);
 
@@ -64,9 +62,7 @@ public class ClauseAdapter extends RecyclerView.Adapter<ClauseAdapter.ClauseView
         Clause currentClause = list.get(position);
 
         viewHolder.clause.setText(currentClause.clause);
-        viewHolder.formula.setText(currentClause.formula);
         viewHolder.briefSummary.setText(currentClause.briefSummary);
-        viewHolder.explanation.setText(currentClause.explanation);
         viewHolder.lastExampleOn.setText(currentClause.lastExampleOn);
 
         if (currentClause.topic.size() != 0) {
