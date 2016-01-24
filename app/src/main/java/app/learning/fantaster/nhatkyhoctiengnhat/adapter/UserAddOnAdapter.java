@@ -15,17 +15,36 @@ public class UserAddOnAdapter extends RecyclerView.Adapter<UserAddOnAdapter.AddO
 
     private Activity context;
     private ArrayList<String> list;
+    private static UserAddOnListener listener;
 
-    public UserAddOnAdapter(Activity context, ArrayList<String> list) {
-        this.context = context;
-        this.list = list;
+    public interface UserAddOnListener {
+        void onDelete(int position);
+        void onModify(int position);
     }
 
-    public static class AddOnHolder extends RecyclerView.ViewHolder {
+    public UserAddOnAdapter(Activity context, ArrayList<String> list, UserAddOnListener concreteListener) {
+        this.context = context;
+        this.list = list;
+        this.listener = concreteListener;
+    }
+
+    public static class AddOnHolder extends RecyclerView.ViewHolder
+            implements View.OnLongClickListener, View.OnClickListener{
         public TextView textView;
         public AddOnHolder(View view) {
             super(view);
             textView = (TextView) view.findViewById(R.id.add_on_item);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onModify(getAdapterPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            listener.onDelete(getAdapterPosition());
+            return true;
         }
     }
 

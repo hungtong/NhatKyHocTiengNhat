@@ -37,9 +37,24 @@ public class UserExamplesFragment extends Fragment {
 
         exampleSection = (RecyclerView) view.findViewById(R.id.user_examples_list);
         examples = new ArrayList<>(clauseSelected.example);
-        exampleAdapter = new UserAddOnAdapter(getActivity(), examples);
+        exampleAdapter = new UserAddOnAdapter(getActivity(), examples, new UserAddOnAdapter.UserAddOnListener() {
+            @Override
+            public void onDelete(int position) {
+                ((DetailedClause) getActivity()).getClauseDAO().deleteMemoryTrick(examples.get(position));
+                examples.remove(position);
+                exampleAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onModify(int position) {
+
+            }
+        });
         RecyclerView.LayoutManager exampleLayoutManager = new LinearLayoutManager(getActivity());
         numberOfExamples = (TextView) view.findViewById(R.id.number_of_examples);
+        numberOfExamples.setText(
+                String.format(getString(R.string.number_of_memory_tricks), examples.size())
+        );
         exampleSection.setAdapter(exampleAdapter);
         exampleSection.setLayoutManager(exampleLayoutManager);
 

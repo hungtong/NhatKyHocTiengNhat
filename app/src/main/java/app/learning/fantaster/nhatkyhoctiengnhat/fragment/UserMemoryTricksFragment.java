@@ -40,9 +40,24 @@ public class UserMemoryTricksFragment extends Fragment {
         memoryTrickSection = (RecyclerView) view.findViewById(R.id.user_memory_tricks_list);
         memoryTricks = new ArrayList<>(clauseSelected.memoryTrick);
 
-        memoryTrickAdapter = new UserAddOnAdapter(getActivity(), memoryTricks);
+        memoryTrickAdapter = new UserAddOnAdapter(getActivity(), memoryTricks, new UserAddOnAdapter.UserAddOnListener() {
+            @Override
+            public void onDelete(int position) {
+                ((DetailedClause) getActivity()).getClauseDAO().deleteMemoryTrick(memoryTricks.get(position));
+                memoryTricks.remove(position);
+                memoryTrickAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onModify(int position) {
+
+            }
+        });
         RecyclerView.LayoutManager memoryTrickLayoutManager = new LinearLayoutManager(getActivity());
         numberOfMemoryTricks = (TextView) view.findViewById(R.id.number_of_memory_tricks);
+        numberOfMemoryTricks.setText(
+                String.format(getString(R.string.number_of_memory_tricks), memoryTricks.size())
+        );
         memoryTrickSection.setAdapter(memoryTrickAdapter);
         memoryTrickSection.setLayoutManager(memoryTrickLayoutManager);
 
@@ -66,4 +81,5 @@ public class UserMemoryTricksFragment extends Fragment {
     public TextView getTotalMemoryTricksInfo() {
         return numberOfMemoryTricks;
     }
+
 }

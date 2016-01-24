@@ -67,6 +67,10 @@ public class DetailedClause extends AppCompatActivity {
         return clauseSelected;
     }
 
+    public ClauseDAO getClauseDAO() {
+        return dao;
+    }
+
     class DetailedPagerAdapter extends FragmentPagerAdapter {
         public static final int SO_LUONG_TAB = 3;
 

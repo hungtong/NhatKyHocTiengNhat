@@ -247,23 +247,23 @@ public class ClauseDAO {
 
     /**
      * Delete the example at a given id
-     * @param clause
+     * @param example which clause's example
      */
-    public void deleteExample(Clause clause) {
+    public void deleteExample(String example) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         database.delete(ClauseContract.TABLE_EXAMPLES,
-                        ClauseContract.COLUMN_CLAUSE_ID + "=?",
-                        new String[] { String.valueOf(clause.clauseId) });
+                        ClauseContract.COLUMN_EXAMPLE + "=?",
+                        new String[] { example });
     }
 
     /**
      * Delete the memory trick at a given id
-     * @param clause
+     * @param memoryTrick which clause's memory trick
      */
-    public void deleteMemoryTrick(Clause clause) {
+    public void deleteMemoryTrick(String memoryTrick) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         database.delete(ClauseContract.TABLE_MEMORY_TRICKS,
-                ClauseContract.COLUMN_CLAUSE_ID + "=?",
-                new String[] { String.valueOf(clause.clauseId) });
+                ClauseContract.COLUMN_MEMORY_TRICK + "=?",
+                new String[] { memoryTrick });
     }
 }
