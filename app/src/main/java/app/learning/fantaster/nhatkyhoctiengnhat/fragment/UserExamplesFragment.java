@@ -13,16 +13,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
+import app.learning.fantaster.nhatkyhoctiengnhat.activity.AddOnModification;
 import app.learning.fantaster.nhatkyhoctiengnhat.activity.DetailedClause;
 import app.learning.fantaster.nhatkyhoctiengnhat.activity.NewExample;
-import app.learning.fantaster.nhatkyhoctiengnhat.adapter.UserAddOnAdapter;
+import app.learning.fantaster.nhatkyhoctiengnhat.adapter.UserExampleAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
 
 public class UserExamplesFragment extends Fragment {
 
     private RecyclerView exampleSection;
     private ArrayList<String> examples;
-    private UserAddOnAdapter exampleAdapter;
+    private UserExampleAdapter exampleAdapter;
 
     private TextView numberOfExamples;
 
@@ -35,26 +36,23 @@ public class UserExamplesFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Clause clauseSelected = ((DetailedClause) getActivity()).getClauseSelected();
 
-        exampleSection = (RecyclerView) view.findViewById(R.id.user_examples_list);
         examples = new ArrayList<>(clauseSelected.example);
-        exampleAdapter = new UserAddOnAdapter(getActivity(), examples, new UserAddOnAdapter.UserAddOnListener() {
+        numberOfExamples = (TextView) view.findViewById(R.id.number_of_examples);
+        numberOfExamples.setText(
+                String.format(getString(R.string.number_of_user_examples), examples.size())
+        );
+        exampleSection = (RecyclerView) view.findViewById(R.id.user_examples_list);
+        exampleAdapter = new UserExampleAdapter(getActivity(), examples, new UserExampleAdapter.UserExampleListener() {
             @Override
             public void onDelete(int position) {
-                ((DetailedClause) getActivity()).getClauseDAO().deleteMemoryTrick(examples.get(position));
-                examples.remove(position);
-                exampleAdapter.notifyDataSetChanged();
+                deleteExample(position);
             }
-
             @Override
             public void onModify(int position) {
-
+               modifyExample(position);
             }
         });
         RecyclerView.LayoutManager exampleLayoutManager = new LinearLayoutManager(getActivity());
-        numberOfExamples = (TextView) view.findViewById(R.id.number_of_examples);
-        numberOfExamples.setText(
-                String.format(getString(R.string.number_of_memory_tricks), examples.size())
-        );
         exampleSection.setAdapter(exampleAdapter);
         exampleSection.setLayoutManager(exampleLayoutManager);
 
@@ -68,11 +66,29 @@ public class UserExamplesFragment extends Fragment {
         });
     }
 
+    private void deleteExample(int position) {
+        ((DetailedClause) getActivity()).getClauseDAO().deleteExample(examples.get(position));
+        examples.remove(position);
+        exampleAdapter.notifyDataSetChanged();
+        numberOfExamples.setText(
+                String.format(getString(R.string.number_of_user_examples), examples.size())
+        );
+    }
+
+    private void modifyExample(int position) {
+        Intent intent = new Intent(getActivity(), AddOnModification.class);
+        intent.putExtra(DetailedClause.KEY_GET_CONTENT_TO_MODIFY, examples.get(position));
+        intent.putExtra(DetailedClause.KEY_GET_WHAT_TO_MODIFY, getString(R.string.user_example_tab));
+        ((DetailedClause) getActivity()).exampleIsModified(true);
+        ((DetailedClause) getActivity()).setPositionModified(position);
+        getActivity().startActivityForResult(intent, DetailedClause.REQUEST_CODE_MODIFY);
+    }
+
     public ArrayList<String> getExamples() {
         return examples;
     }
 
-    public UserAddOnAdapter getExampleAdapter() {
+    public UserExampleAdapter getExampleAdapter() {
         return exampleAdapter;
     }
 

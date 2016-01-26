@@ -13,16 +13,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
+import app.learning.fantaster.nhatkyhoctiengnhat.activity.AddOnModification;
 import app.learning.fantaster.nhatkyhoctiengnhat.activity.DetailedClause;
 import app.learning.fantaster.nhatkyhoctiengnhat.activity.NewMemoryTrick;
-import app.learning.fantaster.nhatkyhoctiengnhat.adapter.UserAddOnAdapter;
+import app.learning.fantaster.nhatkyhoctiengnhat.adapter.UserMemoryTrickAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
 
 public class UserMemoryTricksFragment extends Fragment {
 
     private RecyclerView  memoryTrickSection;
     private ArrayList<String> memoryTricks;
-    private UserAddOnAdapter memoryTrickAdapter;
+    private UserMemoryTrickAdapter memoryTrickAdapter;
 
     private TextView numberOfMemoryTricks;
 
@@ -37,27 +38,24 @@ public class UserMemoryTricksFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         clauseSelected = ((DetailedClause) getActivity()).getClauseSelected();
 
-        memoryTrickSection = (RecyclerView) view.findViewById(R.id.user_memory_tricks_list);
         memoryTricks = new ArrayList<>(clauseSelected.memoryTrick);
-
-        memoryTrickAdapter = new UserAddOnAdapter(getActivity(), memoryTricks, new UserAddOnAdapter.UserAddOnListener() {
-            @Override
-            public void onDelete(int position) {
-                ((DetailedClause) getActivity()).getClauseDAO().deleteMemoryTrick(memoryTricks.get(position));
-                memoryTricks.remove(position);
-                memoryTrickAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onModify(int position) {
-
-            }
-        });
-        RecyclerView.LayoutManager memoryTrickLayoutManager = new LinearLayoutManager(getActivity());
         numberOfMemoryTricks = (TextView) view.findViewById(R.id.number_of_memory_tricks);
         numberOfMemoryTricks.setText(
                 String.format(getString(R.string.number_of_memory_tricks), memoryTricks.size())
         );
+
+        memoryTrickSection = (RecyclerView) view.findViewById(R.id.user_memory_tricks_list);
+        memoryTrickAdapter = new UserMemoryTrickAdapter(getActivity(), memoryTricks, new UserMemoryTrickAdapter.UserMemoryTrickListener() {
+            @Override
+            public void onDelete(int position) {
+               deleteMemoryTrick(position);
+            }
+            @Override
+            public void onModify(int position) {
+                modifyMemoryTrick(position);
+            }
+        });
+        RecyclerView.LayoutManager memoryTrickLayoutManager = new LinearLayoutManager(getActivity());
         memoryTrickSection.setAdapter(memoryTrickAdapter);
         memoryTrickSection.setLayoutManager(memoryTrickLayoutManager);
 
@@ -70,11 +68,29 @@ public class UserMemoryTricksFragment extends Fragment {
         });
     }
 
+    private void deleteMemoryTrick(int position) {
+        ((DetailedClause) getActivity()).getClauseDAO().deleteMemoryTrick(memoryTricks.get(position));
+        memoryTricks.remove(position);
+        memoryTrickAdapter.notifyDataSetChanged();
+        numberOfMemoryTricks.setText(
+                String.format(getString(R.string.number_of_memory_tricks), memoryTricks.size())
+        );
+    }
+
+    private void modifyMemoryTrick(int position) {
+        Intent intent = new Intent(getActivity(), AddOnModification.class);
+        intent.putExtra(DetailedClause.KEY_GET_CONTENT_TO_MODIFY, memoryTricks.get(position));
+        intent.putExtra(DetailedClause.KEY_GET_WHAT_TO_MODIFY, getString(R.string.user_memory_trick));
+        ((DetailedClause) getActivity()).memoryTrickIsModified(true);
+        ((DetailedClause) getActivity()).setPositionModified(position);
+        getActivity().startActivityForResult(intent, DetailedClause.REQUEST_CODE_MODIFY);
+    }
+
     public ArrayList<String> getMemoryTricks() {
         return memoryTricks;
     }
 
-    public UserAddOnAdapter getMemoryTrickAdapter() {
+    public UserMemoryTrickAdapter getMemoryTrickAdapter() {
         return memoryTrickAdapter;
     }
 

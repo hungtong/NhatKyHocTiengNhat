@@ -27,14 +27,15 @@ public class ClauseDAO {
     /**
      *  Adding example is pretty simple since we don't have to check whether new example has already existed or not.
      *  In fact, being picky about one subtle change does not worth it.
-     * @param clause new clause
+     *  @param clauseId which clause has new example
+     * @param newExample
      */
-    public void addExample(Clause clause) {
+    public void addExample(int clauseId, String newExample) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(ClauseContract.COLUMN_CLAUSE_ID, clause.clauseId);
-        contentValues.put(ClauseContract.COLUMN_EXAMPLE, clause.example.get(clause.example.size() - 1));
+        contentValues.put(ClauseContract.COLUMN_CLAUSE_ID, clauseId);
+        contentValues.put(ClauseContract.COLUMN_EXAMPLE, newExample);
 
         database.insert(ClauseContract.TABLE_EXAMPLES, null, contentValues);
     }
@@ -42,14 +43,15 @@ public class ClauseDAO {
     /**
      *  Adding memory trick is pretty simple since we don't have to check whether new memory trick has already existed or not.
      *  In fact, being picky about one subtle change does not worth it.
-     * @param clause new clause
+     * @param clauseId which clause has new memory trick
+     * @param newMemoryTrick
      */
-    public void addMemoryTrick(Clause clause) {
+    public void addMemoryTrick(int clauseId, String newMemoryTrick) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(ClauseContract.COLUMN_CLAUSE_ID, clause.clauseId);
-        contentValues.put(ClauseContract.COLUMN_MEMORY_TRICK, clause.memoryTrick.get(clause.memoryTrick.size() - 1));
+        contentValues.put(ClauseContract.COLUMN_CLAUSE_ID, clauseId);
+        contentValues.put(ClauseContract.COLUMN_MEMORY_TRICK, newMemoryTrick);
 
         database.insert(ClauseContract.TABLE_MEMORY_TRICKS, null, contentValues);
     }
@@ -190,21 +192,6 @@ public class ClauseDAO {
 
     /* ============================== UPDATE ============================== */
 
-    /*
-        - Update database when a specific clause changed
-        - Specifically, database needs changes on tables:
-            +   Clauses (contains PRIMARY KEY)
-            +   Examples
-            +   Memory Tricks
-        - Note that we don't make changes on tables Topics and ClausesTopics, because these two have to be created
-          and fulfilled value by programmer (me ... oops ... actually ... another guy)
-     */
-    public void updateClause(Clause clause) {
-        updateTableClauses(clause);
-        updateTableExamples(clause);
-        updateTableMemoryTricks(clause);
-    }
-
     public void updateTableClauses(Clause clause) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         ContentValues updatedValues = new ContentValues();
@@ -214,6 +201,7 @@ public class ClauseDAO {
         updatedValues.put(ClauseContract.COLUMN_FORMULA, clause.formula);
         updatedValues.put(ClauseContract.COLUMN_BRIEF_SUMMARY, clause.briefSummary);
         updatedValues.put(ClauseContract.COLUMN_EXPLANATION, clause.explanation);
+        updatedValues.put(ClauseContract.COLUMN_LAST_EXAMPLE_ON, clause.lastExampleOn);
 
         String where = ClauseContract.COLUMN_ID + "=?";
         String[] whereArgs = { String.valueOf(clause.clauseId) };
@@ -221,26 +209,22 @@ public class ClauseDAO {
         database.update(ClauseContract.TABLE_CLAUSES, updatedValues, where, whereArgs);
     }
 
-    public void updateTableExamples(Clause clause) {
+    public void updateTableExamples(String originalExample, String newExample) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         ContentValues updatedExamples = new ContentValues();
 
-        for (int i = 0; i < clause.example.size(); i++) {
-            updatedExamples.put(ClauseContract.COLUMN_EXAMPLE, clause.example.get(i));
-            database.update(ClauseContract.TABLE_EXAMPLES, updatedExamples,
-                            ClauseContract.COLUMN_CLAUSE_ID + "=?", new String[] { String.valueOf(clause.clauseId) });
-        }
+        updatedExamples.put(ClauseContract.COLUMN_EXAMPLE, newExample);
+        database.update(ClauseContract.TABLE_EXAMPLES, updatedExamples,
+                        ClauseContract.COLUMN_EXAMPLE + "=?", new String[] { originalExample } );
     }
 
-    public void updateTableMemoryTricks(Clause clause) {
+    public void updateTableMemoryTricks(String originalMemoryTrick, String newMemoryTrick) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        ContentValues updatedExamples = new ContentValues();
+        ContentValues updatedMemoryTricks = new ContentValues();
 
-        for (int i = 0; i < clause.memoryTrick.size(); i++) {
-            updatedExamples.put(ClauseContract.COLUMN_MEMORY_TRICK, clause.memoryTrick.get(i));
-            database.update(ClauseContract.TABLE_MEMORY_TRICKS, updatedExamples,
-                    ClauseContract.COLUMN_CLAUSE_ID + "=?", new String[] { String.valueOf(clause.clauseId) });
-        }
+        updatedMemoryTricks.put(ClauseContract.COLUMN_MEMORY_TRICK, newMemoryTrick);
+        database.update(ClauseContract.TABLE_MEMORY_TRICKS, updatedMemoryTricks,
+                ClauseContract.COLUMN_MEMORY_TRICK + "=?", new String[] { originalMemoryTrick } );
     }
 
      /* ============================== DELETE ============================== */

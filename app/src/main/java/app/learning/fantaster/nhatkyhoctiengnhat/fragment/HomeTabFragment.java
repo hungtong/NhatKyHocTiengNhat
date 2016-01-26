@@ -28,13 +28,7 @@ public class HomeTabFragment extends Fragment {
      * @return - a HomeTabFragment in corresponding position
      */
     public static HomeTabFragment newInstance() {
-        Bundle bundle = new Bundle();   // Setup an empty Bundle to store data
-        bundle.putInt("home_tab_fragment", R.drawable.ic_home_white_24dp); // put into Bundle data wanted to retrieve
-
-        HomeTabFragment fragment = new HomeTabFragment(); // default constructor and the only constructor that should
-                                                            // be in every Fragment class
-        fragment.setArguments(bundle);  // Want to retrieve, simply use getArguments().getXXX("key", [default value]);
-        return fragment;
+        return new HomeTabFragment();
 
     }
 

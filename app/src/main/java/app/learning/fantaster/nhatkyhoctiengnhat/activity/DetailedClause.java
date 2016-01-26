@@ -27,9 +27,13 @@ import app.learning.fantaster.nhatkyhoctiengnhat.fragment.UserMemoryTricksFragme
 public class DetailedClause extends AppCompatActivity {
 
     public static final String KEY_GET_UPDATED_LAST_EXAMPLE_ON =  "key to get updated last example on";
+    public static final String KEY_GET_CONTENT_TO_MODIFY = "key to get content in recycler view to modify";
+    public static final String KEY_GET_WHAT_TO_MODIFY = "key indicate what we are modifying";
+
 
     public static final int REQUEST_CODE_EXAMPLE = 111;
     public static final int REQUEST_CODE_MEMORY_TRICK = 112;
+    public static final int REQUEST_CODE_MODIFY = 113;
     public static final int RESULT_CODE_OK = 970;
 
     private ClauseDescriptionFragment clauseDescriptionFragment;
@@ -38,6 +42,9 @@ public class DetailedClause extends AppCompatActivity {
     private Clause clauseSelected;
     private ClauseDAO dao;
     private boolean newExampleAdded;
+    private boolean isExampleModified;
+    private boolean isMemoryTrickModified;
+    private int positionModified;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,18 @@ public class DetailedClause extends AppCompatActivity {
 
     public ClauseDAO getClauseDAO() {
         return dao;
+    }
+
+    public void exampleIsModified(boolean isExampleModified) {
+        this.isExampleModified = isExampleModified;
+    }
+
+    public void memoryTrickIsModified(boolean isMemoryTrickModified) {
+        this.isMemoryTrickModified = isMemoryTrickModified;
+    }
+
+    public void setPositionModified(int positionModified) {
+        this.positionModified = positionModified;
     }
 
     class DetailedPagerAdapter extends FragmentPagerAdapter {
@@ -134,30 +153,67 @@ public class DetailedClause extends AppCompatActivity {
         if (resultCode == RESULT_CODE_OK && data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_EXAMPLE :
-                    String newExample = data.getStringExtra(NewExample.KEY_GET_NEW_EXAMPLE);
-                    if (newExample != null && !newExample.equals("")) {
-                        clauseSelected.example.add(newExample);     // this is for database, new row is added at the end
-                        userExamplesFragment.getExamples().add(0, newExample);  // this is for displaying, new member is add on top
-                        userExamplesFragment.getExampleAdapter().notifyDataSetChanged();
-                        userExamplesFragment.getTotalExamplesInfo().setText(
-                                String.format(getString(R.string.number_of_user_examples), userExamplesFragment.getExamples().size())
-                        );
-                        newExampleAdded = true;
-                        dao.addExample(clauseSelected);
-                    }
+                    addExample(data);
                     break;
 
                 case REQUEST_CODE_MEMORY_TRICK :
-                    String newMemoryTrick = data.getStringExtra(NewMemoryTrick.KEY_GET_NEW_MEMORY_TRICK);
-                    if (newMemoryTrick != null && !newMemoryTrick.equals("")) {
-                        clauseSelected.memoryTrick.add(newMemoryTrick); // this is for database, new row is added at the end
-                        userMemoryTricksFragment.getMemoryTricks().add(0, newMemoryTrick);    // this is for displaying, new member is add on top
-                        userMemoryTricksFragment.getMemoryTrickAdapter().notifyDataSetChanged();
-                        userMemoryTricksFragment.getTotalMemoryTricksInfo().setText(String.format(getString(R.string.number_of_memory_tricks), userMemoryTricksFragment.getMemoryTricks().size()));
-                        dao.addMemoryTrick(clauseSelected);
-                    }
+                    addMemoryTrick(data);
+                    break;
+
+                case REQUEST_CODE_MODIFY :
+                    modifyAddOn(data);
                     break;
             }
+        }
+    }
+
+    private void addExample(Intent data) {
+        String newExample = data.getStringExtra(NewExample.KEY_GET_NEW_EXAMPLE);
+        if (newExample != null && !newExample.equals("")) {
+            clauseSelected.example.add(newExample);     // this is for database, new row is added at the end
+            userExamplesFragment.getExamples().add(0, newExample);  // this is for displaying, new member is add on top
+            userExamplesFragment.getExampleAdapter().notifyDataSetChanged();
+            userExamplesFragment.getTotalExamplesInfo().setText(
+                    String.format(getString(R.string.number_of_user_examples), userExamplesFragment.getExamples().size())
+            );
+            newExampleAdded = true;
+            dao.addExample(clauseSelected.clauseId, newExample);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mma EEEE, d MMMM yyyy");
+            clauseSelected.lastExampleOn = simpleDateFormat.format(new Date());
+            dao.updateTableClauses(clauseSelected);
+
+        }
+    }
+
+    private void addMemoryTrick(Intent data) {
+        String newMemoryTrick = data.getStringExtra(NewMemoryTrick.KEY_GET_NEW_MEMORY_TRICK);
+        if (newMemoryTrick != null && !newMemoryTrick.equals("")) {
+            clauseSelected.memoryTrick.add(newMemoryTrick); // this is for database, new row is added at the end
+            userMemoryTricksFragment.getMemoryTricks().add(0, newMemoryTrick);    // this is for displaying, new member is add on top
+            userMemoryTricksFragment.getMemoryTrickAdapter().notifyDataSetChanged();
+            userMemoryTricksFragment.getTotalMemoryTricksInfo().setText(String.format(getString(R.string.number_of_memory_tricks), userMemoryTricksFragment.getMemoryTricks().size()));
+            dao.addMemoryTrick(clauseSelected.clauseId, newMemoryTrick);
+        }
+    }
+
+    private void modifyAddOn(Intent data) {
+        String modifiedContent = data.getStringExtra(AddOnModification.KEY_TO_GET_MODIFIED_CONTENT);
+        if (isExampleModified) {
+            String originalExample =  clauseSelected.example.get(positionModified);
+            clauseSelected.example.set(positionModified, modifiedContent);
+            userExamplesFragment.getExamples().set(positionModified, modifiedContent);
+            userExamplesFragment.getExampleAdapter().notifyItemChanged(positionModified);
+            dao.updateTableExamples(originalExample, modifiedContent);
+            isExampleModified = false;
+        }
+        if (isMemoryTrickModified) {
+            String originalMemoryTrick = clauseSelected.memoryTrick.get(positionModified);
+            clauseSelected.memoryTrick.set(positionModified, modifiedContent);
+            userMemoryTricksFragment.getMemoryTricks().set(positionModified, modifiedContent);
+            userMemoryTricksFragment.getMemoryTrickAdapter().notifyItemChanged(positionModified);
+            dao.updateTableMemoryTricks(originalMemoryTrick, modifiedContent);
+            isMemoryTrickModified = false;
         }
     }
 

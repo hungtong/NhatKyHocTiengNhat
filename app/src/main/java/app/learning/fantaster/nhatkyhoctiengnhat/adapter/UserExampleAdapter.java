@@ -11,40 +11,41 @@ import java.util.ArrayList;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 
 // Used for memory trick and example
-public class UserAddOnAdapter extends RecyclerView.Adapter<UserAddOnAdapter.AddOnHolder> {
+public class UserExampleAdapter extends RecyclerView.Adapter<UserExampleAdapter.AddOnHolder> {
 
     private Activity context;
     private ArrayList<String> list;
-    private static UserAddOnListener listener;
+    private static UserExampleListener listener;
 
-    public interface UserAddOnListener {
+    public interface UserExampleListener {
         void onDelete(int position);
         void onModify(int position);
     }
 
-    public UserAddOnAdapter(Activity context, ArrayList<String> list, UserAddOnListener concreteListener) {
+    public UserExampleAdapter(Activity context, ArrayList<String> list, UserExampleListener concreteListener) {
         this.context = context;
         this.list = list;
         this.listener = concreteListener;
     }
 
-    public static class AddOnHolder extends RecyclerView.ViewHolder
-            implements View.OnLongClickListener, View.OnClickListener{
+    public static class AddOnHolder extends RecyclerView.ViewHolder {
         public TextView textView;
         public AddOnHolder(View view) {
             super(view);
             textView = (TextView) view.findViewById(R.id.add_on_item);
-        }
-
-        @Override
-        public void onClick(View view) {
-            listener.onModify(getAdapterPosition());
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            listener.onDelete(getAdapterPosition());
-            return true;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onModify(getAdapterPosition());
+                }
+            });
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    listener.onDelete(getAdapterPosition());
+                    return true;
+                }
+            });
         }
     }
 

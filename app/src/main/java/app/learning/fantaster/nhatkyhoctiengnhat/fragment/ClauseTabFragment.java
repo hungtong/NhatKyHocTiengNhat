@@ -192,7 +192,6 @@ public class ClauseTabFragment extends Fragment {
         if (!lastExampleAddedOn.equals("")) {
             list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
             adapter.notifyItemChanged(selectedPosition);
-            dao.updateTableExamples(list.get(selectedPosition));
         }
     }
 

@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content" />
 
                 <Button
-                    android:text="@string/make_change"
+                    android:text="@string/add_example"
                     android:id="@+id/make_change"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
