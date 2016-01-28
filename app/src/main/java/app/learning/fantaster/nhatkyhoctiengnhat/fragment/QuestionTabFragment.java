@@ -13,8 +13,13 @@ import app.learning.fantaster.nhatkyhoctiengnhat.R;
 
 public class QuestionTabFragment extends Fragment {
 
-    public static QuestionTabFragment newInstance() {
-        return new QuestionTabFragment();
+    private static QuestionTabFragment instanceQuestionTabFragment;
+
+    public static QuestionTabFragment getInstance() {
+        if (instanceQuestionTabFragment == null) {
+            instanceQuestionTabFragment = new QuestionTabFragment();
+        }
+        return instanceQuestionTabFragment;
     }
 
     @Override

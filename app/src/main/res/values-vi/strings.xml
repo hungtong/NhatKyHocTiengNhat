@@ -67,5 +67,12 @@
     <string name="add_memory_trick">Thêm Mẹo Nhớ</string>
     <string name="number_of_user_examples">Bạn Đang Có %d Ví Dụ</string>
     <string name="number_of_memory_tricks">Bạn Đang Có %d Mẹo Nhớ</string>
+    <string name="clause_description">Chi Tiết</string>
+    <string name="entry_next_study">Lần Học Kế Tiếp: %s</string>
+    <string name="entry_recent_study">Lần Học Gần Đây: %s</string>
+    <string name="entry_topic">Chủ Điểm: %s</string>
+    <string name="home">Trang Chủ</string>
+    <string name="user_example_tab">Ví Dụ</string>
+    <string name="user_memory_trick">Mẹo Nhớ</string>
 
 </resources>

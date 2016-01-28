@@ -31,12 +31,6 @@ public class Clause implements Parcelable {
         this.memoryTrick = memoryTrick;
     }
 
-    public Clause() {
-        example = new ArrayList<>();
-        topic = new ArrayList<>();
-        memoryTrick = new ArrayList<>();
-    }
-
     public Clause(Parcel in) {
         clauseId = in.readInt();
         clause = in.readString();

@@ -14,6 +14,8 @@ public class HomeTabFragment extends Fragment {
     public static final int RESULT_OK = 928;
     public static final int REQUESTED_CODE = 212;
 
+    private static HomeTabFragment instanceHomeTabFragment;
+
 //    private ArrayList<EntryContent> list;
 //    private EntryAdapter adapter;
 
@@ -27,9 +29,11 @@ public class HomeTabFragment extends Fragment {
      *
      * @return - a HomeTabFragment in corresponding position
      */
-    public static HomeTabFragment newInstance() {
-        return new HomeTabFragment();
-
+    public static HomeTabFragment getInstance() {
+        if (instanceHomeTabFragment == null) {
+            instanceHomeTabFragment = new HomeTabFragment();
+        }
+        return  instanceHomeTabFragment;
     }
 
     @Override

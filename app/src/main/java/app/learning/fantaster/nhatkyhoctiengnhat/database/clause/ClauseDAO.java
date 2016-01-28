@@ -109,7 +109,7 @@ public class ClauseDAO {
      * The ClausesTopics table is the bridge in the relationship and it only containes Id so we need to refer back to
      * Topics Table
      * @param clauseId
-     * @return
+     * @return all topics belonged to the clause whose given clause id
      */
     public ArrayList<String> getTopicsByClause(int clauseId) {
         ArrayList<String> topics = new ArrayList<>();

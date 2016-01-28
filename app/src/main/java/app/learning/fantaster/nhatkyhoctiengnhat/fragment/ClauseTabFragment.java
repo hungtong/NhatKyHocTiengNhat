@@ -34,14 +34,19 @@ public class ClauseTabFragment extends Fragment {
     public static final String KEY_GET_LIST_TOPIC = "key to get list topic";
     public static final String KEY_GET_CURRENT_CLAUSE = "key to get current clause selected";
 
+    private static ClauseTabFragment instanceClauseTabFragment;
+
     private ArrayList<Clause> list;
     private ClauseAdapter adapter;
 
     private int selectedPosition = 0;
     private ClauseDAO dao;
 
-    public static ClauseTabFragment newInstance() {
-        return new ClauseTabFragment();
+    public static ClauseTabFragment getInstance() {
+        if (instanceClauseTabFragment == null) {
+            instanceClauseTabFragment = new ClauseTabFragment();
+        }
+        return instanceClauseTabFragment;
     }
 
     @Override

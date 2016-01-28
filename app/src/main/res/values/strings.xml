@@ -78,6 +78,9 @@
     <string name="clause_description">Description</string>
     <string name="user_example_tab">Examples</string>
     <string name="user_memory_trick">Memory Tricks</string>
+    <string name="entry_topic">Topic: %s</string>
+    <string name="entry_recent_study">Recent Study: %s</string>
+    <string name="entry_next_study">Next Study: %s</string>
 
 
 </resources>

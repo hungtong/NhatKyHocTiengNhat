@@ -86,11 +86,11 @@ public class HomeFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0 :
-                    return HomeTabFragment.newInstance();
+                    return HomeTabFragment.getInstance();
                 case 1 :
-                    return ClauseTabFragment.newInstance();
+                    return ClauseTabFragment.getInstance();
                 default:
-                    return QuestionTabFragment.newInstance();
+                    return QuestionTabFragment.getInstance();
             }
 
         }
