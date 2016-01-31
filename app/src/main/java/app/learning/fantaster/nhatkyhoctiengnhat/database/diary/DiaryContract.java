@@ -1,6 +1,6 @@
-package app.learning.fantaster.nhatkyhoctiengnhat.database.diary_entry;
+package app.learning.fantaster.nhatkyhoctiengnhat.database.diary;
 
-public class DiaryEntryContract {
+public class DiaryContract {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "DiaryEntry.sqlite";
@@ -12,5 +12,6 @@ public class DiaryEntryContract {
     public static final String COLUMN_TOPIC = "topic";
     public static final String COLUMN_RECENT_STUDY = "recentStudy";
     public static final String COLUMN_NEXT_STUDY = "nextStudy";
+    public static final String COLUMN_WRITTEN_ON = "writtenOn";
 
 }

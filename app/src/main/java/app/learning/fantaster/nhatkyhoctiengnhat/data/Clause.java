@@ -69,9 +69,6 @@ public class Clause implements Parcelable {
             return new Clause[size];
         }
 
-        /**
-         * With data written in the parcel, new Question(in) read those data and create new Parcelable class
-         */
         @Override
         public Clause createFromParcel(Parcel in) {
             return new Clause(in);

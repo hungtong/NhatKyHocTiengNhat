@@ -50,9 +50,6 @@ public class QuizResult implements Parcelable {
                     return new QuizResult[size];
                 }
 
-                /**
-                 * With data written in the parcel, new Question(in) read those data and create new Parcelable class
-                 */
                 @Override
                 public QuizResult createFromParcel(Parcel in) {
                     return new QuizResult(in);

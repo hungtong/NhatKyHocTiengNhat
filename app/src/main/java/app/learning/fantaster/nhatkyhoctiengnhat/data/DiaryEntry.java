@@ -9,13 +9,16 @@ public class DiaryEntry implements Parcelable {
     public String entryTopic;;
     public String entryRecentStudy;
     public String entryNextStudy;
+    public String writtenOn;
 
-    public DiaryEntry(int entryId, String entryClause, String entryTopic, String entryRecentStudy, String entryNextStudy) {
+    public DiaryEntry(int entryId, String entryClause, String entryTopic,
+                      String entryRecentStudy, String entryNextStudy, String writtenOn) {
         this.entryId = entryId;
         this.entryClause = entryClause;
         this.entryTopic = entryTopic;
         this.entryRecentStudy = entryRecentStudy;
         this.entryNextStudy = entryNextStudy;
+        this.writtenOn = writtenOn;
     }
 
     public DiaryEntry(Parcel in) {
@@ -24,6 +27,7 @@ public class DiaryEntry implements Parcelable {
         entryTopic = in.readString();
         entryRecentStudy = in.readString();
         entryNextStudy = in.readString();
+        writtenOn = in.readString();
     }
 
     @Override
@@ -33,6 +37,7 @@ public class DiaryEntry implements Parcelable {
         out.writeString(entryTopic);
         out.writeString(entryRecentStudy);
         out.writeString(entryNextStudy);
+        out.writeString(writtenOn);
     }
 
     @Override
@@ -48,9 +53,6 @@ public class DiaryEntry implements Parcelable {
             return new DiaryEntry[size];
         }
 
-        /**
-         * With data written in the parcel, new Question(in) read those data and create new Parcelable class
-         */
         @Override
         public DiaryEntry createFromParcel(Parcel in) {
             return new DiaryEntry(in);

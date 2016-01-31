@@ -1,4 +1,4 @@
-package app.learning.fantaster.nhatkyhoctiengnhat.database.diary_entry;
+package app.learning.fantaster.nhatkyhoctiengnhat.database.diary;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,19 +11,26 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 
 
-public class DiaryEntryDatabaseHelper extends SQLiteOpenHelper {
+public class DiaryDatabaseHelper extends SQLiteOpenHelper {
 
-    private static DiaryEntryDatabaseHelper databaseHelper;
+    private static DiaryDatabaseHelper instanceDatabaseHelper;
 
     private final Context context;
     private SQLiteDatabase database;
 
-    public DiaryEntryDatabaseHelper(Context context, SQLiteDatabase database) {
-        super(context, DiaryEntryContract.DATABASE_NAME, null, DiaryEntryContract.DATABASE_VERSION);
+    public static DiaryDatabaseHelper getInstance(Context context) {
+        if (instanceDatabaseHelper == null) {
+            instanceDatabaseHelper = new DiaryDatabaseHelper(context.getApplicationContext());
+        }
+        return instanceDatabaseHelper;
+    }
+
+    public DiaryDatabaseHelper(Context context) {
+        super(context, DiaryContract.DATABASE_NAME, null, DiaryContract.DATABASE_VERSION);
         this.context = context;
-        this.database = database;
     }
 
     @Override
@@ -40,7 +47,7 @@ public class DiaryEntryDatabaseHelper extends SQLiteOpenHelper {
     private boolean checkDatabase() {
         boolean isDatabaseExisted = false;
         try {
-            String pathToDatabase = DiaryEntryContract.DATABASE_PATH + DiaryEntryContract.DATABASE_NAME;
+            String pathToDatabase = DiaryContract.DATABASE_PATH + DiaryContract.DATABASE_NAME;
             isDatabaseExisted = (new File(pathToDatabase)).exists();
         } catch (SQLiteException ex) {
             Log.d("SQLiteException", ex.toString());
@@ -49,9 +56,9 @@ public class DiaryEntryDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void copyDatabase() throws IOException{
-        String pathToDatabase = DiaryEntryContract.DATABASE_PATH + DiaryEntryContract.DATABASE_NAME;
+        String pathToDatabase = DiaryContract.DATABASE_PATH + DiaryContract.DATABASE_NAME;
 
-        InputStream inputStream = context.getAssets().open(DiaryEntryContract.DATABASE_NAME);
+        InputStream inputStream = context.getAssets().open(DiaryContract.DATABASE_NAME);
         OutputStream outputStream = new FileOutputStream(pathToDatabase);
 
         byte[] buffer = new byte[1024];
@@ -64,7 +71,7 @@ public class DiaryEntryDatabaseHelper extends SQLiteOpenHelper {
         outputStream.close();
     }
 
-    public void createDatabase() {
+    public void createDatabase() throws IOException {
         if (!checkDatabase()) {
             try {
                 copyDatabase();
@@ -74,8 +81,8 @@ public class DiaryEntryDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void openDatabase() {
-        String pathToDatabase = DiaryEntryContract.DATABASE_PATH + DiaryEntryContract.DATABASE_NAME;
+    public void openDatabase() throws SQLException {
+        String pathToDatabase = DiaryContract.DATABASE_PATH + DiaryContract.DATABASE_NAME;
         database = SQLiteDatabase.openDatabase(pathToDatabase, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
@@ -87,7 +94,7 @@ public class DiaryEntryDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteDatabase() {
-        File file = new File (DiaryEntryContract.DATABASE_PATH + DiaryEntryContract.DATABASE_NAME);
+        File file = new File (DiaryContract.DATABASE_PATH + DiaryContract.DATABASE_NAME);
         if (file.exists()) {
             database = null;
             file.delete();

@@ -28,7 +28,7 @@ public class ClauseDAO {
      *  Adding example is pretty simple since we don't have to check whether new example has already existed or not.
      *  In fact, being picky about one subtle change does not worth it.
      *  @param clauseId which clause has new example
-     * @param newExample
+     * @param newExample new example added
      */
     public void addExample(int clauseId, String newExample) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
@@ -44,7 +44,7 @@ public class ClauseDAO {
      *  Adding memory trick is pretty simple since we don't have to check whether new memory trick has already existed or not.
      *  In fact, being picky about one subtle change does not worth it.
      * @param clauseId which clause has new memory trick
-     * @param newMemoryTrick
+     * @param newMemoryTrick new memory trick added
      */
     public void addMemoryTrick(int clauseId, String newMemoryTrick) {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
@@ -75,8 +75,8 @@ public class ClauseDAO {
             do {
                 examples.add(cursor.getString(cursor.getColumnIndex(ClauseContract.COLUMN_EXAMPLE)));
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
         Collections.reverse(examples); // when we add, new member will be at the end, but when display it should be on top
         return examples;
     }
@@ -98,8 +98,8 @@ public class ClauseDAO {
             do {
                 memoryTricks.add(cursor.getString(cursor.getColumnIndex(ClauseContract.COLUMN_MEMORY_TRICK)));
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
         Collections.reverse(memoryTricks);
         return memoryTricks;
     }
@@ -108,7 +108,7 @@ public class ClauseDAO {
      * Get all topics by the given clauseId. Since this is many-to-many, the task is more complicated.
      * The ClausesTopics table is the bridge in the relationship and it only containes Id so we need to refer back to
      * Topics Table
-     * @param clauseId
+     * @param clauseId which clauses
      * @return all topics belonged to the clause whose given clause id
      */
     public ArrayList<String> getTopicsByClause(int clauseId) {
@@ -124,8 +124,8 @@ public class ClauseDAO {
             do {
                 topics.add(cursor.getString(cursor.getColumnIndex(ClauseContract.COLUMN_TOPIC)));
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
         return topics;
     }
     /**
@@ -154,6 +154,7 @@ public class ClauseDAO {
                 );
                 list.add(currentClause);
             } while (cursor.moveToNext());
+            cursor.close();
         }
         return list;
     }
@@ -167,9 +168,8 @@ public class ClauseDAO {
             do {
                 topics.add(cursor.getString(0));
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
-
         // make sure every element only appear one time
         LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(topics);
         topics.clear();

@@ -3,37 +3,32 @@ package app.learning.fantaster.nhatkyhoctiengnhat.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
+import app.learning.fantaster.nhatkyhoctiengnhat.adapter.DiaryAdapter;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.DateOnDiary;
+import app.learning.fantaster.nhatkyhoctiengnhat.database.diary.DiaryDatabaseHelper;
 
 public class HomeTabFragment extends Fragment {
 
-    public static final int RESULT_OK = 928;
-    public static final int REQUESTED_CODE = 212;
+    private RecyclerView diary;
+    private ArrayList<DateOnDiary> datesOnDiary;
 
     private static HomeTabFragment instanceHomeTabFragment;
 
-//    private ArrayList<EntryContent> list;
-//    private EntryAdapter adapter;
-
-    /**
-     * Since it is highly recommended that every Fragment should not have any constructor other than default
-     * constructor, this is actually a design so that we can construct fragment without using constructor
-     * nor setter methods.
-     *
-     * Even more conveniently, this method helps save all arguments, which are data about title, page number, etc
-     * so that we can retrieve easily later by Bunlde class. This is actually the communication between Fragments
-     *
-     * @return - a HomeTabFragment in corresponding position
-     */
     public static HomeTabFragment getInstance() {
         if (instanceHomeTabFragment == null) {
             instanceHomeTabFragment = new HomeTabFragment();
         }
-        return  instanceHomeTabFragment;
+        return instanceHomeTabFragment;
     }
 
     @Override
@@ -43,25 +38,28 @@ public class HomeTabFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.home_tab_recycler_view);
+       intializeData();
 
     }
 
-    /**
-     * Specified the interface OnDeleteListener.
-     * In Recycler View, selection as well as selected position are not handled
-     */
-/*    class ConcreteOnDeleteListener implements EntryAdapter.EntryListener {
-
-        @Override
-        public void onDelete(View childPressed, final int position) {
-
+    private void intializeData() {
+        DiaryDatabaseHelper databaseHelper = DiaryDatabaseHelper.getInstance(getActivity());
+        try {
+            databaseHelper.createDatabase();
+        } catch (IOException ex) {
+            Log.d("Failed", "Failed to create database");
         }
-
-        @Override
-        public void onCloserView(View childPressed, final int position) {
-            /// New Intent Upcoming
+        try {
+            databaseHelper.openDatabase();
+        } catch (SQLException ex) {
+            Log.d("Failed", "Failed to open database");
         }
     }
-*/
+
+    private void initializeDiary(View view) {
+        diary = (RecyclerView) view.findViewById(R.id.diary_of_japanese_study);
+        DiaryAdapter diaryAdapter = new DiaryAdapter(getActivity(), datesOnDiary);
+        diary.setAdapter(diaryAdapter);
+    }
+
 }

@@ -56,26 +56,48 @@ public class ClauseTabFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle saveInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.clause_tab_recycler_view);
+        initializeData();
+        initializeClauses(view);
+        initializeFilters(view);
+    }
 
+    /**
+     * Access database for later manipulation and get all clauses on database
+     */
+    private void initializeData() {
         ClauseDatabaseHelper databaseHelper = ClauseDatabaseHelper.getInstance(getActivity());
         try {
             databaseHelper.createDatabase();
+            try {
+                databaseHelper.openDatabase();
+            } catch (SQLException ex) {
+                Log.d("Failed", "Failed to open database");
+            }
         } catch (IOException ex) {
             Log.d("Failed", "Failed to create database");
         }
-        try {
-            databaseHelper.openDatabase();
-        } catch (SQLException ex) {
-            Log.d("Failed", "Failed to open database");
-        }
+
         dao = new ClauseDAO(databaseHelper);
         list = dao.getAllClauses();
+    }
+
+    /**
+     * Using RecyclerView to present all clauses on database
+     * @param view layout displayed on this fragment
+     */
+    private void initializeClauses(View view) {
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.clause_tab_recycler_view);
         adapter = new ClauseAdapter(getActivity(), list, new OnConcreteListener());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
 
+    /**
+     * Specify onClickListener for floating action buttons
+     * @param view layout displayed on this fragment
+     */
+    private void initializeFilters(View view) {
         view.findViewById(R.id.topic_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,14 +106,12 @@ public class ClauseTabFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_TOPIC_FILTER);
             }
         });
-
         view.findViewById(R.id.original_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doOriginalFilter();
             }
         });
-
         view.findViewById(R.id.last_example_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
