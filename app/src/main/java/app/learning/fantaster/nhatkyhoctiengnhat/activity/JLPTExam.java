@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.Random;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
-import app.learning.fantaster.nhatkyhoctiengnhat.data.QuizResult;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.ExamResult;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDAO;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDatabaseHelper;
@@ -54,10 +54,6 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
     public static String KEY_GET_ATTEMPTS = "key to get attempts";
     public static String KEY_GET_QUESTION_LIST = "key to get question list";
     public static String KEY_GET_POINTS = "key to get points";
-    public static String KEY_GET_OPTIONS_1 = "key to get options 1 array";
-    public static String KEY_GET_OPTIONS_2 = "key to get options 2 array";
-    public static String KEY_GET_OPTIONS_3 = "key to get options 3 array";
-    public static String KEY_GET_OPTIONS_4 = "key to get options 4 array";
     public static int TOTAL_QUESTIONS = 25;
     public static int NUMBER_OF_VOCAB_QUESTIONS = 15;
     public static int NUMBER_OF_GRAMMAR_QUESTIONS = 5;
@@ -78,7 +74,7 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
     public static int currentNumberOfQuestions = 0;
 
     private ArrayList<Question> list;
-    private ArrayList<QuizResult> listQuizResult;
+    private ArrayList<ExamResult> listExamResult;
     private String[] options1, options2, options3, options4;
     private int[] chosenOptionId;
     private boolean[] correctOrNot;
@@ -177,13 +173,13 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
      */
     @Override
     public void onOptionClick(int chosenOptionId, String optionContent) {
-        QuizResult quizResult = listQuizResult.get(currentNumberOfQuestions);
-        quizResult.answer = optionContent;
-        quizResult.attemptedOrNot = 1;
+        ExamResult examResult = listExamResult.get(currentNumberOfQuestions);
+        examResult.answer = optionContent;
+        examResult.attemptedOrNot = 1;
         this.chosenOptionId[currentNumberOfQuestions] = chosenOptionId;
         if (optionContent.equalsIgnoreCase(list.get(currentNumberOfQuestions).correctAnswer)) {
             correctOrNot[currentNumberOfQuestions] = true;
-            quizResult.correctOrNot = 1;
+            examResult.correctOrNot = 1;
         }
 
     }
@@ -209,7 +205,7 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
         list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_GRAMMAR_QUESTIONS, GRAMMAR_TYPE));
         list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_READING_QUESTIONS, READING_TYPE));
 
-        listQuizResult = new ArrayList<>();
+        listExamResult = new ArrayList<>();
         options1 = new String[TOTAL_QUESTIONS];
         options2 = new String[TOTAL_QUESTIONS];
         options3 = new String[TOTAL_QUESTIONS];
@@ -228,7 +224,7 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
                     options3[i].length() > 50 || options4[i].length() > 50) {
                 fragmentTag[i] = FRAGMENT_TAG_FOR_LONG_OPTION;
             }
-            listQuizResult.add(new QuizResult(newQuestion.question, newQuestion.correctAnswer));
+            listExamResult.add(new ExamResult(newQuestion.question, newQuestion.correctAnswer));
         }
 
     }
@@ -317,14 +313,16 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
         builder.setPositiveButton(getString(R.string.finish_anyway), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(JLPTExam.this, ExamResult.class);
+                Intent intent = new Intent(JLPTExam.this, app.learning.fantaster.nhatkyhoctiengnhat.activity.ExamResult.class);
                 intent.putExtra(KEY_GET_POINTS, getPoints());
                 intent.putExtra(KEY_GET_ATTEMPTS, getNumberOfAttemtps());
                 timer.cancel();
                 try {
                     intent.putExtra(KEY_GET_TIME_USED, getTotalTime());
-                } catch (ParseException ex) {}
-                intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listQuizResult);
+                } catch (ParseException ex) {
+                    Log.d("ParseException", ex.toString() );
+                }
+                intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listExamResult);
                 intent.putParcelableArrayListExtra(KEY_GET_QUESTION_LIST, list);
                 startActivity(intent);
             }
@@ -356,11 +354,11 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
         public void onFinish() {
             countdownTimer.setText(getString(R.string.time_up));
             SystemClock.sleep(1000);
-            Intent intent = new Intent(JLPTExam.this, ExamResult.class);
+            Intent intent = new Intent(JLPTExam.this, app.learning.fantaster.nhatkyhoctiengnhat.activity.ExamResult.class);
             intent.putExtra(KEY_GET_POINTS, getPoints());
             intent.putExtra(KEY_GET_ATTEMPTS, getNumberOfAttemtps());
             intent.putExtra(KEY_GET_TIME_USED, "20:00");
-            intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listQuizResult);
+            intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listExamResult);
             intent.putParcelableArrayListExtra(KEY_GET_QUESTION_LIST, list);
             startActivity(intent);
         }

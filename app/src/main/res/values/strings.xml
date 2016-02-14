@@ -27,6 +27,7 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="tomorrow">Tomorrow</string>
+    <string name="the_day_before">The Day Before</string>
     <string name="start">Start!!!</string>
     <string name="out_of_total" translatable="false">%d/%d</string>
     <string name="alert_exam_ending">The End</string>
@@ -81,6 +82,8 @@
     <string name="entry_topic">Topic: %s</string>
     <string name="entry_recent_study">Recent Study: %s</string>
     <string name="entry_next_study">Next Study: %s</string>
+    <string name="next_study_on">Next Study Will Be On</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>

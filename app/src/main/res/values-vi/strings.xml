@@ -74,5 +74,8 @@
     <string name="home">Trang Chủ</string>
     <string name="user_example_tab">Ví Dụ</string>
     <string name="user_memory_trick">Mẹo Nhớ</string>
+    <string name="the_day_before">Hôm Kia</string>
+    <string name="next_study_on">Lần Học Tới Sẽ Vào</string>
+    <string name="cancel">Hủy Bỏ</string>
 
 </resources>

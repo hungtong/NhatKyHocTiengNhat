@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TimePicker
+        android:id="@+id/next_study_time"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true" />
+
+    <DatePicker
+        android:id="@+id/next_study_date"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/next_study_time"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"/>
+
+    <Button
+        android:id="@+id/cancel_next_study_dialog"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        android:layout_below="@+id/next_study_date"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="@string/agree"
+        android:textSize="20sp"
+        android:layout_toLeftOf="@+id/cancel_next_study_dialog"
+        android:layout_toStartOf="@+id/cancel_next_study_dialog"
+        android:id="@+id/agree_time_date"
+        android:layout_below="@+id/next_study_date"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+</RelativeLayout>

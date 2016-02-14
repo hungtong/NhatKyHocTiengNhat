@@ -10,7 +10,9 @@ import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.DateOnDiary;
@@ -19,12 +21,12 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.DiaryEntry;
 public class DiaryAdapter extends ExpandableRecyclerAdapter<DiaryAdapter.DiaryDateHolder, DiaryAdapter.EntryHolder> {
 
     private Activity context;
-    private ArrayList<DateOnDiary> parents;
+    private static ArrayList<DateOnDiary> parents;
 
-    public DiaryAdapter(Activity context, ArrayList<DateOnDiary> parents) {
+    public DiaryAdapter(Activity context, ArrayList<DateOnDiary> concreteParents) {
         super(parents);
         this.context = context;
-        this.parents = parents;
+        parents = concreteParents;
     }
 
     public static class DiaryDateHolder extends ParentViewHolder {
@@ -45,6 +47,7 @@ public class DiaryAdapter extends ExpandableRecyclerAdapter<DiaryAdapter.DiaryDa
             entryTopic = (TextView) view.findViewById(R.id.entry_topic);
             entryRecentStudy = (TextView) view.findViewById(R.id.entry_recent_study);
             entryNextStudy = (TextView) view.findViewById(R.id.entry_next_study);
+
         }
     }
 
@@ -56,8 +59,25 @@ public class DiaryAdapter extends ExpandableRecyclerAdapter<DiaryAdapter.DiaryDa
 
     @Override
     public void onBindParentViewHolder(DiaryDateHolder viewHolder, int position, ParentListItem parentListItem) {
-        DateOnDiary dateOnDiary = (DateOnDiary) parentListItem;;
-        viewHolder.diaryDateIndicator.setText(dateOnDiary.date);
+        DateOnDiary dateOnDiary = (DateOnDiary) parentListItem;
+        String dateToFillIn = dateOnDiary.date;
+        if (position < 3) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+            Calendar calendar = Calendar.getInstance();
+            String today = simpleDateFormat.format(calendar.getTime());
+            calendar.add(Calendar.DAY_OF_YEAR, -1);
+            String yesterday = simpleDateFormat.format(calendar.getTime());
+            calendar.add(Calendar.DAY_OF_YEAR, -1);
+            String dayBefore = simpleDateFormat.format(calendar.getTime());
+            if (dateToFillIn.equals(today))
+                dateToFillIn = context.getString(R.string.today);
+            if (dateToFillIn.equals(yesterday))
+                dateToFillIn = context.getString(R.string.yesterday);
+            if (dateToFillIn.equals(dayBefore))
+                dateToFillIn = context.getString(R.string.the_day_before);
+        }
+
+        viewHolder.diaryDateIndicator.setText(dateToFillIn);
     }
 
     @Override

@@ -73,7 +73,9 @@ public class DiaryDatabaseHelper extends SQLiteOpenHelper {
 
     public void createDatabase() throws IOException {
         if (!checkDatabase()) {
+            this.getReadableDatabase();
             try {
+                this.close();
                 copyDatabase();
             } catch (IOException ex) {
                 Log.d("IOException", ex.toString());

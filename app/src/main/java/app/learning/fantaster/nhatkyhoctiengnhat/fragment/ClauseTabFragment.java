@@ -1,6 +1,7 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -56,9 +57,23 @@ public class ClauseTabFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle saveInstanceState) {
-        initializeData();
-        initializeClauses(view);
-        initializeFilters(view);
+        new ClausePreparation().execute(view);
+    }
+
+    class ClausePreparation extends AsyncTask<View, Void, View> {
+
+        @Override
+        public View doInBackground(View ... views) {
+            initializeData();
+            return views[0];
+        }
+
+        @Override
+        public void onPostExecute(View view) {
+            initializeClauses(view);
+            initializeFilters(view);
+        }
+
     }
 
     /**
@@ -76,7 +91,6 @@ public class ClauseTabFragment extends Fragment {
         } catch (IOException ex) {
             Log.d("Failed", "Failed to create database");
         }
-
         dao = new ClauseDAO(databaseHelper);
         list = dao.getAllClauses();
     }
@@ -216,6 +230,7 @@ public class ClauseTabFragment extends Fragment {
         String lastExampleAddedOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
         if (!lastExampleAddedOn.equals("")) {
             list.get(selectedPosition).lastExampleOn = data.getStringExtra(DetailedClause.KEY_GET_UPDATED_LAST_EXAMPLE_ON);
+
             adapter.notifyItemChanged(selectedPosition);
         }
     }
@@ -257,5 +272,6 @@ public class ClauseTabFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
     }
+
 
 }

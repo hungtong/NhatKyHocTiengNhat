@@ -21,13 +21,12 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
 
 public class UserMemoryTricksFragment extends Fragment {
 
-    private RecyclerView  memoryTrickSection;
     private ArrayList<String> memoryTricks;
     private UserMemoryTrickAdapter memoryTrickAdapter;
 
     private TextView numberOfMemoryTricks;
 
-    private Clause clauseSelected;
+    private String savedMemoryTricks = "saved memory tricks of ";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,15 +35,21 @@ public class UserMemoryTricksFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        clauseSelected = ((DetailedClause) getActivity()).getClauseSelected();
+        Clause clauseSelected = ((DetailedClause) getActivity()).getClauseSelected();
+        savedMemoryTricks += clauseSelected.clause;
 
         memoryTricks = new ArrayList<>(clauseSelected.memoryTrick);
+        if (savedInstanceState != null) {
+            memoryTricks.clear();
+            memoryTricks.addAll(savedInstanceState.getStringArrayList(savedMemoryTricks));
+        }
+
         numberOfMemoryTricks = (TextView) view.findViewById(R.id.number_of_memory_tricks);
         numberOfMemoryTricks.setText(
                 String.format(getString(R.string.number_of_memory_tricks), memoryTricks.size())
         );
 
-        memoryTrickSection = (RecyclerView) view.findViewById(R.id.user_memory_tricks_list);
+        RecyclerView memoryTrickSection = (RecyclerView) view.findViewById(R.id.user_memory_tricks_list);
         memoryTrickAdapter = new UserMemoryTrickAdapter(getActivity(), memoryTricks, new UserMemoryTrickAdapter.UserMemoryTrickListener() {
             @Override
             public void onDelete(int position) {
@@ -66,6 +71,14 @@ public class UserMemoryTricksFragment extends Fragment {
                 getActivity().startActivityForResult(intent, DetailedClause.REQUEST_CODE_MEMORY_TRICK);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (memoryTricks != null) {
+            outState.putStringArrayList(savedMemoryTricks, memoryTricks);
+        }
     }
 
     private void deleteMemoryTrick(int position) {

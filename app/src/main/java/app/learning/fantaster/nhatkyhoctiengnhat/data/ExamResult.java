@@ -3,7 +3,7 @@ package app.learning.fantaster.nhatkyhoctiengnhat.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class QuizResult implements Parcelable {
+public class ExamResult implements Parcelable {
 
     public String question;
     public String answer;
@@ -11,7 +11,7 @@ public class QuizResult implements Parcelable {
     public int correctOrNot;
     public int attemptedOrNot;
 
-    public QuizResult(String question, String answer, String correctAnswer, int correctOrNot, int attemptedOrNot) {
+    public ExamResult(String question, String answer, String correctAnswer, int correctOrNot, int attemptedOrNot) {
         this.question = question;
         this.answer = answer;
         this.correctAnswer = correctAnswer;
@@ -19,11 +19,11 @@ public class QuizResult implements Parcelable {
         this.attemptedOrNot = attemptedOrNot;
     }
 
-    public QuizResult(String question, String correctAnswer) {
+    public ExamResult(String question, String correctAnswer) {
         this(question, null, correctAnswer, 0, 0);
     }
 
-    public QuizResult(Parcel in) {
+    public ExamResult(Parcel in) {
         question = in.readString();
         answer = in.readString();
         correctAnswer = in.readString();
@@ -43,16 +43,16 @@ public class QuizResult implements Parcelable {
         out.writeInt(attemptedOrNot);
     }
 
-    public static final Parcelable.Creator<QuizResult> CREATOR =
-            new Parcelable.Creator<QuizResult>() {
+    public static final Parcelable.Creator<ExamResult> CREATOR =
+            new Parcelable.Creator<ExamResult>() {
                 @Override
-                public QuizResult[] newArray(int size) {
-                    return new QuizResult[size];
+                public ExamResult[] newArray(int size) {
+                    return new ExamResult[size];
                 }
 
                 @Override
-                public QuizResult createFromParcel(Parcel in) {
-                    return new QuizResult(in);
+                public ExamResult createFromParcel(Parcel in) {
+                    return new ExamResult(in);
                 }
             };
 

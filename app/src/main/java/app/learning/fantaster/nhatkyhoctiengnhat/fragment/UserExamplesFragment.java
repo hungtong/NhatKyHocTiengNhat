@@ -21,11 +21,12 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
 
 public class UserExamplesFragment extends Fragment {
 
-    private RecyclerView exampleSection;
     private ArrayList<String> examples;
     private UserExampleAdapter exampleAdapter;
 
     private TextView numberOfExamples;
+
+    private String savedExamples = "saved examples of ";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,13 +36,19 @@ public class UserExamplesFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Clause clauseSelected = ((DetailedClause) getActivity()).getClauseSelected();
+        savedExamples += clauseSelected.clause;
 
         examples = new ArrayList<>(clauseSelected.example);
+        if (savedInstanceState != null) {
+            examples.clear();
+            examples.addAll(savedInstanceState.getStringArrayList(savedExamples));
+        }
+
         numberOfExamples = (TextView) view.findViewById(R.id.number_of_examples);
         numberOfExamples.setText(
                 String.format(getString(R.string.number_of_user_examples), examples.size())
         );
-        exampleSection = (RecyclerView) view.findViewById(R.id.user_examples_list);
+        RecyclerView exampleSection = (RecyclerView) view.findViewById(R.id.user_examples_list);
         exampleAdapter = new UserExampleAdapter(getActivity(), examples, new UserExampleAdapter.UserExampleListener() {
             @Override
             public void onDelete(int position) {
@@ -64,6 +71,14 @@ public class UserExamplesFragment extends Fragment {
                 getActivity().startActivityForResult(intent, DetailedClause.REQUEST_CODE_EXAMPLE);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (examples != null) {
+            outState.putStringArrayList(savedExamples, examples);
+        }
     }
 
     private void deleteExample(int position) {

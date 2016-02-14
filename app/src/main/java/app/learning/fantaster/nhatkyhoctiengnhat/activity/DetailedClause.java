@@ -13,14 +13,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
+import app.learning.fantaster.nhatkyhoctiengnhat.adapter.DiaryAdapter;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Clause;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.DateOnDiary;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.DiaryEntry;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.ClauseDAO;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.clause.ClauseDatabaseHelper;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.ClauseDescriptionFragment;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.ClauseTabFragment;
+import app.learning.fantaster.nhatkyhoctiengnhat.fragment.HomeTabFragment;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.UserExamplesFragment;
 import app.learning.fantaster.nhatkyhoctiengnhat.fragment.UserMemoryTricksFragment;
 
@@ -30,11 +36,14 @@ public class DetailedClause extends AppCompatActivity {
     public static final String KEY_GET_CONTENT_TO_MODIFY = "key to get content in recycler view to modify";
     public static final String KEY_GET_WHAT_TO_MODIFY = "key indicate what we are modifying";
 
-
     public static final int REQUEST_CODE_EXAMPLE = 111;
     public static final int REQUEST_CODE_MEMORY_TRICK = 112;
     public static final int REQUEST_CODE_MODIFY = 113;
     public static final int RESULT_CODE_OK = 970;
+
+    private final String FRAGMENT_CLAUSE_DESCRIPTION_TAG = "fragment clause description tag ";
+    private final String FRAGMENT_USER_EXAMPLES_TAG = "fragment user examples tag ";
+    private final String FRAGMENT_USER_MEMORY_TRICKS_TAG = "fragment user memory tricks tag ";
 
     private ClauseDescriptionFragment clauseDescriptionFragment;
     private UserExamplesFragment userExamplesFragment;
@@ -53,13 +62,24 @@ public class DetailedClause extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        initialize();
+        initialize(savedInstanceState);
     }
 
-    private void initialize() {
-        clauseDescriptionFragment = new ClauseDescriptionFragment();
-        userExamplesFragment = new UserExamplesFragment();
-        userMemoryTricksFragment = new UserMemoryTricksFragment();
+    private void initialize(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            clauseDescriptionFragment = new ClauseDescriptionFragment();
+            userExamplesFragment = new UserExamplesFragment();
+            userMemoryTricksFragment = new UserMemoryTricksFragment();
+        }
+        else {
+            clauseDescriptionFragment = (ClauseDescriptionFragment) getSupportFragmentManager().getFragment(savedInstanceState,
+                                                                    FRAGMENT_CLAUSE_DESCRIPTION_TAG + clauseSelected.clause);
+            userExamplesFragment = (UserExamplesFragment) getSupportFragmentManager().getFragment(savedInstanceState,
+                                                                    FRAGMENT_USER_EXAMPLES_TAG + clauseSelected.clause);
+            userMemoryTricksFragment = (UserMemoryTricksFragment) getSupportFragmentManager().getFragment(savedInstanceState,
+                                                                FRAGMENT_USER_MEMORY_TRICKS_TAG + clauseSelected.clause);
+        }
+
         clauseSelected = getIntent().getParcelableExtra(ClauseTabFragment.KEY_GET_CURRENT_CLAUSE);
         dao = new ClauseDAO(ClauseDatabaseHelper.getInstance(getApplicationContext()));
 
@@ -68,6 +88,14 @@ public class DetailedClause extends AppCompatActivity {
         viewPager.setAdapter(new DetailedPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState, FRAGMENT_CLAUSE_DESCRIPTION_TAG + clauseSelected.clause, clauseDescriptionFragment);
+        getSupportFragmentManager().putFragment(outState, FRAGMENT_USER_EXAMPLES_TAG + clauseSelected.clause, userExamplesFragment);
+        getSupportFragmentManager().putFragment(outState, FRAGMENT_USER_MEMORY_TRICKS_TAG + clauseSelected.clause, userMemoryTricksFragment);
     }
 
     public Clause getClauseSelected() {
@@ -183,7 +211,64 @@ public class DetailedClause extends AppCompatActivity {
             clauseSelected.lastExampleOn = simpleDateFormat.format(new Date());
             dao.updateTableClauses(clauseSelected);
 
+            writeDiary();
         }
+    }
+
+    /**
+     * Access to instances of HomeTabFragment, datesOnDiary and diaryAdapter to add new entry
+     */
+    private void writeDiary() {
+        HomeTabFragment homeTabFragment = HomeTabFragment.getInstance();
+        ArrayList<DateOnDiary> datesOnDiary = homeTabFragment.getDatesOnDiary();
+        DiaryAdapter diaryAdapter = homeTabFragment.getDiaryAdapter();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+        Calendar calendar = Calendar.getInstance();
+        String today = simpleDateFormat.format(calendar.getTime());
+
+        DiaryEntry newDiaryEntry = createNewEntry(today);
+
+        if (!datesOnDiary.isEmpty()) {
+            if (today.equals(datesOnDiary.get(0))) {
+                datesOnDiary.get(0).dateEntries.add(newDiaryEntry);
+                diaryAdapter.notifyItemChanged(0);
+                homeTabFragment.getDiaryDAO().addDiaryEntry(newDiaryEntry);
+            }
+            else {
+                ArrayList<DiaryEntry> oneEntry = new ArrayList<>();
+                oneEntry.add(newDiaryEntry);
+
+                DateOnDiary newDate = new DateOnDiary(today, oneEntry);
+                datesOnDiary.add(0, newDate);
+
+                diaryAdapter.notifyDataSetChanged();
+                homeTabFragment.getDiaryDAO().addDiaryEntry(newDiaryEntry);
+            }
+        }
+
+    }
+
+    /**
+     * Create a new entry with today's date
+     * @param today today's date
+     * @return a new entry with information about clauseId, clauseName, clause's topics, recentStudy,
+     *          nextStudy (temporarily empty),
+     */
+    private DiaryEntry createNewEntry(String today) {
+        String topics = "";
+        String recentStudy = "";
+        String nextStudy = "";
+        for (int i = 0; i < clauseSelected.topic.size(); i++)
+            topics += clauseSelected.topic.get(i);
+
+        topics += String.format(getString(R.string.entry_topic), topics);
+        recentStudy = String.format(getString(R.string.entry_recent_study), today);
+        nextStudy = String.format(getString(R.string.entry_next_study), nextStudy);
+
+
+        DiaryEntry newEntry = new DiaryEntry(clauseSelected.clauseId, clauseSelected.clause, topics, recentStudy, nextStudy);
+        return newEntry;
     }
 
     private void addMemoryTrick(Intent data) {

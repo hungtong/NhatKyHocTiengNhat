@@ -12,6 +12,5 @@ public class DiaryContract {
     public static final String COLUMN_TOPIC = "topic";
     public static final String COLUMN_RECENT_STUDY = "recentStudy";
     public static final String COLUMN_NEXT_STUDY = "nextStudy";
-    public static final String COLUMN_WRITTEN_ON = "writtenOn";
 
 }
