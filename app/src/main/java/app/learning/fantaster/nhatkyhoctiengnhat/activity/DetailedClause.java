@@ -174,6 +174,7 @@ public class DetailedClause extends AppCompatActivity {
         intent.putExtra(KEY_GET_UPDATED_LAST_EXAMPLE_ON, lastExampleAddedOn);
         setResult(ClauseTabFragment.RESULT_CODE_OK, intent);
         super.onBackPressed(); // must happen after setResult
+
     }
 
     @Override
