@@ -11,7 +11,7 @@
         android:gravity="center"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:id="@+id/long_option_title"/>
+        android:id="@+id/option_title"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,9 +20,10 @@
         android:fillViewport="true">
 
         <TextView
-            android:id="@+id/question_in_long_fragment"
+            android:id="@+id/question_in_fragment"
             android:textSize="25sp"
             android:textStyle="bold"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -35,26 +36,34 @@
         android:layout_width="match_parent">
 
         <Button
-            android:id="@+id/option1_in_long_fragment"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/option1_in_fragment"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
 
         <Button
-            android:id="@+id/option2_in_long_fragment"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/option2_in_fragment"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="center" />
 
 
         <Button
-            android:id="@+id/option3_in_long_fragment"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/option3_in_fragment"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="center"/>
 
         <Button
-            android:id="@+id/option4_in_long_fragment"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/option4_in_fragment"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="center" />

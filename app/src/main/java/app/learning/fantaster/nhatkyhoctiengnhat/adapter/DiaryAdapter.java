@@ -21,12 +21,10 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.DiaryEntry;
 public class DiaryAdapter extends ExpandableRecyclerAdapter<DiaryAdapter.DiaryDateHolder, DiaryAdapter.EntryHolder> {
 
     private Activity context;
-    private static ArrayList<DateOnDiary> parents;
 
     public DiaryAdapter(Activity context, ArrayList<DateOnDiary> concreteParents) {
-        super(parents);
+        super(concreteParents);
         this.context = context;
-        parents = concreteParents;
     }
 
     public static class DiaryDateHolder extends ParentViewHolder {

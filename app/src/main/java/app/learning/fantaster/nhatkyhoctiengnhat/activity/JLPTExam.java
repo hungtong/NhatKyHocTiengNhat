@@ -30,21 +30,18 @@ import app.learning.fantaster.nhatkyhoctiengnhat.data.ExamResult;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDAO;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDatabaseHelper;
-import app.learning.fantaster.nhatkyhoctiengnhat.fragment.LongOptionFragment;
-import app.learning.fantaster.nhatkyhoctiengnhat.fragment.ShortOptionFragment;
+import app.learning.fantaster.nhatkyhoctiengnhat.fragment.OptionFragment;
 
 /**
  * - This is our exam
  * - The Activity will first get all questions in 3 categories : 5 Grammar, 15 Vocab and 5 Reading. Initially
  * A is always the correct answer so it is crucial to shuffleOptions
- * - Depending on how long the options of a question is, 2 will have two ways to represent questions,
- * which are using Short Fragment or Long Fragment.
  * - Every time clicking in an option, it will be highlighted and its id will be stored so that it is easy to
  * retrieve when moving backward or forward when all the buttons have to become default state.
  * - To move backward or forward we only need to adjust current number of questions and display data which were
  * initialized at the beginning.
  */
-public class JLPTExam extends AppCompatActivity implements LongOptionFragment.OptionClickListener {
+public class JLPTExam extends AppCompatActivity implements OptionFragment.OptionClickListener {
 
     private TextView questionCounting;
     private TextView countdownTimer;
@@ -66,8 +63,7 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
     public static final int VOCAB_TYPE = 1;
     public static final int GRAMMAR_TYPE = 2;
     public static final int READING_TYPE = 3;
-    public static String FRAGMENT_TAG_FOR_SHORT_OPTION = "fragment tag for short option";
-    public static String FRAGMENT_TAG_FOR_LONG_OPTION = "fragment tag for long option";
+    public static String FRAGMENT_TAG_FOR_OPTION = "fragment tag for long option";
     public static long TOTAL_TIME_TO_FINISH_EXAM = 1200000;
     public static long INTERVAL = 1000;
 
@@ -78,7 +74,6 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
     private String[] options1, options2, options3, options4;
     private int[] chosenOptionId;
     private boolean[] correctOrNot;
-    private String[] fragmentTag;
     private JLPTExamCountDownTimer timer;
 
     public String getQuestionAt(int whichQuestions) {
@@ -157,9 +152,7 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
         prepareQuestion();
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (fragmentTag[currentNumberOfQuestions].equals(FRAGMENT_TAG_FOR_SHORT_OPTION))
-            fragmentTransaction.replace(R.id.question_container, new ShortOptionFragment(), fragmentTag[currentNumberOfQuestions]);
-        else fragmentTransaction.replace(R.id.question_container, new LongOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+        fragmentTransaction.replace(R.id.question_container, new OptionFragment(), FRAGMENT_TAG_FOR_OPTION);
         fragmentTransaction.commit();
 
         timer = new JLPTExamCountDownTimer(TOTAL_TIME_TO_FINISH_EXAM, INTERVAL);
@@ -213,17 +206,11 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
 
         chosenOptionId = new int[TOTAL_QUESTIONS];
         correctOrNot = new boolean[TOTAL_QUESTIONS];
-        fragmentTag = new String[TOTAL_QUESTIONS];
 
         Question newQuestion;
         for (int i = 0; i < TOTAL_QUESTIONS; i++) {
             newQuestion = list.get(i);
             shuffleOptions(newQuestion, i);
-            fragmentTag[i] = FRAGMENT_TAG_FOR_SHORT_OPTION;
-            if (options1[i].length() > 50 || options2[i].length() > 50 ||
-                    options3[i].length() > 50 || options4[i].length() > 50) {
-                fragmentTag[i] = FRAGMENT_TAG_FOR_LONG_OPTION;
-            }
             listExamResult.add(new ExamResult(newQuestion.question, newQuestion.correctAnswer));
         }
 
@@ -260,9 +247,7 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
                     currentNumberOfQuestions + 1, TOTAL_QUESTIONS));
 
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            if (fragmentTag[currentNumberOfQuestions].equals(FRAGMENT_TAG_FOR_SHORT_OPTION))
-                fragmentTransaction.replace(R.id.question_container, new ShortOptionFragment(), fragmentTag[currentNumberOfQuestions]);
-            else fragmentTransaction.replace(R.id.question_container, new LongOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+            fragmentTransaction.replace(R.id.question_container, new OptionFragment(),FRAGMENT_TAG_FOR_OPTION);
             fragmentTransaction.commit();
         }
         else alertUser();
@@ -275,9 +260,7 @@ public class JLPTExam extends AppCompatActivity implements LongOptionFragment.Op
                     currentNumberOfQuestions + 1, TOTAL_QUESTIONS));
 
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            if (fragmentTag[currentNumberOfQuestions].equals(FRAGMENT_TAG_FOR_SHORT_OPTION))
-                fragmentTransaction.replace(R.id.question_container, new ShortOptionFragment(), fragmentTag[currentNumberOfQuestions]);
-            else fragmentTransaction.replace(R.id.question_container, new LongOptionFragment(), fragmentTag[currentNumberOfQuestions]);
+            fragmentTransaction.replace(R.id.question_container, new OptionFragment(), FRAGMENT_TAG_FOR_OPTION);
             fragmentTransaction.commit();
         }
         else Toast.makeText(getBaseContext(), getString(R.string.head_of_text), Toast.LENGTH_SHORT).show(); // Out of bound
