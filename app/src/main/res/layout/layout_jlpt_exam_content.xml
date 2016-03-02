@@ -15,7 +15,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/question_container"
         android:layout_width="match_parent"
-        android:layout_height="480dp"/>
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:paddingLeft="@dimen/activity_horizontal_margin"

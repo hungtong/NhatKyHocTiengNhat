@@ -11,7 +11,7 @@
         android:gravity="center"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:id="@+id/option_title"/>
+        android:id="@+id/option_title_portrait"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,7 +20,11 @@
         android:fillViewport="true">
 
         <TextView
-            android:id="@+id/question_in_fragment"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingTop="40dp"
+            android:paddingBottom="40dp"
+            android:id="@+id/question_in_fragment_portrait"
             android:textSize="25sp"
             android:textStyle="bold"
             android:gravity="center_vertical"
@@ -38,7 +42,7 @@
         <Button
             android:textSize="20sp"
             android:textStyle="bold"
-            android:id="@+id/option1_in_fragment"
+            android:id="@+id/option1_in_fragment_portrait"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
@@ -46,7 +50,7 @@
         <Button
             android:textSize="20sp"
             android:textStyle="bold"
-            android:id="@+id/option2_in_fragment"
+            android:id="@+id/option2_in_fragment_portrait"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="center" />
@@ -55,7 +59,7 @@
         <Button
             android:textSize="20sp"
             android:textStyle="bold"
-            android:id="@+id/option3_in_fragment"
+            android:id="@+id/option3_in_fragment_portrait"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="center"/>
@@ -63,14 +67,11 @@
         <Button
             android:textSize="20sp"
             android:textStyle="bold"
-            android:id="@+id/option4_in_fragment"
+            android:id="@+id/option4_in_fragment_portrait"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="center" />
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>

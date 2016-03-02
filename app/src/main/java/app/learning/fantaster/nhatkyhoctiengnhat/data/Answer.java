@@ -3,7 +3,7 @@ package app.learning.fantaster.nhatkyhoctiengnhat.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ExamResult implements Parcelable {
+public class Answer implements Parcelable {
 
     public String question;
     public String answer;
@@ -11,7 +11,7 @@ public class ExamResult implements Parcelable {
     public int correctOrNot;
     public int attemptedOrNot;
 
-    public ExamResult(String question, String answer, String correctAnswer, int correctOrNot, int attemptedOrNot) {
+    public Answer(String question, String answer, String correctAnswer, int correctOrNot, int attemptedOrNot) {
         this.question = question;
         this.answer = answer;
         this.correctAnswer = correctAnswer;
@@ -19,11 +19,11 @@ public class ExamResult implements Parcelable {
         this.attemptedOrNot = attemptedOrNot;
     }
 
-    public ExamResult(String question, String correctAnswer) {
+    public Answer(String question, String correctAnswer) {
         this(question, null, correctAnswer, 0, 0);
     }
 
-    public ExamResult(Parcel in) {
+    public Answer(Parcel in) {
         question = in.readString();
         answer = in.readString();
         correctAnswer = in.readString();
@@ -43,16 +43,16 @@ public class ExamResult implements Parcelable {
         out.writeInt(attemptedOrNot);
     }
 
-    public static final Parcelable.Creator<ExamResult> CREATOR =
-            new Parcelable.Creator<ExamResult>() {
+    public static final Parcelable.Creator<Answer> CREATOR =
+            new Parcelable.Creator<Answer>() {
                 @Override
-                public ExamResult[] newArray(int size) {
-                    return new ExamResult[size];
+                public Answer[] newArray(int size) {
+                    return new Answer[size];
                 }
 
                 @Override
-                public ExamResult createFromParcel(Parcel in) {
-                    return new ExamResult(in);
+                public Answer createFromParcel(Parcel in) {
+                    return new Answer(in);
                 }
             };
 

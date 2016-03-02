@@ -13,7 +13,7 @@ import android.widget.TextView;
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
 import app.learning.fantaster.nhatkyhoctiengnhat.activity.JLPTExam;
 
-public class OptionFragment extends Fragment {
+public class OptionInLandscapeFragment extends Fragment {
 
     private JLPTExam exam;
     private Button option1, option2, option3, option4;
@@ -26,28 +26,28 @@ public class OptionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_for_option, container, false);
+       return inflater.inflate(R.layout.fragment_for_option_landscape, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        exam = (JLPTExam) getContext();
-        TextView typeIndicator = (TextView) view.findViewById(R.id.option_title);
-        TextView questionView = (TextView) view.findViewById(R.id.question_in_fragment);
+    public void onViewCreated(View landscapeView, Bundle savedInstanceState) {
+        exam = (JLPTExam) getActivity();
 
-        option1 = (Button) view.findViewById(R.id.option1_in_fragment);
-        option1.setOnClickListener(new OnChooseListener());
-
-        option2 = (Button) view.findViewById(R.id.option2_in_fragment);
-        option2.setOnClickListener(new OnChooseListener());
-
-        option3 = (Button) view.findViewById(R.id.option3_in_fragment);
-        option3.setOnClickListener(new OnChooseListener());
-
-        option4 = (Button) view.findViewById(R.id.option4_in_fragment);
-        option4.setOnClickListener(new OnChooseListener());
+        TextView typeIndicator = (TextView) landscapeView.findViewById(R.id.option_title_landscape);
+        TextView questionView = (TextView) landscapeView.findViewById(R.id.question_in_fragment_landscape);
 
         int currentQuestion = JLPTExam.currentNumberOfQuestions;
+        questionView.setText(exam.getQuestionAt(currentQuestion));
+
+        option1 = (Button) landscapeView.findViewById(R.id.option1_in_fragment_landscape);
+        option2 = (Button) landscapeView.findViewById(R.id.option2_in_fragment_landscape);
+        option3 = (Button) landscapeView.findViewById(R.id.option3_in_fragment_landscape);
+        option4 = (Button) landscapeView.findViewById(R.id.option4_in_fragment_landscape);
+
+        option1.setOnClickListener(new OnChooseListener());
+        option2.setOnClickListener(new OnChooseListener());
+        option3.setOnClickListener(new OnChooseListener());
+        option4.setOnClickListener(new OnChooseListener());
 
         switch (exam.getQuestionTypeAt(currentQuestion)) {
             case JLPTExam.VOCAB_TYPE :
@@ -61,7 +61,6 @@ public class OptionFragment extends Fragment {
                 break;
         }
 
-        questionView.setText(exam.getQuestionAt(currentQuestion));
         option1.setText(String.format(getString(R.string.optionA), exam.getOption(currentQuestion, JLPTExam.OPTION_1)));
         option2.setText(String.format(getString(R.string.optionB), exam.getOption(currentQuestion, JLPTExam.OPTION_2)));
         option3.setText(String.format(getString(R.string.optionC), exam.getOption(currentQuestion, JLPTExam.OPTION_3)));
@@ -73,16 +72,15 @@ public class OptionFragment extends Fragment {
             option2.setBackgroundResource(android.R.drawable.btn_default);
             option3.setBackgroundResource(android.R.drawable.btn_default);
             option4.setBackgroundResource(android.R.drawable.btn_default);
-            if (currentChosenOptionId == R.id.option1_in_fragment)
+            if (currentChosenOptionId == R.id.option1_in_fragment_landscape || currentChosenOptionId == R.id.option1_in_fragment_portrait)
                 option1.setBackgroundColor(Color.YELLOW);
-            if (currentChosenOptionId == R.id.option2_in_fragment)
+            if (currentChosenOptionId == R.id.option2_in_fragment_landscape || currentChosenOptionId == R.id.option2_in_fragment_portrait)
                 option2.setBackgroundColor(Color.YELLOW);
-            if (currentChosenOptionId == R.id.option3_in_fragment)
+            if (currentChosenOptionId == R.id.option3_in_fragment_landscape || currentChosenOptionId == R.id.option3_in_fragment_portrait)
                 option3.setBackgroundColor(Color.YELLOW);
-            if (currentChosenOptionId == R.id.option4_in_fragment)
+            if (currentChosenOptionId == R.id.option4_in_fragment_landscape || currentChosenOptionId == R.id.option4_in_fragment_portrait)
                 option4.setBackgroundColor(Color.YELLOW);
         }
-
     }
 
     @Override
@@ -102,8 +100,9 @@ public class OptionFragment extends Fragment {
             int clickedId = view.getId();
             int currentQuestion = JLPTExam.currentNumberOfQuestions;
             int chosenOptionId = exam.getChosenOptionAt(JLPTExam.currentNumberOfQuestions);
+
             switch (clickedId) {
-                case R.id.option1_in_fragment :
+                case R.id.option1_in_fragment_landscape :
                     if (chosenOptionId == 0)
                         option1.setBackgroundColor(Color.YELLOW);
                     else {
@@ -114,7 +113,8 @@ public class OptionFragment extends Fragment {
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_1));
                     break;
-                case R.id.option2_in_fragment :
+
+                case R.id.option2_in_fragment_landscape :
                     if (chosenOptionId == 0)
                         option2.setBackgroundColor(Color.YELLOW);
                     else {
@@ -125,7 +125,9 @@ public class OptionFragment extends Fragment {
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_2));
                     break;
-                case R.id.option3_in_fragment :
+
+                case R.id.option3_in_fragment_landscape :
+
                     if (chosenOptionId == 0)
                         option3.setBackgroundColor(Color.YELLOW);
                     else {
@@ -136,7 +138,9 @@ public class OptionFragment extends Fragment {
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_3));
                     break;
-                case R.id.option4_in_fragment :
+
+                case R.id.option4_in_fragment_landscape :
+
                     if (chosenOptionId == 0)
                         option4.setBackgroundColor(Color.YELLOW);
                     else {
@@ -149,7 +153,6 @@ public class OptionFragment extends Fragment {
                     break;
             }
         }
-
     }
 
 }

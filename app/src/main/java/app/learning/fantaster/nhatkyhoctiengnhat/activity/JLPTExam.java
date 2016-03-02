@@ -26,11 +26,12 @@ import java.util.Date;
 import java.util.Random;
 
 import app.learning.fantaster.nhatkyhoctiengnhat.R;
-import app.learning.fantaster.nhatkyhoctiengnhat.data.ExamResult;
+import app.learning.fantaster.nhatkyhoctiengnhat.data.Answer;
 import app.learning.fantaster.nhatkyhoctiengnhat.data.Question;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDAO;
 import app.learning.fantaster.nhatkyhoctiengnhat.database.question.QuestionDatabaseHelper;
-import app.learning.fantaster.nhatkyhoctiengnhat.fragment.OptionFragment;
+import app.learning.fantaster.nhatkyhoctiengnhat.fragment.OptionInLandscapeFragment;
+import app.learning.fantaster.nhatkyhoctiengnhat.fragment.OptionInPortraitFragment;
 
 /**
  * - This is our exam
@@ -41,7 +42,7 @@ import app.learning.fantaster.nhatkyhoctiengnhat.fragment.OptionFragment;
  * - To move backward or forward we only need to adjust current number of questions and display data which were
  * initialized at the beginning.
  */
-public class JLPTExam extends AppCompatActivity implements OptionFragment.OptionClickListener {
+public class JLPTExam extends AppCompatActivity implements OptionInLandscapeFragment.OptionClickListener, OptionInPortraitFragment.OptionClickListener {
 
     private TextView questionCounting;
     private TextView countdownTimer;
@@ -63,25 +64,24 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
     public static final int VOCAB_TYPE = 1;
     public static final int GRAMMAR_TYPE = 2;
     public static final int READING_TYPE = 3;
-    public static String FRAGMENT_TAG_FOR_OPTION = "fragment tag for long option";
     public static long TOTAL_TIME_TO_FINISH_EXAM = 1200000;
     public static long INTERVAL = 1000;
 
     public static int currentNumberOfQuestions = 0;
 
-    private ArrayList<Question> list;
-    private ArrayList<ExamResult> listExamResult;
+    private ArrayList<Question> listQuestion;
+    private ArrayList<Answer> listAnswer;
     private String[] options1, options2, options3, options4;
     private int[] chosenOptionId;
     private boolean[] correctOrNot;
     private JLPTExamCountDownTimer timer;
 
     public String getQuestionAt(int whichQuestions) {
-        return list.get(whichQuestions).question;
+        return listQuestion.get(whichQuestions).question;
     }
 
     public int getQuestionTypeAt(int whichQuestions) {
-        return list.get(whichQuestions).questionType;
+        return listQuestion.get(whichQuestions).questionType;
     }
 
     public String getOption(int whichQuestions, int whichOptions) {
@@ -113,22 +113,19 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-    }
-
-    /**
-     * Since, currentNumberOfQuestions is static so it will get sticked with the class itself even if
-     * the activity is destroyed. To make sure, the exam always starts off at 1, make it down to 0.
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        currentNumberOfQuestions = 0;
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            fragmentTransaction.replace(R.id.question_container, new OptionInLandscapeFragment());
+        else fragmentTransaction.replace(R.id.question_container, new OptionInPortraitFragment());
+        fragmentTransaction.commit();
     }
 
     /**
      * Prepare all materials needed to build this activity
      */
     private void initialize() {
+        currentNumberOfQuestions = 0;
+
         questionCounting = (TextView) findViewById(R.id.question_counting);
         countdownTimer = (TextView) findViewById(R.id.time_remaining);
         ImageView backward = (ImageView) findViewById(R.id.backward_arrow);
@@ -152,7 +149,10 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
         prepareQuestion();
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.question_container, new OptionFragment(), FRAGMENT_TAG_FOR_OPTION);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            fragmentTransaction.replace(R.id.question_container, new OptionInLandscapeFragment());
+        else fragmentTransaction.replace(R.id.question_container, new OptionInPortraitFragment());
+
         fragmentTransaction.commit();
 
         timer = new JLPTExamCountDownTimer(TOTAL_TIME_TO_FINISH_EXAM, INTERVAL);
@@ -166,13 +166,13 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
      */
     @Override
     public void onOptionClick(int chosenOptionId, String optionContent) {
-        ExamResult examResult = listExamResult.get(currentNumberOfQuestions);
-        examResult.answer = optionContent;
-        examResult.attemptedOrNot = 1;
+        Answer answer = listAnswer.get(currentNumberOfQuestions);
+        answer.answer = optionContent;
+        answer.attemptedOrNot = 1;
         this.chosenOptionId[currentNumberOfQuestions] = chosenOptionId;
-        if (optionContent.equalsIgnoreCase(list.get(currentNumberOfQuestions).correctAnswer)) {
+        if (optionContent.equalsIgnoreCase(listQuestion.get(currentNumberOfQuestions).correctAnswer)) {
             correctOrNot[currentNumberOfQuestions] = true;
-            examResult.correctOrNot = 1;
+            answer.correctOrNot = 1;
         }
 
     }
@@ -194,11 +194,11 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
         }
 
         QuestionDAO dao = new QuestionDAO(databaseHelper);
-        list = dao.getRandomTypeQuestions(NUMBER_OF_VOCAB_QUESTIONS, VOCAB_TYPE);
-        list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_GRAMMAR_QUESTIONS, GRAMMAR_TYPE));
-        list.addAll(dao.getRandomTypeQuestions(NUMBER_OF_READING_QUESTIONS, READING_TYPE));
+        listQuestion = dao.getRandomTypeQuestions(NUMBER_OF_VOCAB_QUESTIONS, VOCAB_TYPE);
+        listQuestion.addAll(dao.getRandomTypeQuestions(NUMBER_OF_GRAMMAR_QUESTIONS, GRAMMAR_TYPE));
+        listQuestion.addAll(dao.getRandomTypeQuestions(NUMBER_OF_READING_QUESTIONS, READING_TYPE));
 
-        listExamResult = new ArrayList<>();
+        listAnswer = new ArrayList<>();
         options1 = new String[TOTAL_QUESTIONS];
         options2 = new String[TOTAL_QUESTIONS];
         options3 = new String[TOTAL_QUESTIONS];
@@ -209,9 +209,9 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
 
         Question newQuestion;
         for (int i = 0; i < TOTAL_QUESTIONS; i++) {
-            newQuestion = list.get(i);
+            newQuestion = listQuestion.get(i);
             shuffleOptions(newQuestion, i);
-            listExamResult.add(new ExamResult(newQuestion.question, newQuestion.correctAnswer));
+            listAnswer.add(new Answer(newQuestion.question, newQuestion.correctAnswer));
         }
 
     }
@@ -247,7 +247,9 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
                     currentNumberOfQuestions + 1, TOTAL_QUESTIONS));
 
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.question_container, new OptionFragment(),FRAGMENT_TAG_FOR_OPTION);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+                fragmentTransaction.replace(R.id.question_container, new OptionInLandscapeFragment());
+            else fragmentTransaction.replace(R.id.question_container, new OptionInPortraitFragment());
             fragmentTransaction.commit();
         }
         else alertUser();
@@ -260,7 +262,9 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
                     currentNumberOfQuestions + 1, TOTAL_QUESTIONS));
 
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.question_container, new OptionFragment(), FRAGMENT_TAG_FOR_OPTION);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+                fragmentTransaction.replace(R.id.question_container, new OptionInLandscapeFragment());
+            else fragmentTransaction.replace(R.id.question_container, new OptionInPortraitFragment());
             fragmentTransaction.commit();
         }
         else Toast.makeText(getBaseContext(), getString(R.string.head_of_text), Toast.LENGTH_SHORT).show(); // Out of bound
@@ -305,8 +309,8 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
                 } catch (ParseException ex) {
                     Log.d("ParseException", ex.toString() );
                 }
-                intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listExamResult);
-                intent.putParcelableArrayListExtra(KEY_GET_QUESTION_LIST, list);
+                intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listAnswer);
+                intent.putParcelableArrayListExtra(KEY_GET_QUESTION_LIST, listQuestion);
                 startActivity(intent);
             }
         });
@@ -341,8 +345,8 @@ public class JLPTExam extends AppCompatActivity implements OptionFragment.Option
             intent.putExtra(KEY_GET_POINTS, getPoints());
             intent.putExtra(KEY_GET_ATTEMPTS, getNumberOfAttemtps());
             intent.putExtra(KEY_GET_TIME_USED, "20:00");
-            intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listExamResult);
-            intent.putParcelableArrayListExtra(KEY_GET_QUESTION_LIST, list);
+            intent.putParcelableArrayListExtra(KEY_GET_ANSWERS_LIST, listAnswer);
+            intent.putParcelableArrayListExtra(KEY_GET_QUESTION_LIST, listQuestion);
             startActivity(intent);
         }
 
