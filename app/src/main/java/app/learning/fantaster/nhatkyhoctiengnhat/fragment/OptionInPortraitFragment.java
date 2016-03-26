@@ -1,7 +1,6 @@
 package app.learning.fantaster.nhatkyhoctiengnhat.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -68,18 +67,18 @@ public class OptionInPortraitFragment extends Fragment {
 
         int currentChosenOptionId = exam.getChosenOptionAt(currentQuestion);
         if (currentChosenOptionId != 0) {
-            option1.setBackgroundResource(android.R.drawable.btn_default);
-            option2.setBackgroundResource(android.R.drawable.btn_default);
-            option3.setBackgroundResource(android.R.drawable.btn_default);
-            option4.setBackgroundResource(android.R.drawable.btn_default);
+            option1.setBackgroundResource(R.drawable.app_button);
+            option2.setBackgroundResource(R.drawable.app_button);
+            option3.setBackgroundResource(R.drawable.app_button);
+            option4.setBackgroundResource(R.drawable.app_button);
             if (currentChosenOptionId == R.id.option1_in_fragment_landscape || currentChosenOptionId == R.id.option1_in_fragment_portrait)
-                option1.setBackgroundColor(Color.YELLOW);
+                option1.setBackgroundResource(R.drawable.button_option);
             if (currentChosenOptionId == R.id.option2_in_fragment_landscape || currentChosenOptionId == R.id.option2_in_fragment_portrait)
-                option2.setBackgroundColor(Color.YELLOW);
+                option2.setBackgroundResource(R.drawable.button_option);
             if (currentChosenOptionId == R.id.option3_in_fragment_landscape || currentChosenOptionId == R.id.option3_in_fragment_portrait)
-                option3.setBackgroundColor(Color.YELLOW);
+                option3.setBackgroundResource(R.drawable.button_option);
             if (currentChosenOptionId == R.id.option4_in_fragment_landscape || currentChosenOptionId == R.id.option4_in_fragment_portrait)
-                option4.setBackgroundColor(Color.YELLOW);
+                option4.setBackgroundResource(R.drawable.button_option);
         }
     }
 
@@ -104,24 +103,24 @@ public class OptionInPortraitFragment extends Fragment {
             switch (clickedId) {
                 case R.id.option1_in_fragment_portrait :
                     if (chosenOptionId == 0)
-                        option1.setBackgroundColor(Color.YELLOW);
+                        option1.setBackgroundResource(R.drawable.button_option);
                     else {
-                        option1.setBackgroundColor(Color.YELLOW);
-                        option2.setBackgroundResource(android.R.drawable.btn_default);
-                        option3.setBackgroundResource(android.R.drawable.btn_default);
-                        option4.setBackgroundResource(android.R.drawable.btn_default);
+                        option1.setBackgroundResource(R.drawable.button_option);
+                        option2.setBackgroundResource(R.drawable.app_button);
+                        option3.setBackgroundResource(R.drawable.app_button);
+                        option4.setBackgroundResource(R.drawable.app_button);
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_1));
                     break;
 
                 case R.id.option2_in_fragment_portrait :
                     if (chosenOptionId == 0)
-                        option2.setBackgroundColor(Color.YELLOW);
+                        option2.setBackgroundResource(R.drawable.button_option);
                     else {
-                        option2.setBackgroundColor(Color.YELLOW);
-                        option1.setBackgroundResource(android.R.drawable.btn_default);
-                        option3.setBackgroundResource(android.R.drawable.btn_default);
-                        option4.setBackgroundResource(android.R.drawable.btn_default);
+                        option2.setBackgroundResource(R.drawable.button_option);
+                        option1.setBackgroundResource(R.drawable.app_button);
+                        option3.setBackgroundResource(R.drawable.app_button);
+                        option4.setBackgroundResource(R.drawable.app_button);
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_2));
                     break;
@@ -129,12 +128,12 @@ public class OptionInPortraitFragment extends Fragment {
                 case R.id.option3_in_fragment_portrait :
 
                     if (chosenOptionId == 0)
-                        option3.setBackgroundColor(Color.YELLOW);
+                        option3.setBackgroundResource(R.drawable.button_option);
                     else {
-                        option3.setBackgroundColor(Color.YELLOW);
-                        option2.setBackgroundResource(android.R.drawable.btn_default);
-                        option1.setBackgroundResource(android.R.drawable.btn_default);
-                        option4.setBackgroundResource(android.R.drawable.btn_default);
+                        option3.setBackgroundResource(R.drawable.button_option);
+                        option2.setBackgroundResource(R.drawable.app_button);
+                        option1.setBackgroundResource(R.drawable.app_button);
+                        option4.setBackgroundResource(R.drawable.app_button);
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_3));
                     break;
@@ -142,12 +141,12 @@ public class OptionInPortraitFragment extends Fragment {
                 case R.id.option4_in_fragment_portrait :
 
                     if (chosenOptionId == 0)
-                        option4.setBackgroundColor(Color.YELLOW);
+                        option4.setBackgroundResource(R.drawable.button_option);
                     else {
-                        option4.setBackgroundColor(Color.YELLOW);
-                        option2.setBackgroundResource(android.R.drawable.btn_default);
-                        option3.setBackgroundResource(android.R.drawable.btn_default);
-                        option1.setBackgroundResource(android.R.drawable.btn_default);
+                        option4.setBackgroundResource(R.drawable.button_option);
+                        option2.setBackgroundResource(R.drawable.app_button);
+                        option3.setBackgroundResource(R.drawable.app_button);
+                        option1.setBackgroundResource(R.drawable.app_button);
                     }
                     listener.onOptionClick(clickedId, exam.getOption(currentQuestion, JLPTExam.OPTION_4));
                     break;

@@ -62,6 +62,7 @@
                     android:layout_height="wrap_content" />
 
                 <Button
+                    android:background="@drawable/app_button"
                     android:text="@string/make_change"
                     android:id="@+id/make_change"
                     android:layout_alignParentEnd="true"

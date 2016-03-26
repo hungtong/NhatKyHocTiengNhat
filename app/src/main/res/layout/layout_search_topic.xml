@@ -54,6 +54,7 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:background="@drawable/app_button"
             android:id="@+id/reset_topic"
             android:layout_below="@+id/search_topic_area"
             android:layout_alignParentRight="true"
@@ -64,6 +65,7 @@
             android:text="@string/reset"/>
 
         <Button
+            android:background="@drawable/app_button"
             android:id="@+id/search_topic_by_keyword"
             android:textSize="20sp"
             android:layout_below="@+id/search_topic_area"

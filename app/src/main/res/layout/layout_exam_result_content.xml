@@ -28,6 +28,7 @@
             android:id="@+id/congrat" />
 
         <Button
+            android:background="@drawable/app_button"
             android:textSize="18sp"
             android:text="@string/share"
             android:id="@+id/share_result"
@@ -80,6 +81,7 @@
         </LinearLayout>
 
         <Button
+            android:background="@drawable/app_button"
             android:id="@+id/back_to_question_tab_fragment"
             android:layout_width="match_parent"
             android:layout_below="@+id/result_details_container"
@@ -88,6 +90,7 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:background="@drawable/app_button"
             android:id="@+id/view_details"
             android:layout_below="@+id/back_to_question_tab_fragment"
             android:textSize="18sp"

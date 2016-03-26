@@ -12,12 +12,13 @@
         android:src="@drawable/japanese"
         android:contentDescription="@string/start"
         android:layout_width="match_parent"
-        android:layout_height="345dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"/>
 
     <Button
         android:id="@+id/start_exam"
         android:text="@string/start"
+        android:background="@drawable/app_button"
         android:layout_below="@+id/illustration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"

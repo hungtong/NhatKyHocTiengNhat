@@ -34,13 +34,17 @@
         <Button
             android:textSize="10sp"
             android:textStyle="bold"
+            android:layout_marginBottom="5dp"
             android:id="@+id/option1_in_fragment_portrait"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:background="@drawable/app_button"
             android:layout_width="match_parent" />
 
         <Button
+            android:layout_marginBottom="5dp"
             android:textSize="10sp"
+            android:background="@drawable/app_button"
             android:textStyle="bold"
             android:id="@+id/option2_in_fragment_portrait"
             android:layout_height="wrap_content"
@@ -49,8 +53,10 @@
 
 
         <Button
+            android:layout_marginBottom="5dp"
             android:textSize="10sp"
             android:textStyle="bold"
+            android:background="@drawable/app_button"
             android:id="@+id/option3_in_fragment_portrait"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -62,6 +68,7 @@
             android:id="@+id/option4_in_fragment_portrait"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:background="@drawable/app_button"
             android:layout_gravity="center" />
 
     </LinearLayout>

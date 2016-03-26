@@ -5,6 +5,10 @@
     <color name="colorAccent">#050505</color>
     <color name="bell_off">#030303</color>
     <color name="bell_on">#FFFFFF40</color>
+    <color name="button_option_start_color">#FFEE58</color>
+    <color name="button_option_end_color">#FFFF00</color>
+    <color name="app_button_start_color">#DCE775</color>
+    <color name="app_button_end_color">#AFB42B</color>
     <color name="gray_border">#9E9E9E</color>
     <color name="correct_answer">#FF53FF40</color>
     <color name="incorrect_answer">#FFF43639</color>
