@@ -3,7 +3,7 @@ package app.learning.fantaster.nhatkyhoctiengnhat.database.question;
 public class QuestionContract {
 
         // information about database
-        public static final int DATABASE_VERSION = 1;
+        public static int DATABASE_VERSION = 1;
         public static final String DATABASE_NAME = "JLPT.sqlite";
         public static final String DATABASE_PATH = "/data/data/app.learning.fantaster.nhatkyhoctiengnhat/databases/";
 
