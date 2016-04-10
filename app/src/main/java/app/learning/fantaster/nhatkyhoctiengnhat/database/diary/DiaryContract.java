@@ -2,7 +2,7 @@ package app.learning.fantaster.nhatkyhoctiengnhat.database.diary;
 
 public class DiaryContract {
 
-    public static int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "DiaryEntry.sqlite";
     public static final String DATABASE_PATH = "/data/data/app.learning.fantaster.nhatkyhoctiengnhat/databases/";
 
